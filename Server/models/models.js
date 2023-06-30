@@ -47,8 +47,10 @@ const Feedback = sequelize.define('feedback',{
     status:{type:DataTypes.STRING,allowNull:false}
 })
 
-User.hasOne(Credential)
-Credential.belongsTo(User)
+Credential.hasOne(User);
+User.belongsTo(Credential);
+// User.hasOne(Credential)
+// Credential.belongsTo(User)
 
 User.hasMany(CommentingApplication)
 CommentingApplication.belongsTo(User)
