@@ -17,7 +17,7 @@ const Credential = sequelize.define('credential',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     login:{type:DataTypes.STRING,unique:true,allowNull:false,validate: {is: ["^[a-zA-Z0-9]{3,24}$","g"]}},
     password:{type:DataTypes.STRING,allowNull:false,validate: {is: ["^[a-zA-Z0-9\!\@\<\>\.\,\$]{8,32}$","g"]}},
-    role:{type:DataTypes.STRING,allowNull:false, validate: {isIn: ["ADMIN", "VOLUNTEER"]}}
+    role:{type:DataTypes.STRING,allowNull:false, validate: {isIn: [["ADMIN", "VOLUNTEER"]]}}
 })
 
 const CommentingApplication = sequelize.define('commenting_application',{
