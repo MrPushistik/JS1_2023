@@ -3,27 +3,27 @@ const {DataTypes} = require('sequelize')
 
 const User = sequelize.define('user',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    surname:{type:DataTypes.STRING,allowNull:false},
-    name:{type:DataTypes.STRING,allowNull:false},
-    patronymic:{type:DataTypes.STRING,allowNull:false},
-    post:{type:DataTypes.STRING,allowNull:false},
-    placeWorkOrStudy:{type:DataTypes.STRING,allowNull:false},
-    phone:{type:DataTypes.STRING,unique:true,allowNull:false},
-    email:{type:DataTypes.STRING,unique:true,allowNull:false},
-    dateCreation:{type:DataTypes.DATE,allowNull:false}
+    surname:{type:DataTypes.STRING,allowNull:false, validate: {is: ["^[А-ЯЁ]{1,1}[а-яё]{1,29}$","g"]}},
+    name:{type:DataTypes.STRING,allowNull:false, validate: {is: ["^[А-ЯЁ]{1,1}[а-яё]{1,29}$","g"]}},
+    patronymic:{type:DataTypes.STRING,allowNull:false, validate: {is: ["^[А-ЯЁ]{1,1}[а-яё]{1,29}$","g"]}},
+    post:{type:DataTypes.STRING,allowNull:false, validate: {is: ["^[а-яА-ЯЁё]{2,30}$","g"]}},
+    placeWorkOrStudy:{type:DataTypes.STRING,allowNull:false, validate: {is: ["^[а-яА-ЯЁё]{2,30}$","g"]}},
+    phone:{type:DataTypes.STRING,unique:true,allowNull:false, validate: {is: ["^\+7[0-9]{10,10}$","g"]}},
+    email:{type:DataTypes.STRING,unique:true,allowNull:false, validate: {isEmail: true}},
+    dateCreation:{type:DataTypes.DATE,allowNull:false, validate: {isDate: true}}
 })
 
 const Credential = sequelize.define('credential',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    login:{type:DataTypes.STRING,unique:true,allowNull:false},
-    password:{type:DataTypes.STRING,allowNull:false},
-    role:{type:DataTypes.STRING,allowNull:false}
+    login:{type:DataTypes.STRING,unique:true,allowNull:false,validate: {is: ["^[a-zA-Z0-9]{3,24}$","g"]}},
+    password:{type:DataTypes.STRING,allowNull:false,validate: {is: ["^[a-zA-Z0-9\!\@\<\>\.\,\$]{8,32}$","g"]}},
+    role:{type:DataTypes.STRING,allowNull:false, validate: {isIn: ["ADMIN", "VOLUNTEER"]}}
 })
 
 const CommentingApplication = sequelize.define('commenting_application',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    dateChange:{type:DataTypes.DATE,allowNull:false},
-    content:{type:DataTypes.STRING,allowNull:false}
+    dateChange:{type:DataTypes.DATE,allowNull:false, validate: {isDate: true}},
+    content:{type:DataTypes.STRING,allowNull:false, validate: {is: ["[а-яА-Я\ Ёё\.\,\!\?\n\r\+\-0-9]{1,100}","g"]}}
 })
 
 const GuestRequest = sequelize.define('guest_request',{
