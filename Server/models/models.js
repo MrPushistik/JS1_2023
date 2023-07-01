@@ -31,7 +31,7 @@ const GuestRequest = sequelize.define('guest_request',{
     surname:{type:DataTypes.STRING,allowNull:false},
     name:{type:DataTypes.STRING,allowNull:false},
     patronymic:{type:DataTypes.STRING,allowNull:false},
-    phone:{type:DataTypes.STRING,unique:true,allowNull:false},
+    phone:{type:DataTypes.STRING,allowNull:false},
     commentGuest:{type:DataTypes.STRING,allowNull:false},
     dateCreation:{type:DataTypes.DATE,allowNull:false},
     status:{type:DataTypes.STRING,allowNull:false},
