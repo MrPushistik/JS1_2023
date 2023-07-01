@@ -1,5 +1,6 @@
 const {GuestRequest} = require("../models/models");
 const ApiError = require("../error/ApiError");
+const { Sequelize } = require("../db");
 
 class GuestRequestController{
     async create(req,res,next){
@@ -115,7 +116,7 @@ class GuestRequestController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
-
+    
     async deleteGuestRequest(req, res, next){
         try{
             const {id} = req.params;
@@ -126,6 +127,80 @@ class GuestRequestController{
                 return res.json(destructionRes);
             }  
             else next(ApiError.forbidden("Запрещено удалять заявки в работе")); 
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async requestStatusStatistics(req, res, next){
+        try{
+            const requests = {};
+            const statuses = ["NEW", "AT WORK", "CANCELLED", "COMPLETED"];
+            let all = 0;
+
+            for (let i = 0; i < statuses.length; i++){
+                let number = (await GuestRequest.count({where: {status: statuses[i]}})).valueOf();
+                requests[statuses[i]] = number;
+                all += number;
+            }
+
+            requests["ALL"] = all;
+        
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async requestAssistanceStatistics(req, res, next){
+        try{
+            const requests = {};
+            const assistances = ["ADSRESS", "PSCYCO", "HUMANITARIAN", "OTHER"];
+            let all = 0;
+
+            for (let i = 0; i < assistances.length; i++){
+                let number = (await GuestRequest.count({where: {typeAssistance: assistances[i]}})).valueOf();
+                requests[assistances[i]] = number;
+                all += number;
+            }
+
+            requests["ALL"] = all;
+        
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async requestComplexStatistics(req, res, next){
+        try{
+            const requests = {};
+
+            const assistances = ["ADSRESS", "PSCYCO", "HUMANITARIAN", "OTHER"];
+            const statuses = ["NEW", "AT WORK", "CANCELLED", "COMPLETED"];
+
+            let all = 0;
+            for (let i = 0; i < assistances.length; i++){
+                
+                let currAssistance = {};
+                let allAssistance = 0;
+
+                for (let j = 0; j < statuses.length; j++){
+
+                    let number = (await GuestRequest.count({where: {typeAssistance: assistances[i], status: statuses[j]}})).valueOf();
+                    currAssistance[statuses[j]] = number;
+                    allAssistance += number;
+                }
+
+                currAssistance["ALL"] = allAssistance;
+
+                requests[assistances[i]] = currAssistance;
+            }
+
+            return res.json(requests);
         }
         catch(e){
             next(ApiError.badRequest("Неверный формат данных"));
