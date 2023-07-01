@@ -47,18 +47,32 @@ const Feedback = sequelize.define('feedback',{
     status:{type:DataTypes.STRING,allowNull:false}
 })
 
-Credential.hasOne(User);
+// Credential.hasOne(User);
+// User.belongsTo(Credential);
+// // User.hasOne(Credential)
+// // Credential.belongsTo(User)
+
+// User.hasMany(CommentingApplication)
+// CommentingApplication.belongsTo(User)
+
+// GuestRequest.hasMany(CommentingApplication)
+// CommentingApplication.belongsTo(GuestRequest)
+
+// GuestRequest.hasMany(Feedback)
+// Feedback.belongsTo(GuestRequest)
+
+Credential.hasOne(User,{onDelete: 'cascade'});
 User.belongsTo(Credential);
 // User.hasOne(Credential)
 // Credential.belongsTo(User)
 
-User.hasMany(CommentingApplication)
+User.hasMany(CommentingApplication,{onDelete: 'set null'})
 CommentingApplication.belongsTo(User)
 
-GuestRequest.hasMany(CommentingApplication)
+GuestRequest.hasMany(CommentingApplication,{onDelete: 'cascade'})
 CommentingApplication.belongsTo(GuestRequest)
 
-GuestRequest.hasMany(Feedback)
+GuestRequest.hasMany(Feedback,{onDelete: 'cascade'})
 Feedback.belongsTo(GuestRequest)
 
 module.exports = {
