@@ -115,6 +115,22 @@ class GuestRequestController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async deleteGuestRequest(req, res, next){
+        try{
+            const {id} = req.params;
+            const request = await GuestRequest.findOne({where: {id}});
+
+            if (request.status != "AT WORK"){
+                const destructionRes = await GuestRequest.destroy({where: {id}});
+                return res.json(destructionRes);
+            }  
+            else next(ApiError.forbidden("Запрещено удалять заявки в работе")); 
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
 }
 
 

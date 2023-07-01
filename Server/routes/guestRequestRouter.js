@@ -7,6 +7,7 @@ router.get("/req", guestRequestController.getAll);
 router.get("/req/:id", guestRequestController.get);
 router.put("/:id", guestRequestController.update);
 router.delete("/:id", guestRequestController.delete);
+router.delete("/admin/:id", guestRequestController.deleteGuestRequest);
 router.post("/req", guestRequestController.createRequest);
 router.get("/volunteerForNewApplication", guestRequestController.getAllForNewApplication);
 router.get("/volunteerForWorkApplication", guestRequestController.getAllForWorkApplication);
