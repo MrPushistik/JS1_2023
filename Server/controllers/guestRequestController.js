@@ -117,6 +117,54 @@ class GuestRequestController{
         }
     }
 
+    async getAllForNewApplicationFilter(req,res,next){
+        try{
+            const {dateCreation} = req.body;
+            let status = "NEW";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            return res.json(filterRes);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+    async getAllForWorkApplicationFilter(req,res,next){
+        try{
+            let status = "AT WORK";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            return res.json(filterRes);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAllForCompletedApplicationFilter(req,res,next){
+        try{
+            let status = "COMPLETED";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            return res.json(filterRes);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAllForCancelledApplicationFilter(req,res,next){
+        try{
+            let status = "CANCELLED";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            return res.json(filterRes);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
     async updateRequest(req,res,next){
         try{
             const {id} = req.params;

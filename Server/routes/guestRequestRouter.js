@@ -19,6 +19,11 @@ router.get("/volunteerForNewApplication", guestRequestController.getAllForNewApp
 router.get("/volunteerForWorkApplication", guestRequestController.getAllForWorkApplication);
 router.get("/volunteerForCompletedApplication", guestRequestController.getAllForCompletedApplication);
 router.get("/volunteerForCancelledApplication", guestRequestController.getAllForCanceledApplication);
+router.get("/volunteerForNewApplicationFilter", guestRequestController.getAllForNewApplicationFilter);
+router.get("/volunteerForWorkApplicationFilter", guestRequestController.getAllForWorkApplicationFilter);
+router.get("/volunteerForCompletedApplicationFilter", guestRequestController.getAllForCompletedApplicationFilter);
+router.get("/volunteerForCancelledApplicationFilter", guestRequestController.getAllForCancelledApplicationFilter);
+
 
 router.delete("/admin/:id", guestRequestController.deleteGuestRequest);
 router.get("/admin/statusStatistics", guestRequestController.requestStatusStatistics);
