@@ -46,6 +46,17 @@ class UserController{
         }
         
     }
+
+    async delete(req,res,next){
+        try{
+            const {id} = req.params;
+            const user = await User.destroy({where: {id}});
+            return res.json(user);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
 }
 
 module.exports = new UserController()
