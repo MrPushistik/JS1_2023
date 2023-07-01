@@ -57,6 +57,19 @@ class FeedbackController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async createFeedback(req, res, next){
+        try {
+            const {commentatorName, comment, estimation} = req.body;
+            let dateCreation = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
+            let status = "MODERATION";
+            const newFeedback = await Feedback.create({commentatorName, comment, estimation,status,dateCreation});
+            return res.json(newFeedback);
+        }
+        catch(e){
+            next(ApiError.badRequest(e));
+        }
+    }
 }
 
 module.exports = new FeedbackController()

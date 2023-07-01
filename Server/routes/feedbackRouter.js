@@ -7,6 +7,7 @@ router.get("/", FeedbackController.getAll);
 router.get("/:id", FeedbackController.get);
 router.put("/:id", FeedbackController.update);
 router.delete("/:id", FeedbackController.delete);
+router.post("/req", FeedbackController.createFeedback);
 
 
 module.exports = router
