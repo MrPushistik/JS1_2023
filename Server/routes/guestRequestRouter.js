@@ -11,6 +11,6 @@ router.post("/req", guestRequestController.createRequest);
 router.get("/volunteerForNewApplication", guestRequestController.getAllForNewApplication);
 router.get("/volunteerForWorkApplication", guestRequestController.getAllForWorkApplication);
 router.get("/volunteerForCompletedApplication", guestRequestController.getAllForCompletedApplication);
-router.get("/volunteerForCanceledApplication", guestRequestController.getAllForCanceledApplication);
+router.get("/volunteerForCancelledApplication", guestRequestController.getAllForCanceledApplication);
 
 module.exports = router;
