@@ -57,6 +57,66 @@ class GuestRequestController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async createRequest(req, res, next){
+        try {
+            const {surname, name, patronymic, phone, commentGuest} = req.body;
+            let dateCreation = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
+            let status = "NEW";
+            let typeAssistance = null;
+            const newRequest = await GuestRequest.create({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance});
+            return res.json(newRequest);
+        }
+        catch(e){
+            next(ApiError.badRequest(e));
+        }
+    }
+
+    async getAllForNewApplication(req,res,next){
+        try{
+            let status = "NEW";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAllForWorkApplication(req,res,next){
+        try{
+            let status = "AT WORK";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAllForCompletedApplication(req,res,next){
+        try{
+            let status = "COMPLETED";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAllForCanceledApplication(req,res,next){
+        try{
+            let status = "CANCELLED";
+            const requests = await GuestRequest.findAll({where: {status: status}});
+            return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
 }
+
+
 
 module.exports = new GuestRequestController();
