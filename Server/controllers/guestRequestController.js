@@ -116,6 +116,26 @@ class GuestRequestController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async updateRequest(req,res,next){
+        try{
+            const {id} = req.params;
+            const {content,surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance} = req.body;
+            if (status=="AT WORK"){
+                let dateChange = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
+                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance}, {where: {id}});
+                const commentingApplication = await CommentingApplication.create({dateChange:dateChange,content:content,userId:1,guestRequestId:guestRequest.id});
+                return res.json(guestRequest);
+            }
+            else{
+                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance}, {where: {id}});
+                return res.json(guestRequest);
+            }
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
     
     async deleteGuestRequest(req, res, next){
         try{
