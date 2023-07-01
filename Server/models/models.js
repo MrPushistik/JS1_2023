@@ -34,8 +34,8 @@ const GuestRequest = sequelize.define('guest_request',{
     phone:{type:DataTypes.STRING,unique:true,allowNull:false},
     commentGuest:{type:DataTypes.STRING,allowNull:false},
     dateCreation:{type:DataTypes.DATE,allowNull:false},
-    status:{type:DataTypes.STRING,allowNull:false},
-    typeAssistance:{type:DataTypes.STRING}
+    status:{type:DataTypes.STRING,allowNull:false, validate: {isIn: [["NEW", "AT WORK", "CANCELLED", "COMPLETED"]]}},
+    typeAssistance:{type:DataTypes.STRING, validate: {isIn: [["ADDRESS", "PSCYCO", "HUMANITARIAN","OTHER"]]}}
 })
 
 const Feedback = sequelize.define('feedback',{
@@ -44,7 +44,7 @@ const Feedback = sequelize.define('feedback',{
     comment:{type:DataTypes.STRING,allowNull:false},
     estimation:{type:DataTypes.INTEGER,allowNull:false,defaultValue:5},
     dateCreation:{type:DataTypes.DATE,allowNull:false},
-    status:{type:DataTypes.STRING,allowNull:false}
+    status:{type:DataTypes.STRING,allowNull:false, validate: {isIn: [["MODERATED", "PUBLISHED", "REJECTED"]]}}
 })
 
 Credential.hasOne(User);
