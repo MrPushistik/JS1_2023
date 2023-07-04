@@ -1,0 +1,492 @@
+@font-face {
+    font-family: 'Заголовок';
+    src: url("../../../fonts/Cormorant_SC/CormorantSC-Medium.ttf");
+}
+@font-face {
+    font-family: 'Основной';
+    src: url("../../../fonts/Gentium\ Basic/");
+}
+
+
+html{
+    box-sizing: border-box; 
+    -webkit-text-size-adjust: 100%;  
+    -ms-text-size-adjust: 100%; 
+    -moz-text-size-adjust: 100%;
+    line-height: 1;
+    height: 100%;
+    width: 100%;
+    
+}
+
+*, *::before, *::after{
+    box-sizing: inherit;
+}
+* {
+    margin: 0;
+}
+
+body{
+    position: relative;
+    font-family: 'Основной'; 
+    font-size: 16px;
+    line-height: 1.2;
+    color: black;
+
+}
+
+/* Привью. контейнеры главной страницы */
+.parallax{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    background-image: url(../img/background1.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+}
+
+.paralax-content{
+    height: 100vh;
+}
+
+.overlay{
+    background: rgba(33, 33, 33, 0.75);
+    height: 100%;
+}
+
+
+/* менюшка */
+.header{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.header_wrapper{
+    max-width: 1200px;
+    height: 165px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.menu_list{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.link_fon{
+    width: 164px;
+    height: 48px;
+    opacity: 0.9;
+    
+    display: flex;
+    justify-content: center;
+ }
+
+.header_item{
+    margin-right: 48px;
+    list-style-type:none;
+}
+
+.header_item:last-child{
+    margin-right: 0px;
+}   
+
+.header_link{
+    text-transform: uppercase;
+    color:rgb(255, 255, 255);
+    line-height: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+}
+
+/*Меню. При наведении на кнопки */
+.header_link:hover, .header_link:focus,.header_link:active{
+    color:#BE2F21;
+    
+}
+
+.link_fon:hover, .link_fon:focus,.link_fon:active{
+    
+    background-color:rgba(217, 217, 217, 0.5) ;
+
+}
+
+/*Это всё еще привью  */
+
+.parallax-container {
+    display: flex;
+    max-width: 56%;
+}
+.parallax-conteiner-title {
+   font-family: "Заголовок";
+   padding-top: 40px;
+}
+.parallax-conteiner-text{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    padding-top: 20px;
+}
+@media(max-width:670px) {
+    .parallax-conteiner-text{
+       display: flex;
+       flex-direction: column;
+    }
+    .parallax-conteiner-title{
+        padding-top: 50px;
+    }
+}
+.text_inform{
+    padding-right: 10px;
+    font-family: "Оснвоной";
+    font-size: 20px;
+}
+
+/* форма для заявки */
+.application{
+    padding: 20px;
+    background-color:  rgba(217, 217, 217, 1);
+    border-radius: 2px;
+}
+@media(max-width:1200px) {
+    .container-about{
+        margin-top: 100px;
+    }
+}
+@media(max-width:670px) {
+    .container-about{
+        margin-top: 200px;
+    }
+}
+@media(max-width:475px) {
+    .container-about{
+        margin-top: 100px;
+    }
+}
+@media(max-width:380px) {
+    .container-about{
+        margin-top: 320px;
+    }
+}
+.title_application{
+    font-family: "Заголовок";
+    padding: 15px;
+    color: #000000;
+}
+#application_form{
+    padding: 10px;
+    font-family: "Оснвоной";
+    color:#000000 ;
+    font-size: 15px;
+}
+#application_form li{
+    list-style-type: none;
+}
+#application_form input, #application_form textarea{
+    margin: 5px;
+}
+
+#button-applecation{
+    width: 130px;
+    padding: 8px, 10px;
+    border-radius: 5px;
+    outline: none;
+    color: #000000;
+    font-family: "Оснвоной";
+    font-size: 15px;
+}
+/*  */
+
+/*Блок "о нас" */
+.parallax_about{
+    display: flex;
+    justify-content: center;
+    color:#000000;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 40px;
+    margin: auto;
+}
+.parallax_comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color:#000000;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 40px;
+    margin: auto;
+}
+.container-about{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.container-help{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.about_title{
+    text-align: center;
+    padding: 20px;
+    font-family: "Заголовок";
+    color: #000000;
+}
+
+.about_text{
+    font-family: "Оснвоной";
+    color: #000000;
+    font-size: 20px;
+}
+
+.help_cards{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin: auto;
+}
+@media(max-width:800px) {
+    .help_cards{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+    }
+}
+
+.card_fon{
+    position: relative;
+    background:rgba(217, 217, 217, 0.9); 
+    box-shadow: 5px 4px 4px 0px rgb(19 18 33 / 29%);
+    margin: 30px;
+    border-radius: 2px;
+}
+
+/* карточки с помощью */
+.card_text{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+
+}
+@media(max-width:670px) {
+    .card_text{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+    }
+}
+.header_logo_lonk{
+    width: 35px;
+    height: 35px;
+    margin: 25px;
+}
+
+.help_text_item{
+    font-family: 'Основной';
+    font-style: normal;
+    font-size: 19px;
+    margin: 5px;
+    color:#000000;
+}
+
+.button_card{
+
+    display: flex;
+    justify-content: end;
+}
+.button_card_disign{
+    margin: 5px;
+    border: none;
+    outline: none;
+    background:rgba(217, 217, 217, 0.9); 
+    font-family: "Основной";
+    font-size: 15px;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.button_card_disign:hover, .button_card_disign:active,.button_card_disign:focus{
+    color: #BE2F21;
+}
+
+/*слайдер отзывов */
+.slide-container{
+    max-width: 1120px;
+    width: 100%;
+    padding: 40px 0;
+}
+.slide-content{
+    display: flex;
+    justify-content: center;
+    margin: 0 40px;
+    overflow: hidden;
+    border-radius: 25px;
+}
+/* карточки отызвов */
+.card-review-content{
+    padding: 10px 14px;
+}
+.card-review-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.date_comment{
+    color: #000000;
+}
+.image-content,.card-review{
+   border-radius: 25px; 
+   background-color:rgba(217, 217, 217, 0.9);
+}
+.image-content{
+    position: relative;
+    
+}
+.overlay_card{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #BE2F21;
+}
+.name_reviewer{
+    font-family: "Основной";
+    font-size: 25px;
+    font-weight: 500;
+    color:#000000;
+    margin-top: 10px;
+}
+.description{
+    font-family: "Основной";
+    font-size: 20px;
+    color: rgba(39, 38, 38, 0.774);
+    text-align: center;
+}
+/*Отызвы. кнопки слайдера */
+.button-review{
+    border: none;
+    font-size: 18px;
+    font-family: "Основной";
+    color: #FFF;
+    background-color:#BE2F21;
+    border-radius: 6px;
+    margin: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.button-review:hover{
+    background-color: rgba(217, 217, 217, 0.9);
+}
+.swiper-navBtn{
+    color: #BE2F21;
+    transition: color 0.3s ease;
+}
+
+.swiper-navBtn:hover{
+    color: #e16565;
+}
+
+.swiper-button-prev{
+    left: 0;
+}
+
+.swiper-button-next{
+    right: 0;
+}
+
+/*Форма на отзыв. popup */
+.btn_comment{
+   margin: auto;
+}
+.modal_comment{
+    position: fixed;
+    display: none;
+    z-index: 100;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
+.modal_content{
+    background-color: #FFF;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 25px;
+    z-index: 110;
+}
+.close_modal_window{
+    color: grey;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal_inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.modal_title{
+    font-size: 25px;
+    color: #000000;
+    font-weight: 400;
+    font-family: "Заголовок";
+}
+/* контакты */
+.container-contact{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* подвал */
+
+.footer{
+    display: flex;
+    width: 100%;
+
+    background-color: rgba(61, 59, 59, 0.9);
+}
+.footer .header_menu_logo_footer{
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+.header_menu_logo_footer{
+    display: flex;
+    justify-content: space-between;
+}
+.container_footer{
+    display: flex;
+    flex-direction: column;
+}
+.footer_text{
+    font-size: 18px;
+    line-height: 24px;
+    font-family: 'Основной';
+    color: #ffffff;
+
+    margin-top: 30px;
+}
+.footer_description{
+    font-family: 'Основной';
+    font-size: 18px;
+    line-height: 24px;
+
+    margin: 15px 10%;
+    color: #ffffff;
+
+}
