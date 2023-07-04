@@ -4,8 +4,8 @@ const ApiError = require("../error/ApiError");
 class FeedbackController{
     async create(req,res,next){
         try{
-            const {commentatorName,comment,estimation,dateCreation,status,guestRequestId} = req.body;
-            const feedback = await Feedback.create({commentatorName,comment,estimation,dateCreation,status,guestRequestId});
+            const {commentatorName,comment,estimation,status,guestRequestId} = req.body;
+            const feedback = await Feedback.create({commentatorName,comment,estimation,status,guestRequestId}); // - dataCreation
             return res.json(feedback);
         }
         catch(e){
@@ -38,8 +38,8 @@ class FeedbackController{
     async update(req,res,next){
         try{
             const {id} = req.params;
-            const {commentatorName,comment,estimation,dateCreation,status,guestRequestId} = req.body;
-            const feedback = await Feedback.update({commentatorName,comment,estimation,dateCreation,status,guestRequestId}, {where: {id}});
+            const {commentatorName,commentatorSurname,comment,estimation,status,guestRequestId} = req.body; // - dateCreation + commentatorSurname
+            const feedback = await Feedback.update({commentatorName,commentatorSurname,comment,estimation,status,guestRequestId}, {where: {id}});
             return res.json(feedback);
         }
         catch(e){
@@ -60,10 +60,9 @@ class FeedbackController{
 
     async createFeedback(req, res, next){
         try {
-            const {commentatorName, comment, estimation} = req.body;
-            let dateCreation = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
+            const {commentatorName, commentatorSurname, comment, estimation} = req.body; // + commentatorSurname - dateCreation
             let status = "MODERATION";
-            const newFeedback = await Feedback.create({commentatorName, comment, estimation,status,dateCreation});
+            const newFeedback = await Feedback.create({commentatorName, commentatorSurname, comment, estimation, status});
             return res.json(newFeedback);
         }
         catch(e){

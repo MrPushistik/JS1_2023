@@ -5,12 +5,12 @@ const ApiError = require('../error/ApiError');
 class UserController{
     async registration(req,res,next){
         try{
-            const {login,password,confirmPassword,role,surname,name,patronymic,post,placeWorkOrStudy,phone,email,dateCreation} = req.body
+            const {login,password,confirmPassword,role,surname,name,patronymic,post,placeWorkOrStudy,phone,email} = req.body //-dateCreation
             if (password!=confirmPassword){
                 next(ApiError.badRequest("Неверный пароль"));
             }
             const credential = await Credential.create({login,password,role})
-            const user = await User.create({surname,name,patronymic,post,placeWorkOrStudy,phone,email,dateCreation,credentialId:credential.id})
+            const user = await User.create({surname,name,patronymic,post,placeWorkOrStudy,phone,email,credentialId:credential.id})
             return res.json(user)
         }
         catch(e){

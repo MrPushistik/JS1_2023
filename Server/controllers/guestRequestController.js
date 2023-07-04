@@ -1,12 +1,12 @@
-const {GuestRequest} = require("../models/models");
+const {GuestRequest, CommentingApplication} = require("../models/models");
 const ApiError = require("../error/ApiError");
 const { Sequelize } = require("../db");
 
 class GuestRequestController{
     async create(req,res,next){
         try{
-            const {surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance} = req.body;
-            const guestRequest = await GuestRequest.create({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance});
+            const {surname, name, patronymic, phone, commentGuest, status, typeAssistance} = req.body; //-dateCreation
+            const guestRequest = await GuestRequest.create({surname, name, patronymic, phone, commentGuest, status, typeAssistance});
             return res.json(guestRequest);
         }
         catch(e){
@@ -39,8 +39,8 @@ class GuestRequestController{
     async update(req,res,next){
         try{
             const {id} = req.params;
-            const {surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance} = req.body;
-            const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance}, {where: {id}});
+            const {surname, name, patronymic, phone, commentGuest, status, typeAssistance} = req.body; //-dateCreation
+            const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, status, typeAssistance}, {where: {id}});
             return res.json(guestRequest);
         }
         catch(e){
@@ -61,11 +61,10 @@ class GuestRequestController{
 
     async createRequest(req, res, next){
         try {
-            const {surname, name, patronymic, phone, commentGuest} = req.body;
-            let dateCreation = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
+            const {surname, name, patronymic, phone, commentGuest} = req.body; //-dateCreation
             let status = "NEW";
             let typeAssistance = null;
-            const newRequest = await GuestRequest.create({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance});
+            const newRequest = await GuestRequest.create({surname, name, patronymic, phone, commentGuest, status, typeAssistance});
             return res.json(newRequest);
         }
         catch(e){
@@ -122,7 +121,7 @@ class GuestRequestController{
             const {dateCreation} = req.body;
             let status = "NEW";
             const requests = await GuestRequest.findAll({where: {status: status}});
-            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.createdAt).getTime()) // + createdAt
             return res.json(filterRes);
         }
         catch(e){
@@ -133,7 +132,7 @@ class GuestRequestController{
         try{
             let status = "AT WORK";
             const requests = await GuestRequest.findAll({where: {status: status}});
-            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.createdAt).getTime())
             return res.json(filterRes);
         }
         catch(e){
@@ -145,7 +144,7 @@ class GuestRequestController{
         try{
             let status = "COMPLETED";
             const requests = await GuestRequest.findAll({where: {status: status}});
-            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.createdAt).getTime())
             return res.json(filterRes);
         }
         catch(e){
@@ -157,7 +156,7 @@ class GuestRequestController{
         try{
             let status = "CANCELLED";
             const requests = await GuestRequest.findAll({where: {status: status}});
-            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.dateCreation).getTime())
+            const filterRes = requests.filter(request => new Date(dateCreation).getTime()<=new Date(request.createdAt).getTime())
             return res.json(filterRes);
         }
         catch(e){
@@ -168,15 +167,14 @@ class GuestRequestController{
     async updateRequest(req,res,next){
         try{
             const {id} = req.params;
-            const {content,surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance} = req.body;
+            const {content,surname, name, patronymic, phone, commentGuest, status, typeAssistance} = req.body; // -dateCreation
             if (status=="AT WORK"){
-                let dateChange = new Date().toJSON().replace("T"," ").replace("Z"," -4:00");
-                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance}, {where: {id}});
-                const commentingApplication = await CommentingApplication.create({dateChange:dateChange,content:content,userId:1,guestRequestId:guestRequest.id});
+                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, status, typeAssistance}, {where: {id}});
+                const commentingApplication = await CommentingApplication.create({content:content, userId:1, guestRequestId: guestRequest.id}); //-updateTime
                 return res.json(guestRequest);
             }
             else{
-                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, dateCreation, status, typeAssistance}, {where: {id}});
+                const guestRequest = await GuestRequest.update({surname, name, patronymic, phone, commentGuest, status, typeAssistance}, {where: {id}});
                 return res.json(guestRequest);
             }
         }

@@ -4,8 +4,8 @@ const ApiError = require("../error/ApiError");
 class CommentingApplicationController{
     async create(req,res,next){
         try{
-            const {dateChange,content,userId,guestRequestId} = req.body;
-            const commentingApplication = await CommentingApplication.create({dateChange,content,userId,guestRequestId});
+            const {content,userId,guestRequestId} = req.body;
+            const commentingApplication = await CommentingApplication.create({content,userId,guestRequestId}); //removed dataChange
             return res.json(commentingApplication);
         }
         catch(e){
@@ -38,8 +38,8 @@ class CommentingApplicationController{
     async update(req,res,next){
         try{
             const {id} = req.params;
-            const {dateChange,content,userId,guestRequestId} = req.body;
-            const commentingApplication = await CommentingApplication.update({dateChange,content,userId,guestRequestId}, {where: {id}});
+            const {content,userId,guestRequestId} = req.body;
+            const commentingApplication = await CommentingApplication.update({content,userId,guestRequestId}, {where: {id}}); //- dataChange
             return res.json(commentingApplication);
         }
         catch(e){
