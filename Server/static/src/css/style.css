@@ -1,12 +1,11 @@
 @font-face {
     font-family: 'Заголовок';
-    src: url("../../../fonts/Cormorant_SC/CormorantSC-Medium.ttf");
+    src: url("../../fonts/Cormorant_SC/CormorantSC-Medium.ttf");
 }
 @font-face {
     font-family: 'Основной';
-    src: url("../../../fonts/Gentium\ Basic/");
+    src: url("../../fonts/Gentium\ Basic/");
 }
-
 
 html{
     box-sizing: border-box; 
