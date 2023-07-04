@@ -5,26 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/volunteer.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/unpkg.com_swiper@9.4.1_swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Профком</title>
 </head>
 <body>
     <div>
-        <button>NEW</button>
-        <button>AT WORK</button>
-        <button>COMPLETED</button>
-        <button>CANCELLED</button>
+        <button class="new_requests">NEW</button>
+        <button class="work_requests">AT WORK</button>
+        <button class="completed_requests">COMPLETED</button>
+        <button class="cancelled_requests">CANCELLED</button>
     </div>
 
-    <table>
+    <table width="100%">
         <thead>
             <tr>
                 <td>Номер</td>
                 <td>ФИО</td>
                 <td>Телефон</td>
                 <td>Дата Создания</td>
-                <td>Последнее изменение</td>
                 <td>Статус</td>
                 <td>Вид Помощи</td>
             </tr>
@@ -33,5 +34,7 @@
 
         </tbody>
     </table>
+
+    <script src="../js/volunteer.js"></script>
 </body>
 </html>
