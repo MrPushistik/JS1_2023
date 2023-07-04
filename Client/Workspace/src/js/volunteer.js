@@ -1,18 +1,9 @@
-
+const serverURL = 'http://localhost:3001/api';
 
 const _new = document.querySelector(".new_requests");
 const _work = document.querySelector(".work_requests");
 const _cancelled = document.querySelector(".cancelled_requests");
 const _completed = document.querySelector(".completed_requests");
-
-_new.onclock = () => {
-    let serverURL = 'http://localhost:3001/api';
-    let url_adduser = '/guestRequest/volunteerForNewApplication';
-
-    axios.get(serverURL+url_adduser)
-    .then(res=>getNewRequest(res.data))
-    .catch(err=>console.log(err));
-}
 
 const getNewRequest = (data) => {
 
@@ -38,7 +29,12 @@ const fillTableRaw = (elem) => {
     return tableRaw;
 }
 
-axios.get(serverURL+url_adduser)
-.then(res=>getNewRequest(res.data))
-.catch(err=>console.log(err));
+_new.onclock = () => {
+    
+    let method = '/guestRequest/volunteerForNewApplication';
+
+    axios.get(serverURL + method)
+    .then(res=>getNewRequest(res.data))
+    .catch(err=>console.log(err));
+}
 
