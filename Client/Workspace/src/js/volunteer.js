@@ -1,5 +1,7 @@
 const serverURL = 'http://localhost:3001/api';
 
+
+// управление кнопками
 const buttons = {
     _new: {
         elem: document.querySelector(".new_requests"),
@@ -19,6 +21,17 @@ const buttons = {
     },
 }
 
+let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODU1MDUxNywiZXhwIjoxNjg4NjM2OTE3fQ.2MLWybnzW6pwVRMVx1O944XjXWZeUlJI3JxG35YqraQ"
+
+for (let key in buttons) {
+    buttons[key].elem.onclick = () => {
+        axios.get(serverURL + buttons[key].src, { headers: {"Authorization" : `Bearer ${tokenStr}`} })
+        .then(res=>getRequests(res.data))
+        .catch(err=>console.log(err));
+    }
+}
+
+//получить таблицу запросов
 const getRequests = (data) => {
 
     const table = document.createElement("table");
@@ -51,6 +64,7 @@ const getRequests = (data) => {
     holder.appendChild(table);
 }
 
+//создать строку в таблице
 const createTableRaw = (elem) => {
     let tableRow = document.createElement("tr");
     tableRow.innerHTML = 
@@ -65,28 +79,24 @@ const createTableRaw = (elem) => {
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
-        showRequest(elem.id);
+        command = "/guestRequest/fullRequest/";
+
+        axios.get(serverURL + command + id)
+        .then(res=>showRequest(res.data))
+        .catch(err=>console.log(err));
     }
 
     return tableRow;
 }
 
-for (let key in buttons) {
-    buttons[key].elem.onclick = () => {
-        axios.get(serverURL + buttons[key].src)
-        .then(res=>getRequests(res.data))
-        .catch(err=>console.log(err));
-    }
+//показать подробные сведения о заявке
+const showRequest = (data) => {
+    const holder = document.querySelector(".pg-data-holder");
+    holder.innerHTML = "";
+    holder.appendChild(createCard(data));
 }
 
-const showRequest = (id) => {
-    command = "/guestRequest/fullRequest/";
-
-    axios.get(serverURL + command + id)
-    .then(res=>console.log(res))
-    .catch(err=>console.log(err));
-}
-
+//создать карточку заявки
 const createCard = (elem) => {
     let card = document.createElement("div");
     card.innerHTML = 
@@ -110,6 +120,26 @@ const createCard = (elem) => {
         <button class="pg-add-comment">Добавить комментарий</button>
     </div>
     `
+
+    let comments = card.querySelector(".pg-comments");
+    elem.comments.forEach(elem => {
+
+        let comment = createElement("div");
+        comment.innerHTML = 
+        `
+        <div>
+            <p>${elem.user.surname + " " + elem.user.name + " " + elem.user.patronymic}</p>
+            <p>${elem.createdAt}</p>
+        </div>
+
+        <div>
+            <p>${elem.content}
+        </div>
+        `
+        comments.appendChild(comment);
+    });
+
+    return card;
 }
 
 
