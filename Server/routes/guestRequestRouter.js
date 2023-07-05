@@ -23,6 +23,7 @@ router.get("/volunteerForNewApplicationFilter", guestRequestController.getAllFor
 router.get("/volunteerForWorkApplicationFilter", guestRequestController.getAllForWorkApplicationFilter);
 router.get("/volunteerForCompletedApplicationFilter", guestRequestController.getAllForCompletedApplicationFilter);
 router.get("/volunteerForCancelledApplicationFilter", guestRequestController.getAllForCancelledApplicationFilter);
+router.get("/fullRequest/:id", guestRequestController.getFullRequest);
 
 
 router.delete("/admin/:id", guestRequestController.deleteGuestRequest);

@@ -1,4 +1,4 @@
-const {GuestRequest, CommentingApplication} = require("../models/models");
+const {GuestRequest, CommentingApplication, User} = require("../models/models");
 const ApiError = require("../error/ApiError");
 const { Sequelize } = require("../db");
 
@@ -267,6 +267,21 @@ class GuestRequestController{
             }
 
             return res.json(requests);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getFullRequest(req,res,next){
+        try{
+            const {id} = req.params;
+            const request = await GuestRequest.findOne({where: {id}})
+            const comments = await CommentingApplication.findAll({include: [{model: User}], where: {guestRequestId: id}})
+
+            request.setDataValue("comments", comments);
+            
+            return res.json(request);
         }
         catch(e){
             next(ApiError.badRequest("Неверный формат данных"));

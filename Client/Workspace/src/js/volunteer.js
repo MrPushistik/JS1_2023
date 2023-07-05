@@ -19,20 +19,41 @@ const buttons = {
     },
 }
 
-const getNewRequest = (data) => {
+const getRequests = (data) => {
 
-    const requests = document.querySelector(".requests");
-    requests.innerHTML = "";
+    const table = document.createElement("table");
+    table.innerHTML = 
+    `
+    <thead>
+        <tr>
+            <td>Номер</td>
+            <td>ФИО</td>
+            <td>Телефон</td>
+            <td>Дата Создания</td>
+            <td>Статус</td>
+            <td>Вид Помощи</td>
+            <td>Редактировать</td>
+        </tr>
+    </thead>
+    <tbody class="pg-requests">
+
+    </tbody>
+    `
+
+    const requests = table.querySelector(".pg-requests");
 
     data.forEach(elem => {
-        let tableRaw = document.createElement("tr");
-        tableRaw.innerHTML = fillTableRaw(elem);
-        requests.appendChild(tableRaw);
+        requests.appendChild(createTableRaw(elem));
     });
+
+    const holder = document.querySelector(".pg-data-holder");
+    holder.innerHTML = "";
+    holder.appendChild(table);
 }
 
-const fillTableRaw = (elem) => {
-    let tableRaw = 
+const createTableRaw = (elem) => {
+    let tableRow = document.createElement("tr");
+    tableRow.innerHTML = 
     `
     <td>${elem.id}</td>
     <td>${elem.surname + " " + elem.name + " " + elem.patronymic}</td>
@@ -40,16 +61,55 @@ const fillTableRaw = (elem) => {
     <td>${elem.createdAt.replace("T", " ").replace("Z", " ")}</td>
     <td>${elem.status}</td>
     <td>${elem.typeAssistance ? elem.typeAssistance : "-"}</td>
+    <td><button class="pg-reduct">Редактировать</button><td>
     `
-    return tableRaw;
+
+    tableRow.querySelector(".pg-reduct").onclick = () => {
+        showRequest(elem.id);
+    }
+
+    return tableRow;
 }
 
 for (let key in buttons) {
     buttons[key].elem.onclick = () => {
         axios.get(serverURL + buttons[key].src)
-        .then(res=>getNewRequest(res.data))
+        .then(res=>getRequests(res.data))
         .catch(err=>console.log(err));
     }
+}
+
+const showRequest = (id) => {
+    command = "/guestRequest/fullRequest/";
+
+    axios.get(serverURL + command + id)
+    .then(res=>console.log(res))
+    .catch(err=>console.log(err));
+}
+
+const createCard = (elem) => {
+    let card = document.createElement("div");
+    card.innerHTML = 
+    `
+    <div>
+        <p>${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+        <p>${elem.phone}</p>
+    </div>
+
+    <div>
+        <p>${elem.createdAt}</p>
+        <p>${elem.statuse}</p>
+        <p>${elem.typeAssistance}</p>
+    </div>
+
+    <div>
+        <div class="pg-comments">
+
+        </div>
+
+        <button class="pg-add-comment">Добавить комментарий</button>
+    </div>
+    `
 }
 
 
