@@ -5,27 +5,28 @@ const serverURL = 'http://localhost:3001/api';
 const buttons = {
     _new: {
         elem: document.querySelector(".new_requests"),
-        src: "/guestRequest/volunteerForNewApplication",
+        src: "/guestRequest/volunteer/forNewApplication",
     },
     _work: {
         elem: document.querySelector(".work_requests"),
-        src: "/guestRequest/volunteerForWorkApplication",
+        src: "/guestRequest/volunteer/forWorkApplication",
     },
     _cancelled: {
         elem: document.querySelector(".cancelled_requests"),
-        src: "/guestRequest/volunteerForCancelledApplication",
+        src: "/guestRequest/volunteer/forCancelledApplication",
     },
     _completed: {
         elem: document.querySelector(".completed_requests"),
-        src: "/guestRequest/volunteerForCompletedApplication",
+        src: "/guestRequest/volunteer/forCompletedApplication",
     },
 }
 
 let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODU1MDUxNywiZXhwIjoxNjg4NjM2OTE3fQ.2MLWybnzW6pwVRMVx1O944XjXWZeUlJI3JxG35YqraQ"
+let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
 
 for (let key in buttons) {
     buttons[key].elem.onclick = () => {
-        axios.get(serverURL + buttons[key].src, { headers: {"Authorization" : `Bearer ${tokenStr}`} })
+        axios.get(serverURL + buttons[key].src, H)
         .then(res=>getRequests(res.data))
         .catch(err=>console.log(err));
     }
@@ -79,9 +80,9 @@ const createTableRaw = (elem) => {
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
-        command = "/guestRequest/fullRequest/";
+        command = "/guestRequest/volunteer/fullRequest/";
 
-        axios.get(serverURL + command + id)
+        axios.get(serverURL + command + elem.id, H)
         .then(res=>showRequest(res.data))
         .catch(err=>console.log(err));
     }
@@ -99,6 +100,7 @@ const showRequest = (data) => {
 //создать карточку заявки
 const createCard = (elem) => {
     let card = document.createElement("div");
+    console.log(elem)
     card.innerHTML = 
     `
     <div>
@@ -108,7 +110,7 @@ const createCard = (elem) => {
 
     <div>
         <p>${elem.createdAt}</p>
-        <p>${elem.statuse}</p>
+        <p>${elem.status}</p>
         <p>${elem.typeAssistance}</p>
     </div>
 
@@ -124,7 +126,7 @@ const createCard = (elem) => {
     let comments = card.querySelector(".pg-comments");
     elem.comments.forEach(elem => {
 
-        let comment = createElement("div");
+        let comment = document.createElement("div");
         comment.innerHTML = 
         `
         <div>
