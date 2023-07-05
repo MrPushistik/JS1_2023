@@ -1,13 +1,28 @@
 const serverURL = 'http://localhost:3001/api';
 
-const _new = document.querySelector(".new_requests");
-const _work = document.querySelector(".work_requests");
-const _cancelled = document.querySelector(".cancelled_requests");
-const _completed = document.querySelector(".completed_requests");
+const buttons = {
+    _new: {
+        elem: document.querySelector(".new_requests"),
+        src: "/guestRequest/volunteerForNewApplication",
+    },
+    _work: {
+        elem: document.querySelector(".work_requests"),
+        src: "/guestRequest/volunteerForWorkApplication",
+    },
+    _cancelled: {
+        elem: document.querySelector(".cancelled_requests"),
+        src: "/guestRequest/volunteerForCancelledApplication",
+    },
+    _completed: {
+        elem: document.querySelector(".completed_requests"),
+        src: "/guestRequest/volunteerForCompletedApplication",
+    },
+}
 
 const getNewRequest = (data) => {
 
     const requests = document.querySelector(".requests");
+    requests.innerHTML = "";
 
     data.forEach(elem => {
         let tableRaw = document.createElement("tr");
@@ -29,12 +44,12 @@ const fillTableRaw = (elem) => {
     return tableRaw;
 }
 
-_new.onclock = () => {
-    
-    let method = '/guestRequest/volunteerForNewApplication';
-
-    axios.get(serverURL + method)
-    .then(res=>getNewRequest(res.data))
-    .catch(err=>console.log(err));
+for (let key in buttons) {
+    buttons[key].elem.onclick = () => {
+        axios.get(serverURL + buttons[key].src)
+        .then(res=>getNewRequest(res.data))
+        .catch(err=>console.log(err));
+    }
 }
+
 

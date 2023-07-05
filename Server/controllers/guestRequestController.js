@@ -223,7 +223,7 @@ class GuestRequestController{
     async requestAssistanceStatistics(req, res, next){
         try{
             const requests = {};
-            const assistances = ["ADSRESS", "PSCYCO", "HUMANITARIAN", "OTHER"];
+            const assistances = ["ADSRESS", "PSYCHO", "HUMANITARIAN", "OTHER"];
             let all = 0;
 
             for (let i = 0; i < assistances.length; i++){
@@ -245,7 +245,7 @@ class GuestRequestController{
         try{
             const requests = {};
 
-            const assistances = ["ADSRESS", "PSCYCO", "HUMANITARIAN", "OTHER"];
+            const assistances = ["ADSRESS", "PSYCHO", "HUMANITARIAN", "OTHER"];
             const statuses = ["NEW", "AT WORK", "CANCELLED", "COMPLETED"];
 
             let all = 0;
