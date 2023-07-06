@@ -5,9 +5,6 @@ const buttons = {
     "USER": {
         elem: document.querySelector(".reg_users"),
         src: "/user/admin/req",
-        showType: false,
-        buttonName: "Удалить",
-        haveForm: true,
     },
     "NEW": {
         elem: document.querySelector(".new_requests"),
@@ -57,7 +54,7 @@ for (let key in buttons) {
     buttons[key].elem.onclick = () => {
         if (key=="USER"){
             axios.get(serverURL + buttons[key].src, H)
-            .then(res=>getUsers(res.data, key))
+            .then(res=>getUsers(res.data))
             .catch(err=>console.log(err));
         }
         else{
@@ -69,7 +66,7 @@ for (let key in buttons) {
 }
 
 //получить таблицу пользователей
-const getUsers = (data, key) => {
+const getUsers = (data) => {
 
     const holder = document.querySelector(".pg-data-holder");
 
@@ -79,7 +76,7 @@ const getUsers = (data, key) => {
     }
     else holder.innerHTML = "";
 
-    const sorts = createSorts(data, key);
+    const sorts = createSorts(data);
 
     const table = document.createElement("table");
     table.innerHTML = 
@@ -142,7 +139,7 @@ const sortsObj = {
 }
 
 //блок сортировки
-const createSorts = (data, key) => {
+const createSorts = (data) => {
     const block = document.createElement("div");
     block.innerHTML =
     `
@@ -232,7 +229,7 @@ const createTableRawRequest = (elem) => {
     <td>${elem.commentGuest}</td>
     ${
         buttons[elem.status].showType
-        ? <td>${elem.typeAssistance}</td>
+        ? `<td>${elem.typeAssistance}</td>`
         : ""
     }
     <td><button class="pg-reduct">${buttons[elem.status].buttonName}</button><td>

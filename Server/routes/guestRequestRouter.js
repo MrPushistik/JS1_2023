@@ -21,10 +21,10 @@ router.put("/volunteer/req/updateAssistance/:id",checkRole('VOLUNTEER'), guestRe
 
 router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.delete);
 
-router.get("/volunteer/forNewApplication", checkRole('VOLUNTEER'), guestRequestController.getAllForNewApplication);
-router.get("/volunteer/forWorkApplication",  checkRole('VOLUNTEER'),  guestRequestController.getAllForWorkApplication);
-router.get("/volunteer/forCompletedApplication",  checkRole('VOLUNTEER'), guestRequestController.getAllForCompletedApplication);
-router.get("/volunteer/forCancelledApplication", checkRole('VOLUNTEER'), guestRequestController.getAllForCanceledApplication);
+router.get("/volunteer/forNewApplication", testRole(['VOLUNTEER','ADMIN']), guestRequestController.getAllForNewApplication);
+router.get("/volunteer/forWorkApplication",  testRole(['VOLUNTEER','ADMIN']),  guestRequestController.getAllForWorkApplication);
+router.get("/volunteer/forCompletedApplication",  testRole(['VOLUNTEER','ADMIN']), guestRequestController.getAllForCompletedApplication);
+router.get("/volunteer/forCancelledApplication", testRole(['VOLUNTEER','ADMIN']), guestRequestController.getAllForCanceledApplication);
 
 router.get("/volunteer/forNewApplicationFilter",checkRole('VOLUNTEER'), guestRequestController.getAllForNewApplicationFilter);
 router.get("/volunteer/forWorkApplicationFilter",checkRole('VOLUNTEER'), guestRequestController.getAllForWorkApplicationFilter);
