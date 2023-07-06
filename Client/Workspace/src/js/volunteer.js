@@ -1,5 +1,7 @@
 const serverURL = 'http://localhost:3001/api';
-
+let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODYzNzUzMSwiZXhwIjoxNjg4NzIzOTMxfQ.s-b5cpTJUqORHFb_x4_Rn2E9CvFBAFnMtBRUY_J7oSA"
+let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
+let role = "ADMIN"
 
 // управление кнопками
 const buttons = {
@@ -47,10 +49,6 @@ const matches = {
     "ADDRESS": "Адресная",
     "OTHER": "Иная",
 }
-
-let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODYzNzUzMSwiZXhwIjoxNjg4NzIzOTMxfQ.s-b5cpTJUqORHFb_x4_Rn2E9CvFBAFnMtBRUY_J7oSA"
-let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
-let role = "ADMIN"
 
 for (let key in buttons) {
     buttons[key].elem.onclick = () => {
