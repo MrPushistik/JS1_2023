@@ -1,7 +1,7 @@
 const serverURL = 'http://localhost:3001/api';
-let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODYzNzUzMSwiZXhwIjoxNjg4NzIzOTMxfQ.s-b5cpTJUqORHFb_x4_Rn2E9CvFBAFnMtBRUY_J7oSA"
-let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
-let role = "ADMIN"
+let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJtcnAiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2ODg2NjMwODksImV4cCI6MTY4ODc0OTQ4OX0.-AQ5D3Q1CX56y9scVFTBZWwvASg_sgfuDaFU6Y6LMK8"
+let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} };
+let role = "ADMIN";
 
 // управление кнопками
 const buttons = {
@@ -132,6 +132,10 @@ const createTableRaw = (elem) => {
 
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+
+            axios.get(serverURL + buttons[elem.status].src, H)
+            .then(res=>getRequests(res.data, elem.status))
             .catch(err=>console.log(err));
         }
     }

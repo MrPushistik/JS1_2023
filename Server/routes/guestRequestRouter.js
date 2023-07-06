@@ -2,6 +2,7 @@ const Router = require('express');
 const router = new Router();
 const guestRequestController = require("../controllers/guestRequestController");
 const checkRole = require('../middleware/checkRoleMiddleware')
+const testRole = require('../middleware/testRoleMiddleware')
 
 router.post("/admin/req",checkRole('ADMIN'), guestRequestController.create);
 router.post("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.createRequest);
