@@ -194,8 +194,7 @@ const createForm = (id, status, assistance) => {
         <option value="OTHER">Иная</option>
     <select>
 
-    <textarea class="pg-comment">
-    </textarea>
+    <textarea class="pg-comment"></textarea>
 
     <button type="submit">Сохранить изменения</button>
     `
@@ -211,17 +210,18 @@ const createForm = (id, status, assistance) => {
         let assistanceS = form.querySelector(".pg-select-assistance").value;
         let comment = form.querySelector(".pg-comment").value;
         
-        commandA = "/guestRequest/volunteer/req/updateRequest/"
+        commandA = "/guestRequest/volunteer/req/updateRequest/";
         axios.put(serverURL + commandA + id, {status: statusS, typeAssistance: assistanceS}, H)
         .then(res=>console.log(res))
         .catch(err=>console.log(err));
 
-        if (comment)
-            commandB = "/commentingApplication"
+        if (comment){
+            commandB = "/commentingApplication";
             axios.post(serverURL + commandB, {content: comment, userId: 1, guestRequestId: id}, H)
             .then(res=>console.log(res))
             .catch(err=>console.log(err));
-
+        }
+ 
         commandC = "/guestRequest/volunteer/fullRequest/";
         axios.get(serverURL + commandC + id, H)
         .then(res=>showRequest(res.data))
