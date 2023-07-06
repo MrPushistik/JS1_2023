@@ -1,7 +1,7 @@
 const serverURL = 'http://localhost:3001/api';
-let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJtcnAiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2ODg2NjMwODksImV4cCI6MTY4ODc0OTQ4OX0.-AQ5D3Q1CX56y9scVFTBZWwvASg_sgfuDaFU6Y6LMK8"
+let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODY2MzUxOSwiZXhwIjoxNjg4NzQ5OTE5fQ.rEroFfgE1sQPBnYGdcQ3M3S9z7tcIN8YWg7a7pQOFjE"
 let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} };
-let role = "ADMIN";
+let role = "VONUNTEER";
 
 // управление кнопками
 const buttons = {
