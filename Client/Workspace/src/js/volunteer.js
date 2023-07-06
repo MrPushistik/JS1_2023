@@ -135,8 +135,8 @@ const showRequest = (data) => {
 
 //создать карточку заявки
 const createCard = (elem) => {
+
     let card = document.createElement("div");
-    console.log(elem)
     card.innerHTML = 
     `
     <div>
@@ -263,8 +263,8 @@ const sortsObj = {
         name: "По дате создания",
         class: "pg-date-sort",
         options: [
-            {value: "new", name: "Сначала новые", sort: (data) => data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))},
-            {value: "old", name: "Сначала старые", sort: (data) => data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))},
+            {name: "Сначала новые", sort: (data) => data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))},
+            {name: "Сначала старые", sort: (data) => data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))},
         ],
         currOption: 0,
         maxOption: 2,
@@ -292,13 +292,12 @@ const createSorts = (data, key) => {
         sort.innerHTML =
         `
             <p>${elem.name}</p>
-            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+            <button type="button" class="${elem.class}"}">${elem.options[elem.currOption].name}</button>
         `
 
         let button = sort.querySelector(`.${elem.class}`);
         button.onclick = () => {
             elem.currOption = (elem.currOption + 1) % elem.maxOption;
-            button.value = elem.options[elem.currOption].value;
             button.innerHTML = elem.options[elem.currOption].name;
             getRequests(elem.options[elem.currOption].sort(data), key);
         }
