@@ -16,7 +16,7 @@ class UserController{
     async registration(req,res,next){
         try{
             const {login,password,confirmPassword,role,surname,name,patronymic,post,placeWorkOrStudy,phone,email} = req.body //-dateCreation
-            if (!login || !confirmPassword || !surname || !patronymic || !placeWorkOrStudy || !email){
+            if (!login || !surname || !placeWorkOrStudy || !email){
                 return next(ApiError.badRequest("Неверный формат данных"));
             }
             if (password!=confirmPassword){
@@ -74,6 +74,27 @@ class UserController{
             const {id} = req.params;
             const user = await User.destroy({where: {id}});
             return res.json(user);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async getAll(req,res,next){
+        try{
+            const users = await User.findAll();
+            return res.json(users);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async get(req,res,next){
+        try{
+            const {id} = req.params;
+            const users = await User.findOne({where: {id}});
+            return res.json(users);
         }
         catch(e){
             next(ApiError.badRequest("Неверный формат данных"));
