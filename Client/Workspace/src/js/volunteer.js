@@ -33,6 +33,17 @@ const buttons = {
     },
 }
 
+const matches = {
+    "NEW" : "Новая",
+    "AT WORK": "В работе",
+    "CANCELLED": "Отменена",
+    "COMPLETED": "Выполнена",
+    "PSYCHO": "Психологическая",
+    "HUMANITARIAN": "Гуманитарная",
+    "ADDRESS": "Адресная",
+    "OTHER": "Иная",
+}
+
 let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODYzNzUzMSwiZXhwIjoxNjg4NzIzOTMxfQ.s-b5cpTJUqORHFb_x4_Rn2E9CvFBAFnMtBRUY_J7oSA"
 let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
 
@@ -47,6 +58,16 @@ for (let key in buttons) {
 //получить таблицу запросов
 const getRequests = (data, key) => {
 
+    const holder = document.querySelector(".pg-data-holder");
+
+    if (data.length == 0) {
+        holder.innerHTML = "<p>Заявок по данному статусу не найдено</p>";
+        return;
+    }
+    else holder.innerHTML = "";
+
+    const sorts = createSorts(data, key);
+
     const table = document.createElement("table");
     table.innerHTML = 
     `
@@ -57,11 +78,7 @@ const getRequests = (data, key) => {
             <td>ФИО</td>
             <td>Телефон</td>
             <td>Комментарий</td>
-            ${
-                key != "NEW" 
-                ? `<td>Тип Помощи</td>`
-                : ""
-            }
+            ${key != "NEW" ? `<td>Тип Помощи</td>` : ""}
             <td>Действие</td>
         </tr>
     </thead>
@@ -71,24 +88,22 @@ const getRequests = (data, key) => {
     `
 
     const requests = table.querySelector(".pg-requests");
-
     data.forEach(elem => {
         requests.appendChild(createTableRaw(elem));
     });
 
-    const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "";
+    holder.appendChild(sorts);
     holder.appendChild(table);
 }
 
 //создать строку в таблице
 const createTableRaw = (elem) => {
+
     let tableRow = document.createElement("tr");
-    console.log(elem)
     tableRow.innerHTML = 
     `
     <td>${elem.id}</td>
-    <td>${elem.createdAt.replace("T", " ").replace("Z", " ")}</td>
+    <td>${new Date(elem.createdAt).toLocaleString()}</td>
     <td>${elem.surname + " " + elem.name + " " + elem.patronymic}</td>
     <td>${elem.phone}</td>
     <td>${elem.commentGuest}</td>
@@ -163,17 +178,7 @@ const createCard = (elem) => {
     return card;
 }
 
-const matches = {
-    "NEW" : "Новая",
-    "AT WORK": "В работе",
-    "CANCELLED": "Отменена",
-    "COMPLETED": "Выполнена",
-    "PSYCHO": "Психологическая",
-    "HUMANITARIAN": "Гуманитарная",
-    "ADDRESS": "Адресная",
-    "OTHER": "Иная",
-}
-
+//создать форму редактирования заявки
 const createForm = (id, status, assistance) => {
 
     let form = document.createElement("form");
@@ -240,6 +245,7 @@ const createForm = (id, status, assistance) => {
     return form;
 }
 
+//выдать блок информации
 const createInfo = (status, assistance) => {
     let data = document.createElement("div");
     data.innerHTML = 
@@ -248,4 +254,57 @@ const createInfo = (status, assistance) => {
     <p>${assistance}</p>
     `
     return data;
+}
+
+
+//шаблон сортировок
+const sortsObj = {
+    date: {
+        name: "По дате создания",
+        class: "pg-date-sort",
+        options: [
+            {value: "new", name: "Сначала новые", sort: (data) => data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))},
+            {value: "old", name: "Сначала старые", sort: (data) => data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))},
+        ],
+        currOption: 0,
+        maxOption: 2,
+    }
+}
+
+//блок сортировки
+const createSorts = (data, key) => {
+
+    const block = document.createElement("div");
+    block.innerHTML =
+    `
+    <p>Сортировки</p>
+    <div class="pg-sorts">
+        
+    </div>
+    `
+
+    const sorts = block.querySelector(".pg-sorts");
+    for (let key in sortsObj){
+
+        let sort = document.createElement("div");
+        let elem = sortsObj[key];
+        
+        sort.innerHTML =
+        `
+            <p>${elem.name}</p>
+            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+        `
+
+        let button = sort.querySelector(`.${elem.class}`);
+        button.onclick = () => {
+            elem.currOption = (elem.currOption + 1) % elem.maxOption;
+            button.value = elem.options[elem.currOption].value;
+            button.innerHTML = elem.options[elem.currOption].name;
+            getRequests(elem.options[elem.currOption].sort(data), key);
+        }
+
+        sorts.appendChild(sort);
+    }
+
+    return block;
 }
