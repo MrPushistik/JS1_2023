@@ -287,6 +287,18 @@ class GuestRequestController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async updateRequest2(req,res,next){
+        try{
+            const {id} = req.params;
+            const {status, typeAssistance} = req.body;
+            const guestRequest = await GuestRequest.update({status, typeAssistance}, {where: {id}});
+            return res.json(guestRequest);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
 }
 
 
