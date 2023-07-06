@@ -75,7 +75,7 @@ class GuestRequestController{
     async getAllForNewApplication(req,res,next){
         try{
             let status = "NEW";
-            const requests = await GuestRequest.findAll({where: {status: status}});
+            const requests = await GuestRequest.findAll({where: {status: status}, order: [["createdAt","DESC"]]});
             return res.json(requests);
         }
         catch(e){
@@ -86,7 +86,7 @@ class GuestRequestController{
     async getAllForWorkApplication(req,res,next){
         try{
             let status = "AT WORK";
-            const requests = await GuestRequest.findAll({where: {status: status}});
+            const requests = await GuestRequest.findAll({where: {status: status}, order: [["createdAt","DESC"]]});
             return res.json(requests);
         }
         catch(e){
@@ -97,7 +97,7 @@ class GuestRequestController{
     async getAllForCompletedApplication(req,res,next){
         try{
             let status = "COMPLETED";
-            const requests = await GuestRequest.findAll({where: {status: status}});
+            const requests = await GuestRequest.findAll({where: {status: status}, order: [["createdAt","DESC"]]});
             return res.json(requests);
         }
         catch(e){
@@ -108,7 +108,7 @@ class GuestRequestController{
     async getAllForCanceledApplication(req,res,next){
         try{
             let status = "CANCELLED";
-            const requests = await GuestRequest.findAll({where: {status: status}});
+            const requests = await GuestRequest.findAll({where: {status: status}, order: [["createdAt","DESC"]]});
             return res.json(requests);
         }
         catch(e){

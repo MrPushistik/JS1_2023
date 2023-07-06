@@ -9,6 +9,7 @@ const buttons = {
         showType: false,
         buttonName: "Обработать",
         haveForm: true,
+        adminCanDelete: true
     },
     "AT WORK": {
         elem: document.querySelector(".work_requests"),
@@ -16,6 +17,7 @@ const buttons = {
         showType: true,
         buttonName: "Редактировать",
         haveForm: true,
+        adminCanDelete: false
     },
     "CANCELLED": {
         elem: document.querySelector(".cancelled_requests"),
@@ -23,6 +25,7 @@ const buttons = {
         showType: true,
         buttonName: "Просмотр",
         haveForm: false,
+        adminCanDelete: true
     },
     "COMPLETED": {
         elem: document.querySelector(".completed_requests"),
@@ -30,6 +33,7 @@ const buttons = {
         showType: true,
         buttonName: "Просмотр",
         haveForm: false,
+        adminCanDelete: true
     },
 }
 
@@ -46,6 +50,7 @@ const matches = {
 
 let tokenStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJtcnAyIiwicm9sZSI6IlZPTFVOVEVFUiIsImlhdCI6MTY4ODYzNzUzMSwiZXhwIjoxNjg4NzIzOTMxfQ.s-b5cpTJUqORHFb_x4_Rn2E9CvFBAFnMtBRUY_J7oSA"
 let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
+let role = "ADMIN"
 
 for (let key in buttons) {
     buttons[key].elem.onclick = () => {
@@ -107,12 +112,11 @@ const createTableRaw = (elem) => {
     <td>${elem.surname + " " + elem.name + " " + elem.patronymic}</td>
     <td>${elem.phone}</td>
     <td>${elem.commentGuest}</td>
-    ${
-        buttons[elem.status].showType
-        ? `<td>${elem.typeAssistance}</td>`
-        : ""
-    }
-    <td><button class="pg-reduct">${buttons[elem.status].buttonName}</button><td>
+    ${buttons[elem.status].showType ? `<td>${elem.typeAssistance}</td>` : ""}
+    <td>
+        <button type="button" class="pg-reduct">${buttons[elem.status].buttonName}</button>
+        ${role == "ADMIN" && buttons[elem.status].adminCanDelete ? `<button type="button" class="pg-delete">Удалить</button>` : ""}
+    <td>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
@@ -121,6 +125,17 @@ const createTableRaw = (elem) => {
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showRequest(res.data))
         .catch(err=>console.log(err));
+    }
+
+    let del = tableRow.querySelector(".pg-delete");
+    if (del){
+        del.onclick = () => {
+            command = "/guestRequest/admin/req/";
+
+            axios.delete(serverURL + command + elem.id, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        }
     }
 
     return tableRow;
