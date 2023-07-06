@@ -14,7 +14,8 @@ router.get("/volunteer/req/:id",checkRole('VOLUNTEER'), guestRequestController.g
 
 router.put("/admin/req/:id",checkRole('ADMIN'), guestRequestController.update);
 router.put("/volunteer/req/update/:id",checkRole('VOLUNTEER'), guestRequestController.updateRequest);
-router.put("/volunteer/req/updateRequest/:id",checkRole('VOLUNTEER'), guestRequestController.updateRequest2);
+router.put("/volunteer/req/updateStatus/:id",checkRole('VOLUNTEER'), guestRequestController.updateStatus);
+router.put("/volunteer/req/updateAssistance/:id",checkRole('VOLUNTEER'), guestRequestController.updateAssistance);
 
 
 router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.delete);

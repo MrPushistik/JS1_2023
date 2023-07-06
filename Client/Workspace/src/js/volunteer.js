@@ -209,21 +209,30 @@ const createForm = (id, status, assistance) => {
         let statusS = form.querySelector(".pg-select-status").value;
         let assistanceS = form.querySelector(".pg-select-assistance").value;
         let comment = form.querySelector(".pg-comment").value;
-        
-        commandA = "/guestRequest/volunteer/req/updateRequest/";
-        axios.put(serverURL + commandA + id, {status: statusS, typeAssistance: assistanceS}, H)
-        .then(res=>console.log(res))
-        .catch(err=>console.log(err));
+
+        if (statusS != status){
+            commandA = "/volunteer/req/updateAssistance/";
+            axios.put(serverURL + commandA + id, {status: statusS}, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        }
+
+        if (assistanceS != assistance){
+            commandB = "/volunteer/req/updateStatus/";
+            axios.put(serverURL + commandB + id, {typeAssistance: assistanceS}, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        }
 
         if (comment){
-            commandB = "/commentingApplication";
-            axios.post(serverURL + commandB, {content: comment, userId: 1, guestRequestId: id}, H)
+            commandC = "/commentingApplication";
+            axios.post(serverURL + commandC, {content: comment, userId: 1, guestRequestId: id}, H)
             .then(res=>console.log(res))
             .catch(err=>console.log(err));
         }
  
-        commandC = "/guestRequest/volunteer/fullRequest/";
-        axios.get(serverURL + commandC + id, H)
+        commandD = "/guestRequest/volunteer/fullRequest/";
+        axios.get(serverURL + commandD + id, H)
         .then(res=>showRequest(res.data))
         .catch(err=>console.log(err));
     }

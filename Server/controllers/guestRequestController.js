@@ -288,11 +288,23 @@ class GuestRequestController{
         }
     }
 
-    async updateRequest2(req,res,next){
+    async updateStatus(req,res,next){
         try{
             const {id} = req.params;
-            const {status, typeAssistance} = req.body;
-            const guestRequest = await GuestRequest.update({status, typeAssistance}, {where: {id}});
+            const {status} = req.body;
+            const guestRequest = await GuestRequest.update({status}, {where: {id}});
+            return res.json(guestRequest);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async updateAssistance(req,res,next){
+        try{
+            const {id} = req.params;
+            const {typeAssistance} = req.body;
+            const guestRequest = await GuestRequest.update({typeAssistance}, {where: {id}});
             return res.json(guestRequest);
         }
         catch(e){
