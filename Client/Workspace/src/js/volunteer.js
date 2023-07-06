@@ -216,10 +216,11 @@ const createForm = (id, status, assistance) => {
         .then(res=>console.log(res))
         .catch(err=>console.log(err));
 
-        commandB = "/commentingApplication"
-        axios.post(serverURL + commandB, {content: comment, userId: 1, guestRequestId: id}, H)
-        .then(res=>console.log(res))
-        .catch(err=>console.log(err));
+        if (comment)
+            commandB = "/commentingApplication"
+            axios.post(serverURL + commandB, {content: comment, userId: 1, guestRequestId: id}, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
 
         commandC = "/guestRequest/volunteer/fullRequest/";
         axios.get(serverURL + commandC + id, H)
