@@ -211,14 +211,14 @@ const createForm = (id, status, assistance) => {
         let comment = form.querySelector(".pg-comment").value;
 
         if (statusS != status){
-            commandA = "/volunteer/req/updateAssistance/";
+            commandA = "/guestRequest/volunteer/req/updateStatus/";
             axios.put(serverURL + commandA + id, {status: statusS}, H)
             .then(res=>console.log(res))
             .catch(err=>console.log(err));
         }
 
         if (assistanceS != assistance){
-            commandB = "/volunteer/req/updateStatus/";
+            commandB = "/guestRequest/volunteer/req/updateAssistance/";
             axios.put(serverURL + commandB + id, {typeAssistance: assistanceS}, H)
             .then(res=>console.log(res))
             .catch(err=>console.log(err));
