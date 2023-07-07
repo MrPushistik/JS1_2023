@@ -6,25 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/volunteer.css">
     <link rel="stylesheet" href="../css/unpkg.com_swiper@9.4.1_swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Профком</title>
 </head>
 <body>
-    <div>
-        <button class="new_requests">NEW</button>
-        <button class="work_requests">AT WORK</button>
-        <button class="completed_requests">COMPLETED</button>
-        <button class="cancelled_requests">CANCELLED</button>
+    <header class="v-header">
+        <div class="inner-header">
+            <div class="header_logo">
+                <div class="header_logo_lonk">
+                    <a href=""><img src="../img/" alt="Профком ИнПИТа"></a>
+                </div>
+            </div>
+            <div class="header_logo">
+                <div class="header_logo_lonk">
+                    <a href=""><img src="../img/sstu.png" alt="СГТУ"></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-area">
+
+        <div class="request-nav">
+            <button class="request-nav-button request-nav-button-dis new_requests">Новые</button>
+            <button class="request-nav-button request-nav-button-dis work_requests">В работе</button>
+            <button class="request-nav-button request-nav-button-dis completed_requests">Выполненные</button>
+            <button class="request-nav-button request-nav-button-dis cancelled_requests">Отмененные</button>
+        </div>
+    
+        <div class="pg-data-holder">
+    
+        </div>
     </div>
-
-    <div class="pg-data-holder">
-
-    </div>
-
 
     <!--<script src="../js/volunteer.js"></script>-->
     <script src="../js/check.js"></script>
     <script src="../js/request.js"></script>
+    <script src="../js/volunteer.js"></script>
 </body>
 </html>

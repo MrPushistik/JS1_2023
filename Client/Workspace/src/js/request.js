@@ -31,8 +31,8 @@ const requestButtons = {
 }
 
 const matches = {
-    keys: ["NEW", "AT WORK", "CANCELLED", "COMPLETED", "PSYCHO", "HUMANITARIAN", "ADDRESS", "OTHER"],
-    values: ["Новая", "В работе", "Отменена", "Выполнена", "Психологическая", "Гуманитарная", "Адресная", "Иная"],
+    keys: [null,"NEW", "AT WORK", "CANCELLED", "COMPLETED", "PSYCHO", "HUMANITARIAN", "ADDRESS", "OTHER"],
+    values: ["Не установлен","Новая", "В работе", "Отменена", "Выполнена", "Психологическая", "Гуманитарная", "Адресная", "Иная"],
     "NEW" : "Новая",
     "AT WORK": "В работе",
     "CANCELLED": "Отменена",
@@ -45,6 +45,7 @@ const matches = {
 
 for (let key in requestButtons) {
     requestButtons[key].elem.onclick = () => {
+        requestSorts.date.currOption = 0;
         axios.get(serverURL + requestButtons[key].src, H)
         .then(res=>createRequestsTable(res.data))
         .catch(err=>console.log(err));
@@ -65,23 +66,24 @@ const createRequestsTable = (data) => {
     const key = data[0].status;
     const sorts = createRequestSorts(data);
 
-    const table = document.createElement("table");
+    const table = document.createElement("div");
+    table.className = "table"
     table.innerHTML = 
     `
-    <thead>
-        <tr>
-            <td>Номер</td>
-            <td>Дата Создания</td>
-            <td>ФИО</td>
-            <td>Телефон</td>
-            <td>Комментарий</td>
-            ${key != "NEW" ? `<td>Тип Помощи</td>` : ""}
-            <td>Действие</td>
-        </tr>
-    </thead>
-    <tbody class="pg-requests">
+    <div class="table-header">
+        <div class="table-row">
+            <p class="table-cell">№</p>
+            <p class="table-cell">Дата Создания</p>
+            <p class="table-cell">ФИО</p>
+            <p class="table-cell">Телефон</p>
+            <p class="table-cell">Комментарий</p>
+            <p class="table-cell">Тип Помощи</p> 
+            <p class="table-cell">Действие</p>
+        </div>
+    </div>
+    <div class="table-body pg-requests">
 
-    </tbody>
+    </div>
     `
 
     const requests = table.querySelector(".pg-requests");
@@ -96,19 +98,20 @@ const createRequestsTable = (data) => {
 //создать строку в таблице
 const createTableRow = (elem) => {
 
-    let tableRow = document.createElement("tr");
+    let tableRow = document.createElement("div");
+    tableRow.className = "table-row"
     tableRow.innerHTML = 
     `
-    <td>${elem.id}</td>
-    <td>${new Date(elem.createdAt).toLocaleString()}</td>
-    <td>${elem.surname + " " + elem.name + " " + elem.patronymic}</td>
-    <td>${elem.phone}</td>
-    <td>${elem.commentGuest}</td>
-    ${requestButtons[elem.status].showType ? `<td>${matches.values[matches.keys.indexOf(elem.typeAssistance)]}</td>` : ""}
-    <td>
-        <button type="button" class="pg-reduct">${requestButtons[elem.status].buttonName}</button>
-        ${role == "ADMIN" && elem.status != "AT WORK" ? `<button type="button" class="pg-delete">Удалить</button>` : ""}
-    <td>
+    <p class="table-cell table-col-1">${elem.id}</p>
+    <p class="table-cell table-col-2">${new Date(elem.createdAt).toLocaleString()}</p>
+    <p class="table-cell table-col-1">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+    <p class="table-cell table-col-2">${elem.phone}</p>
+    <p class="table-cell table-col-1">${elem.commentGuest}</p>
+    <p class="table-cell table-col-2">${matches.values[matches.keys.indexOf(elem.typeAssistance)]}</p>
+    <div class="table-cell table-col-1">
+        <button type="button" class="pg-reduct read-button td-button">${requestButtons[elem.status].buttonName}</button>
+        ${role == "ADMIN" && elem.status != "AT WORK" ? `<button type="button" class="pg-delete delete-button td-button">Удалить</button>` : ""}
+    </div>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
@@ -148,43 +151,61 @@ const showRequest = (data) => {
 const createRequestCard = (elem) => {
 
     let card = document.createElement("div");
+    card.className = "req-card"
     card.innerHTML = 
     `
-    <div>
-        <p>${elem.id}</p>
-        <p>${elem.createdAt}</p>
+    <div class="req-card-header">
+        <div class="req-card-header-data">
+            <p class="req-card-title">Заявка №${elem.id}</p>
+            <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
+        </div>
+        <button class="pg-close req-card-close">x</button>
     </div>
 
-    <div>
-        <p>${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
-        <p>${elem.phone}</p>
-        <p>${elem.commentGuest}</p>
+    <div class="req-card-guest">
+        <div class="req-guest-data">
+            <p class="req-guest-name">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+            <p class="req-guest-phone">${elem.phone}</p>
+        </div>
+        <p class="req-guest-comment">${elem.commentGuest}</p>
     </div>
-
-    <div class="pg-comments"></div>
     `
     if (requestButtons[elem.status].haveForm) card.appendChild(createForm(elem.id, elem.status, elem.typeAssistance));
     else card.appendChild(createInfo(elem.status, elem.typeAssistance))
 
-    let comments = document.createElement("div");
-    elem.comments.forEach(elem => {
+    card.querySelector(".pg-close").onclick = () => {
+        requestButtons[elem.status].elem.click();
+    }
 
-        let comment = document.createElement("div");
-        comment.innerHTML = 
+    if (elem.comments.length > 0) {
+        
+        let comments = document.createElement("div");
+
+        comments.className="req-comments";
+        comments.innerHTML= 
         `
-        <div>
-            <p>${elem.user.surname + " " + elem.user.name + " " + elem.user.patronymic}</p>
-            <p>${elem.createdAt}</p>
-        </div>
-
-        <div>
-            <p>${elem.content}
+        <div class="req-comments-header">
+            <p class="req-comments-title">Комментарии волонтеров</p>
         </div>
         `
-        comments.appendChild(comment);
-    });
+        elem.comments.forEach(elem => {
 
-    card.appendChild(comments);
+            let comment = document.createElement("div");
+            comment.className = "req-comment";
+            comment.innerHTML = 
+            `
+            <div class="req-comment-data">
+                <p class="req-comment-name">${elem.user.surname + " " + elem.user.name + " " + elem.user.patronymic}</p>
+                <p class="req-comment-date">${new Date(elem.createdAt).toLocaleString()}</p>
+            </div>
+
+            <p class="req-comment-comment">${elem.content}</p>
+            `
+            comments.appendChild(comment);
+        });
+
+        card.appendChild(comments);
+    }
 
     return card;
 }
@@ -193,26 +214,38 @@ const createRequestCard = (elem) => {
 const createForm = (id, status, assistance) => {
 
     let form = document.createElement("form");
+    form.className = "req-card-form";
     form.innerHTML = 
     `
-    <select class="pg-select-status">
-        ${status == "NEW" ? `<option value="NEW">Новая</option>` : ""}
-        <option value="AT WORK">В работе</option>
-        <option value="CANCELLED">Отклонена</option>
-        <option value="COMPLETED">Выполнена</option>
-    <select>
+    <div class="req-form-selects">
+        <div class="req-form-status">
+            <label>Статус заявки</label>
+            <select class="pg-select-status">
+                ${status == "NEW" ? `<option value="NEW">Новая</option>` : ""}
+                <option value="AT WORK">В работе</option>
+                <option value="CANCELLED">Отклонена</option>
+                <option value="COMPLETED">Выполнена</option>
+            <select>
+        </div>
 
-    <select class="pg-select-assistance">
-        ${status == "NEW" ? `<option value>Не выбрано</option>` : ""}
-        <option value="PSYCHO">Психологическая</option>
-        <option value="HUMANITARIAN">Гуманитарная</option>
-        <option value="ADDRESS">Адресная</option>
-        <option value="OTHER">Иная</option>
-    <select>
+        <div class="req-form-assistance">
+            <label>Тип помощи</label>
+            <select class="pg-select-assistance">
+                ${status == "NEW" ? `<option value>Не установлен</option>` : ""}
+                <option value="PSYCHO">Психологическая</option>
+                <option value="HUMANITARIAN">Гуманитарная</option>
+                <option value="ADDRESS">Адресная</option>
+                <option value="OTHER">Иная</option>
+            <select>
+        </div>
+    </div>
 
-    <textarea class="pg-comment"></textarea>
+    <div class="req-form-comment">
+        <label>Комментировать</label>
+        <textarea class="pg-comment"></textarea>
+    </div>
 
-    <button type="submit">Сохранить изменения</button>
+    <button type="submit" class="req-form-submit">Сохранить изменения</button>
     `
 
     if (status) form.querySelector(`.pg-select-status option[value="${status}"]`).selected = true;
@@ -259,10 +292,18 @@ const createForm = (id, status, assistance) => {
 //выдать блок информации
 const createInfo = (status, assistance) => {
     let data = document.createElement("div");
+    data.className = "req-info-selects";
     data.innerHTML = 
     `
-    <p>${status}</p>
-    <p>${assistance}</p>
+    <div class="req-info">
+        <p class="req-info-title">Статус</p>
+        <p class="req-info-value">${status}</p>
+    </div>
+
+    <div class="req-info">
+        <p class="req-info-title">Тип помощи</p>
+        <p class="req-info-value">${assistance}</p>
+    </div>
     `
     return data;
 }
@@ -287,10 +328,11 @@ const requestSorts = {
 const createRequestSorts = (data, key) => {
 
     const block = document.createElement("div");
+    block.className = "request-sorts";
     block.innerHTML =
     `
-    <p>Сортировки</p>
-    <div class="pg-sorts">
+    <p class="request-sorts-title">Сортировки</p>
+    <div class="pg-sorts request-sorts-keeper">
         
     </div>
     `
@@ -301,10 +343,10 @@ const createRequestSorts = (data, key) => {
         let sort = document.createElement("div");
         let elem = requestSorts[key];
         
+        //<p>${elem.name}</p>
         sort.innerHTML =
         `
-            <p>${elem.name}</p>
-            <button type="button" class="${elem.class}"}">${elem.options[elem.currOption].name}</button>
+            <button type="button" class="${elem.class} request-sorts-button"}">${elem.options[elem.currOption].name}</button>
         `
 
         let button = sort.querySelector(`.${elem.class}`);
