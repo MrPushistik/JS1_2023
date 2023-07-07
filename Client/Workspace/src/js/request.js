@@ -58,7 +58,7 @@ const createRequestsTable = (data) => {
     const holder = document.querySelector(".pg-data-holder");
 
     if (data.length == 0) {
-        holder.innerHTML = "<p>Заявок по данному статусу не найдено</p>";
+        holder.innerHTML = `<p class="no-requests">Заявок по данному статусу не найдено</p>`;
         return;
     }
     else holder.innerHTML = "";
