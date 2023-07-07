@@ -17,8 +17,6 @@ app.use(express.static(path.resolve(__dirname, "static")));
 app.use('/api',router);
 app.use(errorHandler);
 
-app.get();
-
 const start = async () => {
     try{
         await sequelize.authenticate();

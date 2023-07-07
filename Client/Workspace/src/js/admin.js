@@ -12,6 +12,7 @@ const buttons = {
         showType: false,
         buttonName: "Обработать",
         haveForm: true,
+        adminCanDelete: true,
     },
     "AT WORK": {
         elem: document.querySelector(".work_requests"),
@@ -19,6 +20,7 @@ const buttons = {
         showType: true,
         buttonName: "Редактировать",
         haveForm: true,
+        adminCanDelete: false,
     },
     "CANCELLED": {
         elem: document.querySelector(".cancelled_requests"),
@@ -26,6 +28,7 @@ const buttons = {
         showType: true,
         buttonName: "Просмотр",
         haveForm: false,
+        adminCanDelete: true,
     },
     "COMPLETED": {
         elem: document.querySelector(".completed_requests"),
@@ -33,6 +36,7 @@ const buttons = {
         showType: true,
         buttonName: "Просмотр",
         haveForm: false,
+        adminCanDelete: true,
     },
     "STATUSSTATISTICS": {
         elem: document.querySelector(".status_statistics"),
@@ -224,7 +228,7 @@ const getRequests = (data, key) => {
             <td>ФИО</td>
             <td>Телефон</td>
             <td>Комментарий</td>
-            ${key != "NEW" ? <td>Тип Помощи</td> : ""}
+            ${key != "NEW" ? `<td>Тип Помощи</td>` : ""}
             <td>Действие</td>
         </tr>
     </thead>
@@ -258,7 +262,10 @@ const createTableRawRequest = (elem) => {
         ? `<td>${elem.typeAssistance}</td>`
         : ""
     }
-    <td><button class="pg-reduct">${buttons[elem.status].buttonName}</button><td>
+    <td>
+        <button type="button" class="pg-reduct">${buttons[elem.status].buttonName}</button>
+        ${role == "ADMIN" && buttons[elem.status].adminCanDelete ? `<button type="button" class="pg-delete">Удалить</button>` : ""}
+    <td>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
@@ -267,6 +274,21 @@ const createTableRawRequest = (elem) => {
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showRequest(res.data))
         .catch(err=>console.log(err));
+    }
+
+    let del = tableRow.querySelector(".pg-delete");
+    if (del){
+        del.onclick = () => {
+            command = "/guestRequest/admin/req/";
+
+            axios.delete(serverURL + command + elem.id, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+
+            axios.get(serverURL + buttons[elem.status].src, H)
+            .then(res=>getRequests(res.data, elem.status))
+            .catch(err=>console.log(err));
+        }
     }
 
     return tableRow;
@@ -330,14 +352,14 @@ const createForm = (id, status, assistance) => {
     form.innerHTML = 
     `
     <select class="pg-select-status">
-        ${status == "NEW" ? <option value="NEW">Новая</option> : ""}
+        ${status == "NEW" ? `<option value="NEW">Новая</option>` : ""}
         <option value="AT WORK">В работе</option>
         <option value="CANCELLED">Отклонена</option>
         <option value="COMPLETED">Выполнена</option>
     <select>
 
     <select class="pg-select-assistance">
-        ${status == "NEW" ? <option value>Не выбрано</option> : ""}
+        ${status == "NEW" ? `<option value>Не выбрано</option>` : ""}
         <option value="PSYCHO">Психологическая</option>
         <option value="HUMANITARIAN">Гуманитарная</option>
         <option value="ADDRESS">Адресная</option>
