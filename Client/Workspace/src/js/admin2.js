@@ -55,6 +55,7 @@ const getUsers = (data) => {
             <td>Место работы/Место учёбы</td>
             <td>Телефон</td>
             <td>Почта</td>
+            <td>Действие</td>
         </tr>
     </thead>
     <tbody class="pg-admins">
@@ -83,7 +84,35 @@ const createTableRowUser = (elem) => {
     <td>${elem.placeWorkOrStudy}</td>
     <td>${elem.phone}</td>
     <td>${elem.email}</td>
+    <td>
+        <button type="button" class="pg-reduct">Посмотреть</button>
+        <button type="button" class="pg-delete">Удалить</button>
+    <td>
     `
+
+    tableRow.querySelector(".pg-reduct").onclick = () => {
+        command = "/user/admin/req/";
+    
+        axios.get(serverURL + command + elem.id, H)
+        .then(res=>showUser(res.data))
+        .catch(err=>console.log(err));
+    }
+    
+    let del = tableRow.querySelector(".pg-delete");
+    if (del){
+        del.onclick = () => {
+            command = "/user/";
+        
+            axios.delete(serverURL + command + elem.id, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        
+            axios.get(serverURL + "/user/admin/req", H)
+            .then(res=>getUsers(res.data))
+            .catch(err=>console.log(err));
+        }
+    }
+
     return tableRow;
 }
 
@@ -107,12 +136,12 @@ const createUserSorts = (data) => {
     const block = document.createElement("div");
     block.innerHTML =
     `
+    <button type="button" class="pg-form-registration">Создать</button>
     <p>Сортировки</p>
     <div class="pg-sorts">
         
     </div>
     `
-
     const sorts = block.querySelector(".pg-sorts");
     for (let key in userSorts){
 
@@ -135,8 +164,88 @@ const createUserSorts = (data) => {
 
         sorts.appendChild(sort);
     }
-
+    block.querySelector(".pg-form-registration").onclick = () => {
+        const holder = document.querySelector(".pg-data-holder");
+        holder.innerHTML = "";
+        holder.appendChild(createFormUser())
+    }
     return block;
+}
+
+const createFormUser = () => {
+
+    let form = document.createElement("form");
+    form.innerHTML = 
+    `
+    <input type="text" placeholder="логин" id="login-user" required>
+    <input type="password" placeholder="пароль" id="password-user" required>
+    <input type="password" placeholder="повторите пароль" id="confirm-password-user" required>
+    <select id="role-user" required>
+        <option selected value="VALUNTEER">Волонтёр</option>
+        <option value="ADMIN">Админ</option>
+    <select>
+    <input type="text" placeholder="фамилия" id="surname-user" required>
+    <input type="text" placeholder="имя" id="name-user" required>
+    <input type="text" placeholder="отчество" id="patronymic-user" required>
+    <input type="text" placeholder="должность" id="post-user" required>
+    <input type="text" placeholder="место работы/место учёбы" id="place-work-or-study-user" required>
+    <input type="text" placeholder="телефон" id="phone-user" required>
+    <input type="text" placeholder="почта" id="email-user" required>
+
+    <button type="submit">Сохранить изменения</button>
+    `
+    form.onsubmit = (e) => {
+
+        e.preventDefault();
+
+        const login = form.querySelector("#login-user").value;
+        const password = form.querySelector("#password-user").value;
+        const confirmPassword = form.querySelector("#confirm-password-user").value;
+        const role = form.querySelector("#role-user").value;
+        const surname = form.querySelector("#surname-user").value;
+        const name = form.querySelector("#name-user").value;
+        const patronymic = form.querySelector("#patronymic-user").value;
+        const post = form.querySelector("#post-user").value;
+        const placeWorkOrStudy = form.querySelector("#place-work-or-study-user").value;
+        const phone = form.querySelector("#phone-user").value;
+        const email = form.querySelector("#email-user").value;
+        command = "/user/registration";
+        console.log(serverURL+ command)
+        axios.post(serverURL + command, {login:login,password:password,confirmPassword:confirmPassword,role:role,surname:surname,name:name,patronymic:patronymic,post:post,placeWorkOrStudy:placeWorkOrStudy,phone:phone,email:email}, H)
+        .then(res=>console.log(res.data))
+        .catch(err=>console.log(err));
+    }
+
+    return form;
+}
+
+//показать подробные сведения о пользователе
+const showUser = (data) => {
+    const holder = document.querySelector(".pg-data-holder");
+    holder.innerHTML = "";
+    holder.appendChild(createUserCard(data));
+}
+
+//создать карточку пользователя
+const createUserCard = (elem) => {
+    let card = document.createElement("div");
+    card.innerHTML = 
+    `
+    <div>
+        <p>Номер: ${elem.id}</p>
+        <p>Дата Создания: ${elem.createdAt}</p>
+    </div>
+
+    <div>
+        <p>ФИО: ${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+        <p>Должность: ${elem.post}</p>
+        <p>Место работы/Место учёбы: ${elem.placeWorkOrStudy}</p>
+        <p>Телефон: ${elem.phone}</p>
+        <p>Почта: ${elem.email}</p>
+    </div>
+    `
+
+    return card;
 }
 
 const getStatusStatistics = (dataSt) => {
@@ -321,4 +430,3 @@ const getComplexStatistics = (dataSt) => {
         }
     });
 }
-
