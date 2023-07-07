@@ -4,22 +4,22 @@ const guestRequestController = require("../controllers/guestRequestController");
 const checkRole = require('../middleware/checkRoleMiddleware')
 const testRole = require('../middleware/testRoleMiddleware')
 
-router.post("/admin/req",checkRole('ADMIN'), guestRequestController.create);
-router.post("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.createRequest);
+router.post("/admin/req",checkRole('ADMIN'), guestRequestController.create); //!!! -CHECKROLE
+router.post("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.createRequest); //!!! -CHECKROLE
 
-router.get("/admin/reqs",checkRole('ADMIN'), guestRequestController.getAll);
-router.get("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.getAll);
+router.get("/admin/reqs",checkRole('ADMIN'), guestRequestController.getAll); //!!! -CHECKROLE
+router.get("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.getAll); //!!! -CHECKROLE
 
-router.get("/admin/req/:id",checkRole('ADMIN'), guestRequestController.get);
-router.get("/volunteer/req/:id",checkRole('VOLUNTEER'), guestRequestController.get);
+router.get("/admin/req/:id",checkRole('ADMIN'), guestRequestController.get); //!!! -CHECKROLE
+router.get("/volunteer/req/:id",checkRole('VOLUNTEER'), guestRequestController.get); //!!! -CHECKROLE
 
-router.put("/admin/req/:id",checkRole('ADMIN'), guestRequestController.update);
-router.put("/volunteer/req/update/:id",checkRole('VOLUNTEER'), guestRequestController.updateRequest);
-router.put("/volunteer/req/updateStatus/:id",checkRole('VOLUNTEER'), guestRequestController.updateStatus);
-router.put("/volunteer/req/updateAssistance/:id",checkRole('VOLUNTEER'), guestRequestController.updateAssistance);
+router.put("/admin/req/:id",checkRole('ADMIN'), guestRequestController.update); //!!! -CHECKROLE
+router.put("/volunteer/req/update/:id",checkRole('VOLUNTEER'), guestRequestController.updateRequest); //!!! -CHECKROLE
+router.put("/volunteer/req/updateStatus/:id",checkRole('VOLUNTEER'), guestRequestController.updateStatus); //!!! -CHECKROLE
+router.put("/volunteer/req/updateAssistance/:id",checkRole('VOLUNTEER'), guestRequestController.updateAssistance); //!!! -CHECKROLE
 
 
-router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.delete);
+router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.delete); //!!! -CHECKROLE
 
 router.get("/volunteer/forNewApplication", testRole(['VOLUNTEER','ADMIN']), guestRequestController.getAllForNewApplication);
 router.get("/volunteer/forWorkApplication",  testRole(['VOLUNTEER','ADMIN']),  guestRequestController.getAllForWorkApplication);
@@ -34,10 +34,10 @@ router.get("/volunteer/forCancelledApplicationFilter",checkRole('VOLUNTEER'), gu
 router.get("/volunteer/fullRequest/:id", checkRole('VOLUNTEER'), guestRequestController.getFullRequest);
 
 
-router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.deleteGuestRequest);
-router.get("/admin/statusStatistics",checkRole('ADMIN'), guestRequestController.requestStatusStatistics);
-router.get("/admin/assistanceStatistics",checkRole('ADMIN'), guestRequestController.requestAssistanceStatistics);
-router.get("/admin/complexStatistics",checkRole('ADMIN'), guestRequestController.requestComplexStatistics);
+router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.deleteGuestRequest);//!!! -CHECKROLE
+router.get("/admin/statusStatistics",checkRole('ADMIN'), guestRequestController.requestStatusStatistics);//!!! -CHECKROLE
+router.get("/admin/assistanceStatistics",checkRole('ADMIN'), guestRequestController.requestAssistanceStatistics);//!!! -CHECKROLE
+router.get("/admin/complexStatistics",checkRole('ADMIN'), guestRequestController.requestComplexStatistics); //!!! -CHECKROLE
 
 module.exports = router;
 
