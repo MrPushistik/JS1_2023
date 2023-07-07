@@ -4,8 +4,8 @@ const ApiError = require("../error/ApiError");
 class FeedbackController{
     async create(req,res,next){
         try{
-            const {commentatorName,comment,estimation,status,guestRequestId} = req.body;
-            const feedback = await Feedback.create({commentatorName,comment,estimation,status,guestRequestId}); // - dataCreation
+            const {commentatorName,commentatorSurname,comment,estimation,status,guestRequestId} = req.body;
+            const feedback = await Feedback.create({commentatorName,commentatorSurname,comment,estimation,status,guestRequestId}); // - dataCreation
             return res.json(feedback);
         }
         catch(e){

@@ -5,7 +5,7 @@ const checkRole = require('../middleware/checkRoleMiddleware')
 const testRole = require('../middleware/testRoleMiddleware')
 
 router.post("/admin/req",checkRole('ADMIN'), guestRequestController.create); //!!! -CHECKROLE
-router.post("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.createRequest); //!!! -CHECKROLE
+router.post("/volunteer/req", guestRequestController.createRequest); //!!! -CHECKROLE
 
 router.get("/admin/reqs",checkRole('ADMIN'), guestRequestController.getAll); //!!! -CHECKROLE
 router.get("/volunteer/req",checkRole('VOLUNTEER'), guestRequestController.getAll); //!!! -CHECKROLE
