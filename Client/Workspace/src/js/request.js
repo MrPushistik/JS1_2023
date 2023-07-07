@@ -297,12 +297,12 @@ const createInfo = (status, assistance) => {
     `
     <div class="req-info">
         <p class="req-info-title">Статус</p>
-        <p class="req-info-value">${status}</p>
+        <p class="req-info-value">${matches.values[matches.keys.indexOf(status)]}</p>
     </div>
 
     <div class="req-info">
         <p class="req-info-title">Тип помощи</p>
-        <p class="req-info-value">${assistance}</p>
+        <p class="req-info-value">${matches.values[matches.keys.indexOf(assistance)]}</p>
     </div>
     `
     return data;
