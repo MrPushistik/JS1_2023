@@ -1,5 +1,5 @@
-
-role = JSON.parse(localStorage.getItem("user")).role;
-tokenStr = localStorage.getItem("token");
-H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
+const serverURL = 'http://localhost:3001/api';
+let role = JSON.parse(localStorage.getItem("user")).role;
+let tokenStr = localStorage.getItem("token");
+let H = { headers: {"Authorization" : `Bearer ${tokenStr}`} }
 

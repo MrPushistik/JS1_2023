@@ -31,7 +31,7 @@ router.get("/volunteer/forWorkApplicationFilter",checkRole('VOLUNTEER'), guestRe
 router.get("/volunteer/forCompletedApplicationFilter",checkRole('VOLUNTEER'), guestRequestController.getAllForCompletedApplicationFilter);
 router.get("/volunteer/forCancelledApplicationFilter",checkRole('VOLUNTEER'), guestRequestController.getAllForCancelledApplicationFilter);
 
-router.get("/volunteer/fullRequest/:id", checkRole('VOLUNTEER'), guestRequestController.getFullRequest);
+router.get("/volunteer/fullRequest/:id", testRole(['VOLUNTEER','ADMIN']), guestRequestController.getFullRequest);
 
 
 router.delete("/admin/req/:id",checkRole('ADMIN'), guestRequestController.deleteGuestRequest);//!!! -CHECKROLE

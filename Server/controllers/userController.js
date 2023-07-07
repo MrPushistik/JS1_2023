@@ -82,7 +82,7 @@ class UserController{
 
     async getAll(req,res,next){
         try{
-            const users = await User.findAll();
+            const users = await User.findAll({order: [["createdAt","DESC"]]});
             return res.json(users);
         }
         catch(e){
