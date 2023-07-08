@@ -1,6 +1,36 @@
 const formGuestRequest = document.querySelector(".guest_request_form");
 const formFeedback = document.querySelector(".feedback_form");
+const feedbackComment = document.querySelector("#feedback-comments");
 const serverURL = 'http://localhost:3001/api';
+const month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"]
+
+const feedbacks = axios.get(serverURL + "/feedback/")
+.then(res=>feedbackList(res.data))
+.catch(err=>console.log(err));
+
+const feedbackList = (data) => {
+    data.forEach(feed => {
+        console.log(feed)
+        if (feed.status=="PUBLISHED"){
+            let card = document.createElement("div");
+            card.setAttribute("class","card-review swiper-slide");
+            card.innerHTML = `
+                <div class="card-review-content">
+                    <div class="date_comment">
+                        ${new Date(feed.createdAt).getUTCDate()+" "+month[(new Date(feed.createdAt).getUTCMonth())]+" "+new Date(feed.createdAt).getUTCFullYear()}
+                    </div>
+                    <div class="card-review-text">
+                        <h2 class="name_reviewer">${feed.commentatorSurname + " " + feed.commentatorName}</h2>
+                        <p class="description">${feed.comment}</p>
+        
+                        <button class="button-review">Раскрыть</button>
+                    </div>
+                </div>
+            `
+            feedbackComment.appendChild(card);
+        }
+    });
+}
 
 formGuestRequest.onsubmit = (e) => {
     e.preventDefault();

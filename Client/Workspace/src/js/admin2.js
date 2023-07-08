@@ -5,6 +5,11 @@ const adminButtons = {
         src: "/user/admin/req",
         action: (data) => getUsers(data)
     },
+    "FEEDBACK": {
+        elem: document.querySelector(".reg_feedbacks"),
+        src: "/feedback/",
+        action: (data) => getFeedbacks(data)
+    },
     "STATUSSTATISTICS": {
         elem: document.querySelector(".status_statistics"),
         src: "/guestRequest/admin/statusStatistics",
@@ -20,14 +25,6 @@ const adminButtons = {
         src: "/guestRequest/admin/complexStatistics",
         action: (data) => getComplexStatistics(data)
     },
-}
-
-for (let key in adminButtons) {
-    adminButtons[key].elem.onclick = () => {
-            axios.get(serverURL + adminButtons[key].src, H)
-            .then(res=>adminButtons[key].action(res.data))
-            .catch(err=>console.log(err));
-    }
 }
 
 //получить таблицу пользователей
@@ -116,64 +113,7 @@ const createTableRowUser = (elem) => {
     return tableRow;
 }
 
-
-//шаблон сортировок
-const userSorts = {
-    date: {
-        name: "По дате создания",
-        class: "pg-date-sort",
-        options: [
-            {value: "new", name: "Сначала новые", sort: (data) => data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))},
-            {value: "old", name: "Сначала старые", sort: (data) => data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))},
-        ],
-        currOption: 0,
-        maxOption: 2,
-    }
-}
-
-//блок сортировки
-const createUserSorts = (data) => {
-    const block = document.createElement("div");
-    block.innerHTML =
-    `
-    <button type="button" class="pg-form-registration">Создать</button>
-    <p>Сортировки</p>
-    <div class="pg-sorts">
-        
-    </div>
-    `
-    const sorts = block.querySelector(".pg-sorts");
-    for (let key in userSorts){
-
-        let sort = document.createElement("div");
-        let elem = userSorts[key];
-        
-        sort.innerHTML =
-        `
-            <p>${elem.name}</p>
-            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
-        `
-
-        let button = sort.querySelector(`.${elem.class}`);
-        button.onclick = () => {
-            elem.currOption = (elem.currOption + 1) % elem.maxOption;
-            button.value = elem.options[elem.currOption].value;
-            button.innerHTML = elem.options[elem.currOption].name;
-            getUsers(elem.options[elem.currOption].sort(data), key);
-        }
-
-        sorts.appendChild(sort);
-    }
-    block.querySelector(".pg-form-registration").onclick = () => {
-        const holder = document.querySelector(".pg-data-holder");
-        holder.innerHTML = "";
-        holder.appendChild(createFormUser())
-    }
-    return block;
-}
-
 const createFormUser = () => {
-
     let form = document.createElement("form");
     form.innerHTML = 
     `
@@ -228,6 +168,7 @@ const showUser = (data) => {
 
 //создать карточку пользователя
 const createUserCard = (elem) => {
+
     let card = document.createElement("div");
     card.innerHTML = 
     `
@@ -246,6 +187,226 @@ const createUserCard = (elem) => {
     `
 
     return card;
+}
+
+//получить таблицу пользователей
+const getFeedbacks = (data) => {
+
+    const holder = document.querySelector(".pg-data-holder");
+
+    if (data.length == 0) {
+        holder.innerHTML = "<p>Отзывов не найдено</p>";
+        return;
+    }
+    else holder.innerHTML = "";
+
+    const sorts = createFeedbackSorts(data);
+
+    const table = document.createElement("table");
+    table.innerHTML = 
+    `
+    <thead>
+        <tr>
+            <td>Номер</td>
+            <td>Дата Создания</td>
+            <td>ФИ</td>
+            <td>Комментарий</td>
+            <td>Оценка</td>
+            <td>Статус</td>
+            <td>Действие</td>
+        </tr>
+    </thead>
+    <tbody class="pg-admins">
+
+    </tbody>
+    `
+
+    const admins = table.querySelector(".pg-admins");
+    data.forEach(elem => {
+        admins.appendChild(createTableRowFeedback(elem));
+    });
+
+    holder.appendChild(sorts);
+    holder.appendChild(table);
+}
+
+//создать строку в таблице
+const createTableRowFeedback = (elem) => {
+    let tableRow = document.createElement("tr");
+    tableRow.innerHTML = 
+    `
+    <td>${elem.id}</td>
+    <td>${new Date(elem.createdAt).toLocaleString()}</td>
+    <td>${elem.commentatorSurname + " " + elem.commentatorName}</td>
+    <td>${elem.comment}</td>
+    <td>${elem.estimation}</td>
+    <td>${elem.status}</td>
+    <td>
+        <button type="button" class="pg-reduct">Обработать</button>
+        <button type="button" class="pg-delete">Удалить</button>
+    <td>
+    `
+
+    tableRow.querySelector(".pg-reduct").onclick = () => {
+        command = "/feedback/";
+    
+        axios.get(serverURL + command + elem.id, H)
+        .then(res=>showFeedback(res.data))
+        .catch(err=>console.log(err));
+    }
+    
+    let del = tableRow.querySelector(".pg-delete");
+    if (del){
+        del.onclick = () => {
+            command = "/feedback/";
+        
+            axios.delete(serverURL + command + elem.id, H)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        
+            axios.get(serverURL + "/feedback/", H)
+            .then(res=>getFeedbacks(res.data))
+            .catch(err=>console.log(err));
+        }
+    }
+
+    return tableRow;
+}
+
+//показать подробные сведения об отзыве
+const showFeedback = (data) => {
+    const holder = document.querySelector(".pg-data-holder");
+    holder.innerHTML = "";
+    holder.appendChild(createFormFeedback(data));
+}
+
+//создать карточку отзыва
+const createFormFeedback = (elem) => {
+
+    let form = document.createElement("form");
+    form.innerHTML = 
+    `
+    <div>
+        <p>Номер: ${elem.id}</p>
+        <p>Дата Создания: ${elem.createdAt}</p>
+    </div>
+
+    <div>
+        <p>ФИ: ${elem.commentatorSurname + " " + elem.commentatorName}</p>
+        <p>Комментарий: ${elem.comment}</p>
+        <p>Оценка: ${elem.estimation}</p>
+        <p>Статус: ${elem.status}</p>
+    </div>
+    <select class="pg-select-status">
+        <option selected value="MODERATION">Не опубликована</option>
+        <option value="PUBLISHED">Опубликована</option>
+    <select>
+    <button type="submit">Сохранить изменения</button>
+    `
+
+    form.onsubmit = (e) => {
+
+        e.preventDefault();
+
+        let status = form.querySelector(".pg-select-status").value;
+
+        command = "/feedback/req/";
+        console.log(serverURL+ command)
+        axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:elem.estimation,status:status,guestRequestId:elem.guestRequestId}, H)
+        .then(res=>console.log(res.data))
+        .catch(err=>console.log(err));
+    }
+
+    return form;
+}
+
+//шаблон сортировок
+const adminSorts = {
+    date: {
+        name: "По дате создания",
+        class: "pg-date-sort",
+        options: [
+            {value: "new", name: "Сначала новые", sort: (data) => data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))},
+            {value: "old", name: "Сначала старые", sort: (data) => data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))},
+        ],
+        currOption: 0,
+        maxOption: 2,
+    }
+}
+
+//блок сортировки
+const createUserSorts = (data) => {
+    const block = document.createElement("div");
+    block.innerHTML =
+    `
+    <button type="button" class="pg-form-registration">Создать</button>
+    <p>Сортировки</p>
+    <div class="pg-sorts">
+        
+    </div>
+    `
+    const sorts = block.querySelector(".pg-sorts");
+    for (let key in adminSorts){
+
+        let sort = document.createElement("div");
+        let elem = adminSorts[key];
+        
+        sort.innerHTML =
+        `
+            <p>${elem.name}</p>
+            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+        `
+        let button = sort.querySelector(`.${elem.class}`);
+        button.onclick = () => {
+            elem.currOption = (elem.currOption + 1) % elem.maxOption;
+            button.value = elem.options[elem.currOption].value;
+            button.innerHTML = elem.options[elem.currOption].name;
+            getUsers(elem.options[elem.currOption].sort(data), key);
+        }
+
+        sorts.appendChild(sort);
+    }
+    block.querySelector(".pg-form-registration").onclick = () => {
+        const holder = document.querySelector(".pg-data-holder");
+        holder.innerHTML = "";
+        holder.appendChild(createFormUser())
+    }
+    return block;
+}
+
+//блок сортировки
+const createFeedbackSorts = (data) => {
+    const block = document.createElement("div");
+    block.innerHTML =
+    `
+    <p>Сортировки</p>
+    <div class="pg-sorts">
+        
+    </div>
+    `
+    const sorts = block.querySelector(".pg-sorts");
+    for (let key in adminSorts){
+
+        let sort = document.createElement("div");
+        let elem = adminSorts[key];
+        
+        sort.innerHTML =
+        `
+            <p>${elem.name}</p>
+            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+        `
+
+        let button = sort.querySelector(`.${elem.class}`);
+        button.onclick = () => {
+            elem.currOption = (elem.currOption + 1) % elem.maxOption;
+            button.value = elem.options[elem.currOption].value;
+            button.innerHTML = elem.options[elem.currOption].name;
+            getFeedbacks(elem.options[elem.currOption].sort(data), key);
+        }
+
+        sorts.appendChild(sort);
+    }
+    return block;
 }
 
 const getStatusStatistics = (dataSt) => {
@@ -406,8 +567,8 @@ const getComplexStatistics = (dataSt) => {
                 backgroundColor: 
                     'rgba(156, 39, 176, 0.6)'
                 ,
-                borderColor: 
-                    'rgba(156, 39, 176, 1)'
+                borderColor:
+                'rgba(156, 39, 176, 1)'
                 ,
                 borderWidth: 1
             },]
@@ -429,4 +590,12 @@ const getComplexStatistics = (dataSt) => {
             }
         }
     });
+}
+
+for (let key in adminButtons) {
+    adminButtons[key].elem.onclick = () => {
+            axios.get(serverURL + adminButtons[key].src, H)
+            .then(res=>adminButtons[key].action(res.data))
+            .catch(err=>console.log(err));
+    }
 }
