@@ -22,8 +22,6 @@ const feedbackList = (data) => {
                     <div class="card-review-text">
                         <h2 class="name_reviewer">${feed.commentatorSurname + " " + feed.commentatorName}</h2>
                         <p class="description">${feed.comment}</p>
-        
-                        <button class="button-review">Раскрыть</button>
                     </div>
                 </div>
             `

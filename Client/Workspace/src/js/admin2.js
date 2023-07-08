@@ -121,7 +121,7 @@ const createFormUser = () => {
     <input type="password" placeholder="пароль" id="password-user" required>
     <input type="password" placeholder="повторите пароль" id="confirm-password-user" required>
     <select id="role-user" required>
-        <option selected value="VALUNTEER">Волонтёр</option>
+        <option selected value="VOLUNTEER">Волонтёр</option>
         <option value="ADMIN">Админ</option>
     <select>
     <input type="text" placeholder="фамилия" id="surname-user" required>
