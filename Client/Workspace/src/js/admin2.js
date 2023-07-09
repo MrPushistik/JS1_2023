@@ -10,21 +10,21 @@ const adminButtons = {
         src: "/feedback/",
         action: (data) => getFeedbacks(data)
     },
-    "STATUSSTATISTICS": {
-        elem: document.querySelector(".status_statistics"),
-        src: "/guestRequest/admin/statusStatistics",
-        action: (data) => getStatusStatistics(data)
-    },
-    "ASSISTANCESTATISTICS": {
-        elem: document.querySelector(".assistance_statistics"),
-        src: "/guestRequest/admin/assistanceStatistics",
-        action: (data) =>  getAssistanceStatistics(data)
-    },
-    "COMPLEXSTATISTICS": {
-        elem: document.querySelector(".complex_statistics"),
-        src: "/guestRequest/admin/complexStatistics",
-        action: (data) => getComplexStatistics(data)
-    },
+    // "STATUSSTATISTICS": {
+    //     elem: document.querySelector(".status_statistics"),
+    //     src: "/guestRequest/admin/statusStatistics",
+    //     action: (data) => getStatusStatistics(data)
+    // },
+    // "ASSISTANCESTATISTICS": {
+    //     elem: document.querySelector(".assistance_statistics"),
+    //     src: "/guestRequest/admin/assistanceStatistics",
+    //     action: (data) =>  getAssistanceStatistics(data)
+    // },
+    // "COMPLEXSTATISTICS": {
+    //     elem: document.querySelector(".complex_statistics"),
+    //     src: "/guestRequest/admin/complexStatistics",
+    //     action: (data) => getComplexStatistics(data)
+    // },
 }
 
 //получить таблицу пользователей
@@ -594,8 +594,79 @@ const getComplexStatistics = (dataSt) => {
 
 for (let key in adminButtons) {
     adminButtons[key].elem.onclick = () => {
+
+            const buttonHolder = document.querySelector(".pg-request-nav");
+            if (buttonHolder) buttonHolder.remove();
+
             axios.get(serverURL + adminButtons[key].src, H)
             .then(res=>adminButtons[key].action(res.data))
             .catch(err=>console.log(err));
     }
+}
+
+const createButtonHolder = (className) => {
+    let buttonHolder = document.createElement("div");
+    buttonHolder.className = className;
+    return buttonHolder;
+}
+
+const requestButtons = {
+    "NEW": {
+        class: "new_requests request-nav-button request-nav-button-dis",
+        src: "/guestRequest/volunteer/forNewApplication",
+        showType: false,
+        buttonName: "Обработать",
+        haveForm: true
+    },
+    "AT WORK": {
+        class: "work_requests request-nav-button request-nav-button-dis",
+        src: "/guestRequest/volunteer/forWorkApplication",
+        showType: true,
+        buttonName: "Редактировать",
+        haveForm: true
+    },
+    "CANCELLED": {
+        class: "cancelled_requests request-nav-button request-nav-button-dis",
+        src: "/guestRequest/volunteer/forCancelledApplication",
+        showType: true,
+        buttonName: "Просмотреть",
+        haveForm: false
+    },
+    "COMPLETED": {
+        class: "completed_requests request-nav-button request-nav-button-dis",
+        src: "/guestRequest/volunteer/forCompletedApplication",
+        showType: true,
+        buttonName: "Просмотреть",
+        haveForm: false
+    },
+}
+
+document.querySelector(".requests").onclick = () => {
+
+    const pgData = document.querySelector(".pg-data-holder");
+
+    let buttonHolder = document.querySelector(".pg-request-nav");
+    if (buttonHolder) buttonHolder.remove();
+    buttonHolder = createButtonHolder("request-nav pg-request-nav");
+
+    for (let key in requestButtons){
+
+        let button = document.createElement("button");
+        button.type = "button";
+        button.className = requestButtons[key].class
+        button.innerHTML = matches.values[matches.keys.indexOf(key)];
+
+        button.onclick = () => {
+            requestSorts.date.currOption = 0;
+            axios.get(serverURL + requestButtons[key].src, H)
+            .then(res=>createRequestsTable(res.data))
+            .catch(err=>console.log(err));
+        }
+
+        buttonHolder.appendChild(button);
+    }
+
+    pgData.innerHTML = "";
+    pgData.before(buttonHolder);
+    buttonHolder.childNodes[0].click();
 }

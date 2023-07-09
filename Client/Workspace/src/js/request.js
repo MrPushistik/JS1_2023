@@ -11,15 +11,6 @@ const matches = {
     "OTHER": "Иная",
 }
 
-for (let key in requestButtons) {
-    requestButtons[key].elem.onclick = () => {
-        requestSorts.date.currOption = 0;
-        axios.get(serverURL + requestButtons[key].src, H)
-        .then(res=>createRequestsTable(res.data))
-        .catch(err=>console.log(err));
-    }
-}
-
 //получить таблицу запросов
 const createRequestsTable = (data) => {
  
@@ -330,4 +321,19 @@ const createRequestSorts = (data, key) => {
     return block;
 }
 
-document.querySelector(".new_requests").click();
+addEventListener("click", (e) => {
+    let targ = e.target;
+
+    if (targ.classList.contains("request-nav-button-dis")){
+
+        let active = document.querySelector(".request-nav-button-active");
+
+        if (active){
+            active.classList.remove("request-nav-button-active");
+            active.classList.add("request-nav-button-dis");
+        }
+
+        targ.classList.remove("request-nav-button-dis");
+        targ.classList.add("request-nav-button-active");
+    }
+})
