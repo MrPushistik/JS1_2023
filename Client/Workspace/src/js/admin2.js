@@ -10,21 +10,6 @@ const adminButtons = {
         src: "/feedback/",
         action: (data) => getFeedbacks(data)
     },
-    // "STATUSSTATISTICS": {
-    //     elem: document.querySelector(".status_statistics"),
-    //     src: "/guestRequest/admin/statusStatistics",
-    //     action: (data) => getStatusStatistics(data)
-    // },
-    // "ASSISTANCESTATISTICS": {
-    //     elem: document.querySelector(".assistance_statistics"),
-    //     src: "/guestRequest/admin/assistanceStatistics",
-    //     action: (data) =>  getAssistanceStatistics(data)
-    // },
-    // "COMPLEXSTATISTICS": {
-    //     elem: document.querySelector(".complex_statistics"),
-    //     src: "/guestRequest/admin/complexStatistics",
-    //     action: (data) => getComplexStatistics(data)
-    // },
 }
 
 //получить таблицу пользователей
@@ -39,25 +24,27 @@ const getUsers = (data) => {
     else holder.innerHTML = "";
 
     const sorts = createUserSorts(data);
+    const reg = createUserReg();
 
-    const table = document.createElement("table");
+    const table = document.createElement("div");
+    table.className = "table";
     table.innerHTML = 
     `
-    <thead>
-        <tr>
-            <td>Номер</td>
-            <td>Дата Создания</td>
-            <td>ФИО</td>
-            <td>Должность</td>
-            <td>Место работы/Место учёбы</td>
-            <td>Телефон</td>
-            <td>Почта</td>
-            <td>Действие</td>
-        </tr>
-    </thead>
-    <tbody class="pg-admins">
+    <div class="table-header">
+        <div class="table-row">
+            <p class="table-cell user-cell">№</p>
+            <p class="table-cell user-cell">Дата Создания</p>
+            <p class="table-cell user-cell">ФИО</p>
+            <p class="table-cell user-cell">Должность</p>
+            <p class="table-cell user-cell">Место работы/учёбы</p>
+            <p class="table-cell user-cell">Телефон</p>
+            <p class="table-cell user-cell">Почта</p>
+            <p class="table-cell user-cell">Действие</p>
+        </div>
+    </div>
+    <div class="table-body pg-admins">
 
-    </tbody>
+    </div>
     `
 
     const admins = table.querySelector(".pg-admins");
@@ -65,26 +52,28 @@ const getUsers = (data) => {
         admins.appendChild(createTableRowUser(elem));
     });
 
+    holder.appendChild(reg);
     holder.appendChild(sorts);
     holder.appendChild(table);
 }
 
 //создать строку в таблице
 const createTableRowUser = (elem) => {
-    let tableRow = document.createElement("tr");
+    let tableRow = document.createElement("div");
+    tableRow.className = "table-row";
     tableRow.innerHTML = 
     `
-    <td>${elem.id}</td>
-    <td>${new Date(elem.createdAt).toLocaleString()}</td>
-    <td>${elem.surname + " " + elem.name + " " + elem.patronymic}</td>
-    <td>${elem.post}</td>
-    <td>${elem.placeWorkOrStudy}</td>
-    <td>${elem.phone}</td>
-    <td>${elem.email}</td>
-    <td>
-        <button type="button" class="pg-reduct">Посмотреть</button>
-        <button type="button" class="pg-delete">Удалить</button>
-    <td>
+    <p class="table-cell user-cell">${elem.id}</p>
+    <p class="table-cell user-cell">${new Date(elem.createdAt).toLocaleString()}</p>
+    <p class="table-cell user-cell">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+    <p class="table-cell user-cell">${elem.post}</p>
+    <p class="table-cell user-cell">${elem.placeWorkOrStudy}</p>
+    <p class="table-cell user-cell">${elem.phone}</p>
+    <p class="table-cell user-cell">${elem.email}</p>
+    <p class="table-cell user-cell">
+        <button type="button" class="pg-reduct read-button td-button">Посмотреть</button>
+        <button type="button" class="pg-delete delete-button td-button">Удалить</button>
+    </p>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
@@ -364,7 +353,6 @@ const createUserSorts = (data) => {
     block.className = "request-sorts";
     block.innerHTML =
     `
-    <button type="button" class="pg-form-registration">Создать</button>
     <p class="request-sorts-title">Сортировки</p>
     <div class="pg-sorts request-sorts-keeper">
         
@@ -378,8 +366,7 @@ const createUserSorts = (data) => {
         
         sort.innerHTML =
         `
-            <p>${elem.name}</p>
-            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+            <button type="button" class="${elem.class} request-sorts-button" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
         `
         let button = sort.querySelector(`.${elem.class}`);
         button.onclick = () => {
@@ -391,6 +378,21 @@ const createUserSorts = (data) => {
 
         sorts.appendChild(sort);
     }
+    return block;
+}
+
+// регистрация
+const createUserReg = () => {
+    const block = document.createElement("div");
+    block.className = "request-sorts user-reg";
+    block.innerHTML =
+    `
+    <p class="request-sorts-title">Регистрация</p>
+    <div class="pg-sorts request-sorts-keeper">
+        <button type="button" class="user-reg pg-form-registration request-sorts-button">Создать пользователя</button>
+    </div>
+    `
+    
     block.querySelector(".pg-form-registration").onclick = () => {
         const holder = document.querySelector(".pg-data-holder");
         holder.innerHTML = "";
@@ -620,7 +622,7 @@ const getComplexStatistics = (dataSt) => {
 for (let key in adminButtons) {
     adminButtons[key].elem.onclick = () => {
 
-            const buttonHolder = document.querySelector(".pg-request-nav");
+            const buttonHolder = document.querySelector(".pg-extra-nav");
             if (buttonHolder) buttonHolder.remove();
 
             axios.get(serverURL + adminButtons[key].src, H)
@@ -670,9 +672,9 @@ document.querySelector(".requests").onclick = () => {
 
     const pgData = document.querySelector(".pg-data-holder");
 
-    let buttonHolder = document.querySelector(".pg-request-nav");
+    let buttonHolder = document.querySelector(".pg-extra-nav");
     if (buttonHolder) buttonHolder.remove();
-    buttonHolder = createButtonHolder("request-nav pg-request-nav");
+    buttonHolder = createButtonHolder("extra-nav pg-extra-nav");
 
     for (let key in requestButtons){
 
@@ -695,3 +697,90 @@ document.querySelector(".requests").onclick = () => {
     pgData.before(buttonHolder);
     buttonHolder.childNodes[0].click();
 }
+
+const statisticsButtons = {
+    "STATUSSTATISTICS": {
+        class: "status_statistics statistics-nav-button statistics-nav-button-dis",
+        //elem: document.querySelector(".status_statistics"),
+        src: "/guestRequest/admin/statusStatistics",
+        action: (data) => getStatusStatistics(data)
+    },
+    "ASSISTANCESTATISTICS": {
+        class: "assistance_statistics statistics-nav-button statistics-nav-button-dis",
+        //elem: document.querySelector(".assistance_statistics"),
+        src: "/guestRequest/admin/assistanceStatistics",
+        action: (data) =>  getAssistanceStatistics(data)
+    },
+    "COMPLEXSTATISTICS": {
+        class: "complex_statistics statistics-nav-button statistics-nav-button-dis",
+        //elem: document.querySelector(".complex_statistics"),
+        src: "/guestRequest/admin/complexStatistics",
+        action: (data) => getComplexStatistics(data)
+    },
+}
+
+document.querySelector(".statistics").onclick = () => {
+
+    const pgData = document.querySelector(".pg-data-holder");
+
+    let buttonHolder = document.querySelector(".pg-extra-nav");
+    if (buttonHolder) buttonHolder.remove();
+    buttonHolder = createButtonHolder("extra-nav pg-extra-nav");
+
+    for (let key in statisticsButtons){
+
+        let button = document.createElement("button");
+        button.type = "button";
+        button.className = statisticsButtons[key].class
+        button.innerHTML = matches.values[matches.keys.indexOf(key)];
+
+        button.onclick = () => {
+            axios.get(serverURL + statisticsButtons[key].src, H)
+            .then(res=>statisticsButtons[key].action(res.data))
+            .catch(err=>console.log(err));
+        }
+
+        buttonHolder.appendChild(button);
+    }
+
+    pgData.innerHTML = "";
+    pgData.before(buttonHolder);
+    buttonHolder.childNodes[0].click();
+}
+
+
+addEventListener("click", (e) => {
+    let targ = e.target;
+
+    if (targ.classList.contains("statistics-nav-button-dis")){
+
+        let active = document.querySelector(".statistics-nav-button-active");
+
+        if (active){
+            active.classList.remove("statistics-nav-button-active");
+            active.classList.add("statistics-nav-button-dis");
+        }
+
+        targ.classList.remove("statistics-nav-button-dis");
+        targ.classList.add("statistics-nav-button-active");
+    }
+})
+
+addEventListener("click", (e) => {
+    let targ = e.target;
+
+    if (targ.classList.contains("main-nav-button-dis")){
+
+        let active = document.querySelector(".main-nav-button-active");
+
+        if (active){
+            active.classList.remove("main-nav-button-active");
+            active.classList.add("main-nav-button-dis");
+        }
+
+        targ.classList.remove("main-nav-button-dis");
+        targ.classList.add("main-nav-button-active");
+    }
+})
+
+document.querySelector(".requests").click();
