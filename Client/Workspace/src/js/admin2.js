@@ -202,23 +202,24 @@ const getFeedbacks = (data) => {
 
     const sorts = createFeedbackSorts(data);
 
-    const table = document.createElement("table");
+    const table = document.createElement("div");
+    table.className = "table";
     table.innerHTML = 
     `
-    <thead>
-        <tr>
-            <td>Номер</td>
-            <td>Дата Создания</td>
-            <td>ФИ</td>
-            <td>Комментарий</td>
-            <td>Оценка</td>
-            <td>Статус</td>
-            <td>Действие</td>
-        </tr>
-    </thead>
-    <tbody class="pg-admins">
+    <div class="table-header">
+        <div class="table-row">
+            <p class="table-cell feedback-cell">№</p>
+            <p class="table-cell feedback-cell">Дата Создания</p>
+            <p class="table-cell feedback-cell">ФИ</p>
+            <p class="table-cell feedback-cell">Комментарий</p>
+            <p class="table-cell feedback-cell">Оценка</p>
+            <p class="table-cell feedback-cell">Статус</p>
+            <p class="table-cell feedback-cell">Действие</p>
+        </div>
+    </div>
+    <div class="table-body pg-admins">
 
-    </tbody>
+    </div>
     `
 
     const admins = table.querySelector(".pg-admins");
@@ -232,19 +233,20 @@ const getFeedbacks = (data) => {
 
 //создать строку в таблице
 const createTableRowFeedback = (elem) => {
-    let tableRow = document.createElement("tr");
+    let tableRow = document.createElement("div");
+    tableRow.className = "table-row";
     tableRow.innerHTML = 
     `
-    <td>${elem.id}</td>
-    <td>${new Date(elem.createdAt).toLocaleString()}</td>
-    <td>${elem.commentatorSurname + " " + elem.commentatorName}</td>
-    <td>${elem.comment}</td>
-    <td>${elem.estimation}</td>
-    <td>${elem.status}</td>
-    <td>
-        <button type="button" class="pg-reduct">Обработать</button>
-        <button type="button" class="pg-delete">Удалить</button>
-    <td>
+    <p class="table-cell feedback-cell">${elem.id}</p>
+    <p class="table-cell feedback-cell">${new Date(elem.createdAt).toLocaleString()}</p>
+    <p class="table-cell feedback-cell">${elem.commentatorSurname + " " + elem.commentatorName}</p>
+    <p class="table-cell feedback-cell">${elem.comment}</p>
+    <p class="table-cell feedback-cell">${elem.estimation}</p>
+    <p class="table-cell feedback-cell">${elem.status}</p>
+    <p class="table-cell feedback-cell">
+        <button type="button" class="pg-reduct read-button td-button">Обработать</button>
+        <button type="button" class="pg-delete delete-button td-button">Удалить</button>
+    </p>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
@@ -286,33 +288,55 @@ const createFormFeedback = (elem) => {
     let form = document.createElement("form");
     form.innerHTML = 
     `
-    <div>
-        <p>Номер: ${elem.id}</p>
-        <p>Дата Создания: ${elem.createdAt}</p>
+    <div class="req-card-header feedback-card-header">
+        <div class="req-card-header-data">
+            <p class="req-card-title">Заявка №${elem.id}</p>
+            <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
+        </div>
+        <button class="pg-close req-card-close">x</button>
     </div>
 
-    <div>
-        <p>ФИ: ${elem.commentatorSurname + " " + elem.commentatorName}</p>
-        <p>Комментарий: ${elem.comment}</p>
-        <p>Оценка: ${elem.estimation}</p>
-        <p>Статус: ${elem.status}</p>
+    <div class="req-card-guest feedback-card-comment">
+        <div class="req-guest-data">
+            <p class="req-guest-name">${elem.commentatorSurname + " " + elem.commentatorName}</p>
+
+            <label class="req-guest-phone">Оценка</label>
+            <select class="pg-select-mark">
+                <option selected value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            <select>
+
+            <label class="req-guest-phone">Статус</label>
+            <select class="pg-select-status">
+                <option selected value="MODERATION">Не опубликован</option>
+                <option value="PUBLISHED">Опубликован</option>
+                <option value="REJECTED">Отклонен</option>
+            <select>
+        </div>
+        <p class="req-guest-comment feedback-guset-comment">${elem.comment}</p>
+
+        <button type="submit" class="req-form-submit">Сохранить изменения</button>
     </div>
-    <select class="pg-select-status">
-        <option selected value="MODERATION">Не опубликована</option>
-        <option value="PUBLISHED">Опубликована</option>
-    <select>
-    <button type="submit">Сохранить изменения</button>
-    `
+    
+    `;
+
+    form.querySelector(".pg-close").onclick = () => {
+        document.querySelector(".reg_feedbacks").click();
+    }
 
     form.onsubmit = (e) => {
 
         e.preventDefault();
 
         let status = form.querySelector(".pg-select-status").value;
+        let mark = form.querySelector(".pg-select-mark").value;
 
         command = "/feedback/req/";
         console.log(serverURL+ command)
-        axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:elem.estimation,status:status,guestRequestId:elem.guestRequestId}, H)
+        axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
         .then(res=>console.log(res.data))
         .catch(err=>console.log(err));
     }
@@ -337,11 +361,12 @@ const adminSorts = {
 //блок сортировки
 const createUserSorts = (data) => {
     const block = document.createElement("div");
+    block.className = "request-sorts";
     block.innerHTML =
     `
     <button type="button" class="pg-form-registration">Создать</button>
-    <p>Сортировки</p>
-    <div class="pg-sorts">
+    <p class="request-sorts-title">Сортировки</p>
+    <div class="pg-sorts request-sorts-keeper">
         
     </div>
     `
@@ -377,10 +402,11 @@ const createUserSorts = (data) => {
 //блок сортировки
 const createFeedbackSorts = (data) => {
     const block = document.createElement("div");
+    block.className = "request-sorts";
     block.innerHTML =
     `
-    <p>Сортировки</p>
-    <div class="pg-sorts">
+    <p class="request-sorts-title">Сортировки</p>
+    <div class="pg-sorts request-sorts-keeper">
         
     </div>
     `
@@ -392,8 +418,7 @@ const createFeedbackSorts = (data) => {
         
         sort.innerHTML =
         `
-            <p>${elem.name}</p>
-            <button type="button" class="${elem.class}" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
+            <button type="button" class="${elem.class}  request-sorts-button" value="${elem.options[elem.currOption].value}">${elem.options[elem.currOption].name}</button>
         `
 
         let button = sort.querySelector(`.${elem.class}`);

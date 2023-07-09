@@ -115,29 +115,29 @@ p{margin: 0}
 }
 
 /* размер стобцов */
-.table-cell:nth-child(1){
+.request-cell:nth-child(1){
     width: 40px;
     display: flex;
     justify-content: center;
 }
-.table-cell:nth-child(2){
+.request-cell:nth-child(2){
     width: 140px;
 }
-.table-cell:nth-child(3){
+.request-cell:nth-child(3){
     width: 180px;
 }
-.table-cell:nth-child(4){
+.request-cell:nth-child(4){
     width: 120px;
 }
-.table-cell:nth-child(5){
+.request-cell:nth-child(5){
     width: 360px;
 }
-.table-cell:nth-child(6){
+.request-cell:nth-child(6){
     width: 180px;
     display: flex;
     justify-content: center;
 }
-.table-cell:nth-child(7){
+.request-cell:nth-child(7){
     width: 180px;
     display: flex;
     flex-direction: column;

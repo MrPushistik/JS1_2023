@@ -26,18 +26,18 @@ const createRequestsTable = (data) => {
     const sorts = createRequestSorts(data);
 
     const table = document.createElement("div");
-    table.className = "table"
+    table.className = "table";
     table.innerHTML = 
     `
     <div class="table-header">
         <div class="table-row">
-            <p class="table-cell">№</p>
-            <p class="table-cell">Дата Создания</p>
-            <p class="table-cell">ФИО</p>
-            <p class="table-cell">Телефон</p>
-            <p class="table-cell">Комментарий</p>
-            <p class="table-cell">Тип Помощи</p> 
-            <p class="table-cell">Действие</p>
+            <p class="table-cell request-cell">№</p>
+            <p class="table-cell request-cell">Дата Создания</p>
+            <p class="table-cell request-cell">ФИО</p>
+            <p class="table-cell request-cell">Телефон</p>
+            <p class="table-cell request-cell">Комментарий</p>
+            <p class="table-cell request-cell">Тип Помощи</p> 
+            <p class="table-cell request-cell">Действие</p>
         </div>
     </div>
     <div class="table-body pg-requests">
@@ -58,16 +58,16 @@ const createRequestsTable = (data) => {
 const createTableRow = (elem) => {
 
     let tableRow = document.createElement("div");
-    tableRow.className = "table-row"
+    tableRow.className = "table-row";
     tableRow.innerHTML = 
     `
-    <p class="table-cell table-col-1">${elem.id}</p>
-    <p class="table-cell table-col-2">${new Date(elem.createdAt).toLocaleString()}</p>
-    <p class="table-cell table-col-1">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
-    <p class="table-cell table-col-2">${elem.phone}</p>
-    <p class="table-cell table-col-1">${elem.commentGuest}</p>
-    <p class="table-cell table-col-2">${matches.values[matches.keys.indexOf(elem.typeAssistance)]}</p>
-    <div class="table-cell table-col-1">
+    <p class="table-cell request-cell">${elem.id}</p>
+    <p class="table-cell request-cell">${new Date(elem.createdAt).toLocaleString()}</p>
+    <p class="table-cell request-cell">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+    <p class="table-cell request-cell">${elem.phone}</p>
+    <p class="table-cell request-cell">${elem.commentGuest}</p>
+    <p class="table-cell request-cell">${matches.values[matches.keys.indexOf(elem.typeAssistance)]}</p>
+    <div class="table-cell request-cell">
         <button type="button" class="pg-reduct read-button td-button">${requestButtons[elem.status].buttonName}</button>
         ${role == "ADMIN" && elem.status != "AT WORK" ? `<button type="button" class="pg-delete delete-button td-button">Удалить</button>` : ""}
     </div>
@@ -305,7 +305,7 @@ const createRequestSorts = (data, key) => {
         //<p>${elem.name}</p>
         sort.innerHTML =
         `
-            <button type="button" class="${elem.class} request-sorts-button"}">${elem.options[elem.currOption].name}</button>
+            <button type="button" class="${elem.class} request-sorts-button">${elem.options[elem.currOption].name}</button>
         `
 
         let button = sort.querySelector(`.${elem.class}`);

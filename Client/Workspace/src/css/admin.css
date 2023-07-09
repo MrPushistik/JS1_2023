@@ -1,0 +1,43 @@
+p{margin: 0}
+
+/* размер стобцов */
+.feedback-cell:nth-child(1){
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+.feedback-cell:nth-child(2){
+    width: 140px;
+}
+.feedback-cell:nth-child(3){
+    width: 180px;
+}
+.feedback-cell:nth-child(4){
+    width: 360px;
+}
+.feedback-cell:nth-child(5){
+    width: 120px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.feedback-cell:nth-child(6){
+    width: 180px;
+    display: flex;
+    justify-content: center;
+}
+.feedback-cell:nth-child(7){
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.feedback-guset-comment{
+    margin-bottom: 0;
+}
+.feedback-card-comment{
+    height: 200px;
+}
+.feedback-card-header{
+    margin-top: 20px;
+}
