@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'Raleway regular';
+    src: url("../../../fonts/Raleway-Regular.ttf");
+}
+@font-face {
+    font-family: 'Raleway medium';
+    src: url("../../../fonts/Raleway-Medium.ttf");
+}
+@font-face {
+    font-family: 'Raleway bold';
+    src: url("../../../fonts/Raleway-Bold.ttf");
+}
+@font-face {
+    font-family: 'Raleway extrabold';
+    src: url("../../../fonts/Raleway-ExtraBold.ttf");
+}
+
 p{margin: 0}
 
 /* размер стобцов */
@@ -54,7 +71,9 @@ p{margin: 0}
     border: 0;
     color: white;
     transition: 0.5s;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-family: "Raleway bold";
+    transition: 0.5s;
 }
 .statistics-nav-button-dis{
     background: #2381e6;
@@ -81,7 +100,9 @@ p{margin: 0}
     border: 0;
     color: white;
     transition: 0.5s;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-family: "Raleway bold";
+    transition: 0.5s;
 }
 .main-nav-button-dis{
     background: #2381e6;

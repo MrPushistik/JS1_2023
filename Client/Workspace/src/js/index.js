@@ -13,7 +13,7 @@ const feedbackList = (data) => {
         console.log(feed)
         if (feed.status=="PUBLISHED"){
             let card = document.createElement("div");
-            card.setAttribute("class","card-review swiper-slide");
+            card.setAttribute("class","card-review swiper-slide ");
             card.innerHTML = `
                 <div class="card-review-content">
                     <div class="date_comment">

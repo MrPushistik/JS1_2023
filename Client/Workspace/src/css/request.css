@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'Raleway regular';
+    src: url("../../../fonts/Raleway-Regular.ttf");
+}
+@font-face {
+    font-family: 'Raleway medium';
+    src: url("../../../fonts/Raleway-Medium.ttf");
+}
+@font-face {
+    font-family: 'Raleway bold';
+    src: url("../../../fonts/Raleway-Bold.ttf");
+}
+@font-face {
+    font-family: 'Raleway extrabold';
+    src: url("../../../fonts/Raleway-ExtraBold.ttf");
+}
+
 p{margin: 0}
 
 
@@ -31,7 +48,8 @@ p{margin: 0}
     border: 0;
     color: white;
     transition: 0.5s;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-family: "Raleway bold";
 }
 .request-nav-button-dis{
     background: #2381e6;
@@ -60,11 +78,12 @@ p{margin: 0}
 
 .request-sorts-title{
     color: #081800;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 800;
     line-height: 140%;
     margin: 0 0 2px 0;
+    font-family: "Raleway bold";
 }
 
 .request-sorts-keeper{
@@ -78,11 +97,13 @@ p{margin: 0}
     background: #081800;
     box-shadow: 4px 4px 0px 0px #007CFF;
     color: white;
+    font-family: "Raleway bold";
+    line-height: 130%;
+    font-size: 15px;
 }
 
 .request-sorts-button:hover{
-    background: #565656;
-    box-shadow: 4px 4px 0px 0px #409cff;
+    color:#007CFF;
 }
 
 /* Table */
@@ -106,14 +127,27 @@ p{margin: 0}
     width: 100%;
 }
 .read-button{
-    background: #408d24;
-    box-shadow: 4px 4px 0px 0px #5ab33a;
+    background: #2381e6;
+    padding: 5px;
+    font-family: "Raleway medium";
+}
+.read-button:hover, .read-button:active, .read-button:focus{
+    font-weight: 800;
 }
 .delete-button{
-    background: #dc3c31;
-    box-shadow: 4px 4px 0px 0px #f7594e;
+    background: #2381e6;
+    padding: 5px;
+    font-family: "Raleway medium";
+}
+.delete-button:hover, .delete-button:active, .read-button:focus{
+    font-weight: 800;
 }
 
+.table-cell{
+    font-family: "Raleway regular";
+    font-size: 15px;
+    line-height: 130%;
+}
 /* размер стобцов */
 .request-cell:nth-child(1){
     width: 40px;
@@ -152,7 +186,7 @@ p{margin: 0}
     align-items: center;
     height: 40px;
     color: white;
-    font-weight: 600;
+    font-family: "Raleway medium";
 }
 .table-header .table-cell:nth-child(odd){
     background-color: #0061C7;
@@ -192,20 +226,20 @@ p{margin: 0}
     color: #0061C7;
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 800;
-    line-height: 140%;
+    font-family: "Raleway extrabold";
+    line-height: 130%;
 }
 .req-card-date{
     margin: 0 0 0 20px;
     color: #0061C7;
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 600;
-    line-height: 140%;
+    font-family: "Raleway medium";
+    line-height: 130%;
 }
 .req-card-close{
-    background: #dc3c31;
-    color: white;
+    background-color:#EAF4FF;
+    color: #007CFF;
     font-weight: 600;
     border: 0;
     height: 40px;
@@ -228,10 +262,10 @@ p{margin: 0}
 }
 .req-guest-name, .req-guest-phone{
     color: #081800;
-    font-size: 1.25rem;
+    font-size: 18px;
+    font-family: "Raleway bold";
     font-style: normal;
-    font-weight: 800;
-    line-height: 140%;
+    line-height: 130%;
 }
 .req-guest-phone{
     margin: 0 0 0 20px;
@@ -239,7 +273,8 @@ p{margin: 0}
 .req-guest-comment{
     margin: 20px 0;
     padding: 0 8px;
-    font-size: 1.2rem;
+    font-size: 18px;
+    font-family: "Raleway medium";
     background-color: white;
     height: 80px;
 }
@@ -266,10 +301,10 @@ p{margin: 0}
 
 .req-form-status label, .req-form-assistance label, .req-form-comment label {
     color: #081800;
-    font-size: 1.25rem;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 140%;
+    font-family: "Raleway bold";
+    line-height: 130%;
 }
 .req-form-comment label {
     margin: 0 0 10px 0;
@@ -285,8 +320,8 @@ select {
     border: 0;
     background: #ffffff;
     color:  #0061C7;
-    font-weight: 600;
-    font-size: 1.25rem;
+    font-family: "Raleway medium";
+    font-size: 18px;
 }
 select:focus {
     outline: 0;
@@ -306,15 +341,17 @@ select:focus {
     outline: 0;
 }
 .req-form-submit{
+    background: #2381e6;
+    color: white;
+    padding: 5px;
+    font-family: "Raleway medium";
     margin: 10px auto 0 auto;
     width: 240px;
-    height: 30px;
-    background: #408d24;
-    box-shadow: 4px 4px 0px 0px #5ab33a;
     border: 0;
-    color: white;
 }
-
+.req-form-submit:hover{
+    font-weight: 800;
+}
 /* Комментарии */
 .req-comments-header{
     background-color: #EAF4FF;
@@ -325,10 +362,10 @@ select:focus {
 .req-comments-title{
     margin: 0 0 0 20px;
     color: #0061C7;
-    font-size: 1.25rem;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 800;
-    line-height: 140%;
+    line-height: 130%;
+    font-family: "Raleway extrabold";
 }
 .req-comments{
     margin: 10px 0;
@@ -350,9 +387,9 @@ select:focus {
 }
 .req-comment-name, .req-comment-date{
     color: #081800;
-    font-size: 1.25rem;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 800;
+    font-family: "Raleway bold";
     line-height: 140%;
 }
 .req-comment-date{
@@ -365,7 +402,8 @@ select:focus {
 .req-comment-comment{
     margin: 20px 0;
     padding: 0 8px;
-    font-size: 1.2rem;
+    font-size: 15px;
+    font-family: "Raleway medium";
     background-color: white;
     height: 80px;
 }
@@ -391,15 +429,15 @@ select:focus {
     height: 30px;
     background: white;
     color:  #0061C7;
-    font-weight: 600;
-    font-size: 1.25rem;
+    font-family: "Raleway medium";
+    font-size: 18px;
     padding: 0 4px;
 }
 .req-info-title{
     color: #081800;
-    font-size: 1.25rem;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 800;
+    font-family: "Raleway bold";
     line-height: 140%;
 }
 
@@ -413,9 +451,10 @@ select:focus {
     height: 60px;
     margin: 10px 0 0 0;
     padding: 0 20px;
-    color: #081800;
+    color: #000000;
     font-size: 20px;
     font-style: normal;
+    font-family: "Raleway extrabold";
     font-weight: 800;
     line-height: 140%;
 }
