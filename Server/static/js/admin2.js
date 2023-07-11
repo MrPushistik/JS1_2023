@@ -291,7 +291,7 @@ const createFormFeedback = (elem) => {
 
             <label class="req-guest-phone">Оценка</label>
             <select class="pg-select-mark">
-                <option selected value="5">5</option>
+                <option value="5">5</option>
                 <option value="4">4</option>
                 <option value="3">3</option>
                 <option value="2">2</option>
@@ -300,7 +300,7 @@ const createFormFeedback = (elem) => {
 
             <label class="req-guest-phone">Статус</label>
             <select class="pg-select-status">
-                <option selected value="MODERATION">Не опубликован</option>
+                <option value="MODERATION">Не опубликован</option>
                 <option value="PUBLISHED">Опубликован</option>
                 <option value="REJECTED">Отклонен</option>
             <select>
@@ -311,6 +311,9 @@ const createFormFeedback = (elem) => {
     </div>
     
     `;
+
+    form.querySelector(`.pg-select-mark option[value="${elem.estimation}"]`).selected = true;
+    form.querySelector(`.pg-select-status option[value="${elem.status}"]`).selected = true;
 
     form.querySelector(".pg-close").onclick = () => {
         document.querySelector(".reg_feedbacks").click();
@@ -324,10 +327,19 @@ const createFormFeedback = (elem) => {
         let mark = form.querySelector(".pg-select-mark").value;
 
         command = "/feedback/req/";
-        console.log(serverURL+ command)
         axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
-        .then(res=>(console.log(res.data),e.target.reset(),alert("Отзыв изменён успешно")))
-        .catch(err=>(console.log(err),e.target.reset(),alert(err)));
+        .then(res=>{
+            console.log(res.data),
+            
+            alert("Отзыв изменён успешно");
+
+            commandB = "/feedback/";
+            axios.get(serverURL + commandB + elem.id, H)
+            .then(res=>(showFeedback(res.data)))
+            .catch(err=>(console.log(err),alert(err)));
+        }
+        )
+        .catch(err=>(console.log(err),alert(err)));
     }
 
     return form;

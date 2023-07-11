@@ -16,7 +16,7 @@ class FeedbackController{
 
     async getAll(req,res,next){
         try{
-            const feedbacks = await Feedback.findAll();
+            const feedbacks = await Feedback.findAll({order: [["createdAt","DESC"]]});
             return res.json(feedbacks);
         }
         catch(e){
