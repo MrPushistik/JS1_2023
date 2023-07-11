@@ -22,7 +22,6 @@ const createRequestsTable = (data) => {
     }
     else holder.innerHTML = "";
 
-    const key = data[0].status;
     const sorts = createRequestSorts(data);
 
     const table = document.createElement("div");
@@ -133,7 +132,7 @@ const createRequestCard = (elem) => {
     else card.appendChild(createInfo(elem.status, elem.typeAssistance))
 
     card.querySelector(".pg-close").onclick = () => {
-        requestButtons[elem.status].elem.click();
+        document.querySelector(`.${requestButtons[elem.status].targClass}`).click();
     }
 
     if (elem.comments.length > 0) {
@@ -284,7 +283,7 @@ const requestSorts = {
 
 
 //блок сортировки
-const createRequestSorts = (data, key) => {
+const createRequestSorts = (data) => {
 
     const block = document.createElement("div");
     block.className = "request-sorts";

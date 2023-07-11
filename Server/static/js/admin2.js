@@ -639,28 +639,32 @@ const createButtonHolder = (className) => {
 
 const requestButtons = {
     "NEW": {
-        class: "new_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "new_requests",
         src: "/guestRequest/volunteer/forNewApplication",
         showType: false,
         buttonName: "Обработать",
         haveForm: true
     },
     "AT WORK": {
-        class: "work_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "work_requests",
         src: "/guestRequest/volunteer/forWorkApplication",
         showType: true,
         buttonName: "Редактировать",
         haveForm: true
     },
     "CANCELLED": {
-        class: "cancelled_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "cancelled_requests",
         src: "/guestRequest/volunteer/forCancelledApplication",
         showType: true,
         buttonName: "Просмотреть",
         haveForm: false
     },
     "COMPLETED": {
-        class: "completed_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "completed_requests",
         src: "/guestRequest/volunteer/forCompletedApplication",
         showType: true,
         buttonName: "Просмотреть",
@@ -680,7 +684,7 @@ document.querySelector(".requests").onclick = () => {
 
         let button = document.createElement("button");
         button.type = "button";
-        button.className = requestButtons[key].class
+        button.className = requestButtons[key].targClass + " " + requestButtons[key].classes
         button.innerHTML = matches.values[matches.keys.indexOf(key)];
 
         button.onclick = () => {
