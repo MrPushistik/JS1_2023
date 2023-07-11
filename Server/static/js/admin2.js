@@ -106,22 +106,59 @@ const createFormUser = () => {
     let form = document.createElement("form");
     form.innerHTML = 
     `
-    <input type="text" placeholder="логин" id="login-user" required>
-    <input type="password" placeholder="пароль" id="password-user" required>
-    <input type="password" placeholder="повторите пароль" id="confirm-password-user" required>
-    <select id="role-user" required>
-        <option selected value="VOLUNTEER">Волонтёр</option>
-        <option value="ADMIN">Админ</option>
-    <select>
-    <input type="text" placeholder="фамилия" id="surname-user" required>
-    <input type="text" placeholder="имя" id="name-user" required>
-    <input type="text" placeholder="отчество" id="patronymic-user" required>
-    <input type="text" placeholder="должность" id="post-user" required>
-    <input type="text" placeholder="место работы/место учёбы" id="place-work-or-study-user" required>
-    <input type="text" placeholder="телефон" id="phone-user" required>
-    <input type="text" placeholder="почта" id="email-user" required>
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Регистрация</p>
+    </div>
 
-    <button type="submit">Сохранить изменения</button>
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <label class="req-info-title">Логин:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="логин" id="login-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Пароль:</label>
+            <input class="req-info-value user-info-value" type="password" placeholder="пароль" id="password-user" required>
+            <input class="req-info-value user-info-value" type="password" placeholder="повторите пароль" id="confirm-password-user" required>
+        </div>
+        
+        <div class="req-info user-info">
+            <label class="req-info-title">Роль:</label>
+            <select id="role-user" required>
+                <option selected value="VOLUNTEER">Волонтёр</option>
+                <option value="ADMIN">Админ</option>
+            <select>
+        </div>
+
+        <div class="req-info user-info">
+            <p class="req-info-title">ФИО:</p>
+            <input class="req-info-value user-info-value" type="text" placeholder="фамилия" id="surname-user" required>
+            <input class="req-info-value user-info-value" type="text" placeholder="имя" id="name-user" required>
+            <input class="req-info-value user-info-value" type="text" placeholder="отчество" id="patronymic-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Должность:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="должность" id="post-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Место работы/учёбы:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="место работы/учёбы" id="place-work-or-study-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Телефон:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="телефон" id="phone-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Почта:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="почта" id="email-user" required>
+        </div>
+
+        <button class="req-form-submit" type="submit">Зарегистрировать</button>
+    </div>
     `
     form.onsubmit = (e) => {
 
@@ -159,19 +196,60 @@ const showUser = (data) => {
 const createUserCard = (elem) => {
 
     let card = document.createElement("div");
+    card.className = "req-card";
     card.innerHTML = 
     `
-    <div>
-        <p>Номер: ${elem.id}</p>
-        <p>Дата Создания: ${elem.createdAt}</p>
+    <div class="req-card-header">
+        <div class="req-card-header-data">
+            <p class="req-card-title">Пользователь №${elem.id}</p>
+            <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
+        </div>
     </div>
 
-    <div>
-        <p>ФИО: ${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
-        <p>Должность: ${elem.post}</p>
-        <p>Место работы/Место учёбы: ${elem.placeWorkOrStudy}</p>
-        <p>Телефон: ${elem.phone}</p>
-        <p>Почта: ${elem.email}</p>
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Сведения о пользователе</p>
+    </div>
+
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <p class="req-info-title">ФИО:</p>
+            <p class="req-info-value user-info-value">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Должность:</p>
+            <p class="req-info-value user-info-value">${elem.post}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Место работы/учёбы:</p>
+            <p class="req-info-value user-info-value">${elem.placeWorkOrStudy}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Телефон:</p>
+            <p class="req-info-value user-info-value">${elem.phone}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Почта:</p>
+            <p class="req-info-value user-info-value">${elem.email}</p>
+        </div>
+    </div>
+
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Учетные данные пользователя</p>
+    </div>
+
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <p class="req-info-title">Логин:</p>
+            <p class="req-info-value user-info-value">${elem.credential.login}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Пароль:</p>
+            <p class="req-info-value user-info-value">${elem.credential.password}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Роль:</p>
+            <p class="req-info-value user-info-value">${elem.credential.role}</p>
+        </div>
     </div>
     `
 

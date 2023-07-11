@@ -100,6 +100,21 @@ class UserController{
             next(ApiError.badRequest("Неверный формат данных"));
         }
     }
+
+    async getFullUserInfo(req,res,next){
+        try{
+            const {id} = req.params;
+            const user = await User.findOne({where: {id}});
+            const data = await Credential.findOne({where: {id: user.dataValues.credentialId}})
+
+            user.setDataValue("credential", data);
+            
+            return res.json(user);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
 }
 
 module.exports = new UserController()

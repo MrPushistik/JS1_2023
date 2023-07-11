@@ -9,6 +9,7 @@ router.post('/login',userController.login);
 router.get('/auth',authMiddleware,userController.check); 
 router.delete("/:id",checkRole('ADMIN'), userController.delete); 
 router.get("/admin/req",checkRole('ADMIN'), userController.getAll); 
-router.get("/admin/req/:id",checkRole('ADMIN'), userController.get); 
+//router.get("/admin/req/:id",checkRole('ADMIN'), userController.get); 
+router.get("/admin/req/:id",checkRole('ADMIN'), userController.getFullUserInfo); 
 
 module.exports = router;

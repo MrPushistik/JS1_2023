@@ -161,3 +161,19 @@ p{margin: 0}
 .chartjs-render-monitor{
     margin-top: 20px;
 }
+
+.margintop10{
+    margin-top: 10px;
+}
+.admin-user-info{
+    display: flex;
+    flex-direction: column;
+    background-color: #EAF4FF;
+    padding: 10px 0;
+}
+.user-info-value{
+    width:max-content;
+}
+.user-info{
+    padding: 5px 0;
+}

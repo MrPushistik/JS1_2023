@@ -96,7 +96,7 @@ const showRequest = (data) => {
 const createRequestCard = (elem) => {
 
     let card = document.createElement("div");
-    card.className = "req-card"
+    card.className = "req-card";
     card.innerHTML = 
     `
     <div class="req-card-header">

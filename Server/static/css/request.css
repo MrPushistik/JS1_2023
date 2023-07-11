@@ -322,11 +322,11 @@ select {
     width: 200px;
     height: 30px;
     border-radius: 0;
-    border: 0;
     background: #ffffff;
     color:  #0061C7;
     font-family: "Raleway medium";
     font-size: 18px;
+    border: 1px solid #87B5E5;;
 }
 select:focus {
     outline: 0;
@@ -338,7 +338,7 @@ select:focus {
 .req-form-comment textarea{
     height: 80px;
     resize: none;
-    border: #0061C7 1px solid;
+    border: 1px solid #87B5E5;;
     background: #ffffff;
     padding: 0 8px;
 }
