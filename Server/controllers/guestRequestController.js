@@ -277,7 +277,7 @@ class GuestRequestController{
         try{
             const {id} = req.params;
             const request = await GuestRequest.findOne({where: {id}})
-            const comments = await CommentingApplication.findAll({include: [{model: User}], where: {guestRequestId: id}})
+            const comments = await CommentingApplication.findAll({include: [{model: User}], where: {guestRequestId: id}, order: [["createdAt","ASC"]]})
 
             request.setDataValue("comments", comments);
             
