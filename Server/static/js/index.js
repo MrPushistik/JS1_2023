@@ -6,7 +6,7 @@ const month = ["Январь","Февраль","Март","Апрель","Май
 
 const feedbacks = axios.get(serverURL + "/feedback/")
 .then(res=>feedbackList(res.data))
-.catch(err=>console.log(err));
+.catch(err=>(console.log(err),alert(err)));
 
 const feedbackList = (data) => {
     data.forEach(feed => {
@@ -41,8 +41,8 @@ formGuestRequest.onsubmit = (e) => {
 
     command = "/guestRequest/volunteer/req";
     axios.post(serverURL + command, {surname:surname,name:name,patronymic:patronymic,phone:phone,commentGuest:commentGuest})
-    .then(res=>console.log(res.data))
-    .catch(err=>console.log(err));
+    .then(res=>(console.log(res.data),e.target.reset(),alert("Заявка создана успешно")))
+    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }
 
 formFeedback.onsubmit = (e) => {
@@ -56,6 +56,6 @@ formFeedback.onsubmit = (e) => {
     
     command = "/feedback/";
     axios.post(serverURL + command, {commentatorName:name,commentatorSurname:surname,comment:comment,estimation:5,status:status,guestRequestId:guestRequestId})
-    .then(res=>console.log(res.data))
-    .catch(err=>console.log(err));
+    .then(res=>(console.log(res.data),e.target.reset(),alert("Отзыв создан успешно")))
+    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }

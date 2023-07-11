@@ -78,7 +78,7 @@ const createTableRow = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showRequest(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>(console.log(err),alert(err)));
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -88,11 +88,11 @@ const createTableRow = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         
             axios.get(serverURL + requestButtons[elem.status].src, H)
             .then(res=>createRequestsTable(res.data, elem.status))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         }
     }
 
@@ -221,28 +221,28 @@ const createForm = (id, status, assistance) => {
         if (statusS != status){
             commandA = "/guestRequest/volunteer/req/updateStatus/";
             axios.put(serverURL + commandA + id, {status: statusS}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(console.log(res.data),e.target.reset(),alert("Заявка изменена успешно")))
+            .catch(err=>(console.log(err),e.target.reset(),alert(err)));
         }
 
         if (assistanceS != assistance){
             commandB = "/guestRequest/volunteer/req/updateAssistance/";
             axios.put(serverURL + commandB + id, {typeAssistance: assistanceS}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(console.log(res.data),e.target.reset(),alert("Заявка изменена успешно")))
+            .catch(err=>(console.log(err),e.target.reset(),alert(err)));
         }
 
         if (comment){
             commandC = "/commentingApplication";
             axios.post(serverURL + commandC, {content: comment, userId: 1, guestRequestId: id}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(console.log(res.data),e.target.reset(),alert("Комментарий создан успешно")))
+            .catch(err=>(console.log(err),e.target.reset(),alert(err)));
         }
  
         commandD = "/guestRequest/volunteer/fullRequest/";
         axios.get(serverURL + commandD + id, H)
         .then(res=>showRequest(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>(console.log(err),alert(err)));
     }
 
     return form;

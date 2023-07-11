@@ -81,7 +81,7 @@ const createTableRowUser = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showUser(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>(console.log(err),alert(err)));
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -91,11 +91,11 @@ const createTableRowUser = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         
             axios.get(serverURL + "/user/admin/req", H)
             .then(res=>getUsers(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         }
     }
 
@@ -141,8 +141,8 @@ const createFormUser = () => {
         command = "/user/registration";
         console.log(serverURL+ command)
         axios.post(serverURL + command, {login:login,password:password,confirmPassword:confirmPassword,role:role,surname:surname,name:name,patronymic:patronymic,post:post,placeWorkOrStudy:placeWorkOrStudy,phone:phone,email:email}, H)
-        .then(res=>console.log(res.data))
-        .catch(err=>console.log(err));
+        .then(res=>(console.log(res.data),e.target.reset(),alert("Пользователь создан успешно")))
+        .catch(err=>(console.log(err),e.target.reset(),alert(err)));
     }
 
     return form;
@@ -243,7 +243,7 @@ const createTableRowFeedback = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showFeedback(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>(console.log(err),alert(err)));
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -253,11 +253,11 @@ const createTableRowFeedback = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         
             axios.get(serverURL + "/feedback/", H)
             .then(res=>getFeedbacks(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         }
     }
 
@@ -326,8 +326,8 @@ const createFormFeedback = (elem) => {
         command = "/feedback/req/";
         console.log(serverURL+ command)
         axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
-        .then(res=>console.log(res.data))
-        .catch(err=>console.log(err));
+        .then(res=>(console.log(res.data),e.target.reset(),alert("Отзыв изменён успешно")))
+        .catch(err=>(console.log(err),e.target.reset(),alert(err)));
     }
 
     return form;
@@ -493,10 +493,10 @@ const getAssistanceStatistics = (dataSt) => {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["ADSRESS","PSYCHO","HUMANITARIAN","OTHER","ALL"],
+            labels: ["ADDRESS","PSYCHO","HUMANITARIAN","OTHER","ALL"],
             datasets: [{
                 label: 'Count',
-                data: [dataSt["ADSRESS"],dataSt["PSYCHO"],dataSt["HUMANITARIAN"],dataSt["OTHER"],dataSt["ALL"]],
+                data: [dataSt["ADDRESS"],dataSt["PSYCHO"],dataSt["HUMANITARIAN"],dataSt["OTHER"],dataSt["ALL"]],
                 backgroundColor: [
                     'rgba(216, 27, 96, 0.6)',
                     'rgba(3, 169, 244, 0.6)',
@@ -543,10 +543,10 @@ const getComplexStatistics = (dataSt) => {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["ADSRESS","PSYCHO","HUMANITARIAN","OTHER"],
+            labels: ["ADDRESS","PSYCHO","HUMANITARIAN","OTHER"],
             datasets: [{
                 label: 'NEW',
-                data: [dataSt["ADSRESS"]["NEW"],dataSt["PSYCHO"]["NEW"],dataSt["HUMANITARIAN"]["NEW"],dataSt["OTHER"]["NEW"],],
+                data: [dataSt["ADDRESS"]["NEW"],dataSt["PSYCHO"]["NEW"],dataSt["HUMANITARIAN"]["NEW"],dataSt["OTHER"]["NEW"],],
                 backgroundColor: 
                     'rgba(216, 27, 96, 0.6)'
                 ,
@@ -557,7 +557,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'AT WORK',
-                data: [dataSt["ADSRESS"]["AT WORK"],dataSt["PSYCHO"]["AT WORK"],dataSt["HUMANITARIAN"]["AT WORK"],dataSt["OTHER"]["AT WORK"],],
+                data: [dataSt["ADDRESS"]["AT WORK"],dataSt["PSYCHO"]["AT WORK"],dataSt["HUMANITARIAN"]["AT WORK"],dataSt["OTHER"]["AT WORK"],],
                 backgroundColor: 
                     'rgba(3, 169, 244, 0.6)'
                 ,
@@ -568,7 +568,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'CANCELLED',
-                data: [dataSt["ADSRESS"]["CANCELLED"],dataSt["PSYCHO"]["CANCELLED"],dataSt["HUMANITARIAN"]["CANCELLED"],dataSt["OTHER"]["CANCELLED"],],
+                data: [dataSt["ADDRESS"]["CANCELLED"],dataSt["PSYCHO"]["CANCELLED"],dataSt["HUMANITARIAN"]["CANCELLED"],dataSt["OTHER"]["CANCELLED"],],
                 backgroundColor: 
                     'rgba(255, 152, 0, 0.6)'
                 ,
@@ -579,7 +579,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'COMPLETED',
-                data: [dataSt["ADSRESS"]["COMPLETED"],dataSt["PSYCHO"]["COMPLETED"],dataSt["HUMANITARIAN"]["COMPLETED"],dataSt["OTHER"]["COMPLETED"],],
+                data: [dataSt["ADDRESS"]["COMPLETED"],dataSt["PSYCHO"]["COMPLETED"],dataSt["HUMANITARIAN"]["COMPLETED"],dataSt["OTHER"]["COMPLETED"],],
                 backgroundColor: 
                     'rgba(29, 233, 182, 0.6)'
                 ,
@@ -590,7 +590,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'ALL',
-                data: [dataSt["ADSRESS"]["ALL"],dataSt["PSYCHO"]["ALL"],dataSt["HUMANITARIAN"]["ALL"],dataSt["OTHER"]["ALL"],],
+                data: [dataSt["ADDRESS"]["ALL"],dataSt["PSYCHO"]["ALL"],dataSt["HUMANITARIAN"]["ALL"],dataSt["OTHER"]["ALL"],],
                 backgroundColor: 
                     'rgba(156, 39, 176, 0.6)'
                 ,
@@ -627,7 +627,7 @@ for (let key in adminButtons) {
 
             axios.get(serverURL + adminButtons[key].src, H)
             .then(res=>adminButtons[key].action(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
     }
 }
 
@@ -687,7 +687,7 @@ document.querySelector(".requests").onclick = () => {
             requestSorts.date.currOption = 0;
             axios.get(serverURL + requestButtons[key].src, H)
             .then(res=>createRequestsTable(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         }
 
         buttonHolder.appendChild(button);
@@ -737,7 +737,7 @@ document.querySelector(".statistics").onclick = () => {
         button.onclick = () => {
             axios.get(serverURL + statisticsButtons[key].src, H)
             .then(res=>statisticsButtons[key].action(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>(console.log(err),alert(err)));
         }
 
         buttonHolder.appendChild(button);

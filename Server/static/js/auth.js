@@ -9,8 +9,8 @@ form.onsubmit = (e) => {
 
     command = "/user/login";
     axios.post(serverURL + command, {login: login, password: password})
-    .then(res=>setToken(res.data))
-    .catch(err=>console.log(err));
+    .then(res=>(setToken(res.data),e.target.reset(),alert("Вход успешен")))
+    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }
 
 const setToken = (data) => {
