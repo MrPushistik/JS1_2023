@@ -193,7 +193,7 @@ const createForm = (id, status, assistance) => {
     <button type="submit" class="req-form-submit">Сохранить изменения</button>
     `
 
-    if (status) form.querySelector(`.pg-select-status option[value="${status}"]`).selected = true;
+    form.querySelector(`.pg-select-status option[value="${status}"]`).selected = true;
     if (assistance) form.querySelector(`.pg-select-assistance option[value="${assistance}"]`).selected = true;
 
     form.onsubmit = (e) => {
