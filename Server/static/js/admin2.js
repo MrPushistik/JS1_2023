@@ -384,7 +384,7 @@ const createUserSorts = (data) => {
 // регистрация
 const createUserReg = () => {
     const block = document.createElement("div");
-    block.className = "request-sorts user-reg";
+    block.className = "request-sorts";
     block.innerHTML =
     `
     <p class="request-sorts-title">Регистрация</p>
