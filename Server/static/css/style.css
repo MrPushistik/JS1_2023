@@ -1,0 +1,834 @@
+@font-face {
+    font-family: 'Raleway regular';
+    src: url("../../../fonts/Raleway-Regular.ttf");
+}
+@font-face {
+    font-family: 'Raleway medium';
+    src: url("../../../fonts/Raleway-Medium.ttf");
+}
+@font-face {
+    font-family: 'Raleway bold';
+    src: url("../../../fonts/Raleway-Bold.ttf");
+}
+@font-face {
+    font-family: 'Raleway extrabold';
+    src: url("../../../fonts/Raleway-ExtraBold.ttf");
+}
+html{
+    box-sizing: border-box; 
+    -webkit-text-size-adjust: 100%;  
+    -ms-text-size-adjust: 100%; 
+    -moz-text-size-adjust: 100%;
+    line-height: 1;
+    height: 100%;
+    width: 100%;
+    
+}
+::placeholder{
+    color: rgba(40, 86, 134, 1);
+    font-size: 13px;
+    font-family: "Raleway regular";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+ }
+input, textarea{
+    background-color: rgba(234, 244, 255, 1);
+    border: 1px solid #87B5E5;
+}
+label,.checkbox_agree{
+    color: #000;
+    font-size: 15px;
+    font-family: "Raleway medium";
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+*, *::before, *::after{
+    box-sizing: inherit;
+}
+* {
+    margin: 0;
+}
+
+body{
+    position: relative;
+    font-family: 'Основной'; 
+    font-size: 16px;
+    line-height: 1.2;
+    color: black;
+
+}
+
+/* Привью. контейнеры главной страницы */
+.parallax{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    background-image: url(../img/счастливые\ люди\ .png);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+}
+
+.paralax-content{
+    height: 100vh;
+}
+
+.overlay{
+    background: rgba(33, 33, 33, 0.75);
+    height: 100%;
+}
+
+
+/* менюшка */
+.header{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.header_wrapper{
+    max-width: 1200px;
+    height: 165px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.menu_list{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.link_fon{
+    width: 164px;
+    height: 48px;
+    opacity: 0.9;
+    
+    display: flex;
+    justify-content: center;
+ }
+
+.header_item{
+    margin-right: 48px;
+    list-style-type:none;
+}
+
+.header_item:last-child{
+    margin-right: 0px;
+}   
+
+.header_link{
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: 'Raleway bold';
+    line-height: 130%;  
+    text-decoration: none;
+        
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+}
+.header_logo_lonk{
+    width: 35px;
+    margin: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.logo_profcom{
+    width: 68px;
+    height: 68px;
+    margin-right: 20px;
+}
+/*Меню. При наведении на кнопки */
+.header_link:hover, .header_link:focus,.header_link:active{
+    color:rgba(0, 97, 199, 1);
+    
+}
+/* если нужен будет фон */
+/* .link_fon:hover, .link_fon:focus,.link_fon:active{
+    
+    background-color:rgba(217, 217, 217, 0.5) ;
+
+} */
+
+/*Это всё еще привью  */
+
+.parallax-container {
+    display: flex;
+    max-width: 56%;
+}
+.parallax-conteiner-title {
+   font-family: 'Raleway extrabold';
+   padding-top: 40px;
+   color:rgba(0, 97, 199, 1);
+}
+.parallax-conteiner-text{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    padding-top: 20px;
+}
+@media(max-width:710px) {
+    .parallax-conteiner-text{
+       display: flex;
+       flex-direction: column;
+    }
+    .parallax-conteiner-title{
+        padding-top: 50px;
+    }
+}
+.text_inform{
+    font-family: 'Raleway bold';
+    padding-right: 10px;
+    font-size: 20px;
+}
+@media(max-width:800px) {
+    .text_inform{
+        font-family: 'Raleway bold';
+        padding-right: 10px;
+        font-size: 14px;
+    }
+}
+/* форма для заявки */
+.application{
+    padding: 20px;
+    background-color:  #EAF4FF;
+    border-radius: 2px;
+}
+.container-about{
+    display: flex;
+    flex-direction: column;
+    justify-content:left;
+}
+@media(max-width:1200px) {
+    .container-about{
+        margin-top: 100px;
+    }
+}
+@media(max-width:670px) {
+    .container-about{
+        margin-top: 200px;
+    }
+}
+@media(max-width:475px) {
+    .container-about{
+        margin-top: 200px;
+    }
+}
+@media(max-width:380px) {
+    .container-about{
+        margin-top: 350px;
+    }
+}
+.title_application{
+    color: #000;
+    text-align: center;
+    font-size: 26px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 151%;
+}
+.title_application_2{
+    color:#007CFF;
+    text-align: center;
+    font-size: 26px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 151%;
+}
+#application_form{
+    padding: 10px;
+    font-family: "Оснвоной";
+    color:#000000 ;
+    font-size: 15px;
+}
+#application_form li{
+    list-style-type: none;
+}
+#application_form input, #application_form textarea{
+    margin: 5px;
+}
+
+#button-applecation{
+    display: flex;
+    width: 300px;
+    padding: 15px 25px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #081800;
+    box-shadow: 8px 8px 0px 0px #007CFF;
+
+    color: #FFF;
+    font-size: 15px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+}
+#button-applecation:hover, #button-applecation:focus,#button-applecation:active{
+    color:#007CFF;
+    
+}
+/*  */
+
+/*Блок "о нас" */
+.parallax_about{
+    display: flex;
+    justify-content: center;
+    color:#000000;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 40px;
+    margin: auto;
+}
+
+.blue_line{
+    width: 16px;
+    height: 120px;
+    background-color: #007CFF;
+}
+.about_title{
+    display: flex;
+    flex-direction: row;
+ 
+    font-family: "Заголовок";
+    color: #000000;
+}
+.title_item{
+    padding-top: 38px;
+    padding-left: 20px;
+    color: #0051A7;
+    font-size: 36px;
+    font-family: "Raleway bold";
+
+}
+@media(max-width:380px) {
+    .blue_line{
+        width: 16px;
+        height: 85px;
+    }
+    .title_item{
+        padding-top: 28px;
+        padding-left: 20px;
+        color: #0051A7;
+        font-size: 26px;
+        font-family: "Raleway bold";
+    
+    }
+}
+.inner_text{
+    color: #000;
+    text-align: justify;
+    font-size: 20px;
+    margin-top: -20px;
+    font-family: "Raleway regular";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    text-indent: 38px;
+}
+/* карточки с помощью */
+.container-help{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin: 30px 0;
+}
+
+.help_cards{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin: auto;
+}
+@media(max-width:800px) {
+    .help_cards{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+    }
+}
+.helps_title{
+    display: flex;
+    flex-direction: row;
+    margin-left:-45px ;
+}
+.card_fon{
+    position: relative;
+    background:#EAF4FF ;
+    box-shadow: 5px 4px 4px 0px rgb(0 97 199 / 29%);
+    margin: 15px;
+    margin-top: 25px;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 130px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.card_fon:active,.card_fon.card_fon.card_fon.card_fon:hover,.card_fon:focus{
+    background-color: #C1DFFF;
+    box-shadow: 5px 4px 4px 0px rgba(6, 61, 119, 0.29);
+}
+.card_text{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    padding-top: 30px;
+    
+}
+@media(max-width:670px) {
+    .card_text{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+       
+    }
+    .card_fon{
+        height: 160px;
+    }
+}
+
+.help_text_item{
+    color: #0061C7;
+    font-size: 20px;
+    font-family: "Raleway medium";
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    padding-left: 15px;
+}
+
+/*слайдер отзывов */
+.parallax_comment{
+    display: flex;
+    justify-content: center;
+    color:#000000;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 40px;
+    margin: 50px auto; 
+}
+@media(max-width:670px) {
+    .parallax_comment{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+    }
+}
+.slide-container{
+    max-width: 1120px;
+    width: 100%;
+    padding: 40px 0;
+    margin-top: 50px;
+}
+.slide-content{
+    display: flex;
+    justify-content: center;
+    margin: 0 40px;
+    overflow: hidden;
+    border-radius: 2px;
+}
+/* карточки отызвов */
+.card-review-content{
+    padding: 10px 14px;
+    max-height: 220px;
+}
+.card-review-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.date_comment{
+    color: #16100D;
+    font-size: 15px;
+    font-family: "Raleway regular";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.image-content,.card-review{
+   border-radius: 2px; 
+   background-color:rgba(234, 244, 255, 1);
+}
+.image-content{
+    position: relative;
+    
+}
+.overlay_card{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #BE2F21;
+}
+.name_reviewer{
+    color: #0061C7;
+    font-size: 20px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    line-height: 140%;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+.description{
+    color: #16100D;
+    font-size: 18px;
+    font-family:"Raleway regular";
+    font-style: normal;;
+    line-height: 20px;
+    text-align: center;
+    padding: 20px 0;
+}
+/*Отызвы. кнопки слайдера */
+.button-review{
+    display: flex;
+    width: 300px;
+    padding: 15px 25px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #081800;
+    box-shadow: 8px 8px 0px 0px #007CFF;
+
+    color: #FFF;
+    font-size: 15px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+}
+.button-review:hover,.button-review:focus,.button-review:active{
+    color:#007CFF;
+    
+}
+
+.swiper-navBtn{
+    color: #007CFF;
+    transition: color 0.3s ease;
+}
+
+.swiper-navBtn:hover{
+    color: #007CFF;
+}
+
+.swiper-button-prev{
+    left: 0;
+}
+
+.swiper-button-next{
+    right: 0;
+}
+
+/*Форма на отзыв. popup */
+.btn_comment{
+   margin: auto;
+   margin-top: 30px;
+   display: flex;
+   justify-content: center;
+} 
+.modal_comment{
+    position: fixed;
+    display: none;
+    z-index: 100;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
+.modal_content{
+    background-color:  rgba(234, 244, 255, 1);
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 2px;
+    z-index: 110;
+}
+.close_modal_window{
+    color: #007CFF;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal_inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.modal_title{
+    color: #000;
+    text-align: center;
+    font-size: 26px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 151%;
+}
+/* новости */
+.container-news{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin: 20px 0;
+}
+.news_cards{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin: auto;
+}
+@media(max-width:710px) {
+    .news_cards{
+       display: flex;
+       flex-direction: column;
+       margin: auto;
+    }
+}
+.news_cards_fon{
+    position: relative;
+    background:#EAF4FF ;
+    box-shadow: 5px 4px 4px 0px rgb(0 97 199 / 29%);
+    margin: 15px;
+    margin-top: 25px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+.news_cards_text{
+    display: flex;
+    flex-direction: column;
+    padding-top: 33px;
+    justify-content:center;
+}
+.news_cards_photo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.photo_news{
+    width: 320px;
+    height: 320px;
+}
+@media(max-width:1300px) {
+    .photo_news{
+        width: 250px;
+        height: 250px;
+    }
+}
+.news_text_title{
+    color: #000000;
+    font-family: "Raleway bold";
+    font-size: 24px;;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    padding-left: 33px;
+    padding-top: 15px ;
+}
+.news_text_item{
+    color: #000000;
+    font-family: "Raleway regular";
+    font-size: 15px;;
+    line-height: 36px;
+    padding-left: 33px;
+}
+.button_card{
+    display: flex;
+    justify-content: space-between;
+}
+.button_card_disign{
+    margin: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.button_card_disign:hover, .button_card_disign:active,.button_card_disign:focus{
+    margin: 10px;    
+}
+
+/* контакты */
+.container-contact{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin: 50px 0;
+}
+/* подвал */
+
+.footer{
+    display: flex;
+    width: 100%;
+
+    background-color:rgba(40, 40, 40, 1);
+}
+.footer .header_menu_logo_footer{
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+.header_menu_logo_footer{
+    display: flex;
+    justify-content: space-between;
+}
+.container_footer{
+    display: flex;
+    flex-direction: column;
+}
+.footer_text{
+    color: #FFF;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    font-size: 18px;
+    line-height: 160%;
+    color: #ffffff;
+
+    margin-top: 30px;
+}
+.footer_description{
+    font-family: "Raleway medium";
+    font-size: 18px;
+    line-height: 160%;
+    margin: 15px 10%;
+    color: #ffffff;
+
+}
+
+/*  СТИЛИ СТРАНИЦЫ НВООСТЕЙ */
+/*                          */
+/*                          */ 
+.back_news{
+    width: 68px;
+    height: 68px;
+    margin-right: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.parallax_news{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    background-image: url(../img/задний\ фон2.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+}
+.paralax-content-news{
+    height: 80vh;
+}
+.card_news_intro{
+    display: flex;
+    justify-content: end;
+    padding: 60px;
+    margin-top: -30vh;
+}
+@media(max-width:550px) {
+    .card_news_intro{
+        display: block;
+    }
+}
+.cards_text_news{
+    display: flex;
+    flex-direction: column;
+    padding-top: 33px;
+    justify-content:center;
+}
+
+.parallax_news_info{
+    display: flex;
+    justify-content: center;
+    color:#000000;
+    background-color: #ffffff;
+    height: 100%;
+    padding: 40px;
+    margin: 10px auto; 
+}
+.photo_news_intro{
+    width: 250px;
+    height: 250px;
+}
+.text_title_news{
+    color: #000;
+    font-size: 36px;
+    font-family: "Raleway bold";
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+    margin: 0 20px;
+}
+.cards_photo_news{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+@media(max-width:1280px) {
+    .cards_photo_news{
+        display: flex;
+        align-items:start;
+        flex-direction: column;
+    }
+    .photo_news_intro{
+        width: 150px;
+        height: 150px;
+        margin-top: 20px;
+    }
+    .text_title_news{
+        font-size: 26px;
+    }
+}
+@media(max-width:550px) {
+    .cards_photo_news{
+        display: flex;
+        align-items:center;
+        flex-direction: column;
+    }
+    .photo_news_intro{
+        width: 150px;
+        height: 150px;
+        margin-top: 20px;
+    }
+    .text_title_news{
+        font-size: 26px;
+    }
+}
+.data_news_calendar{
+    display: flex;
+    flex-direction: row;
+}
+.calendar{
+    width: 25px;
+    height: 25px;
+}
+.date_news{
+    color: #6C6C6C;
+    font-size: 20px;
+    font-family: "Raleway medium";
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+    padding-left: 9px;
+}
+.gallery_news{
+    height: 500px;
+}
+.gallery_news_container{
+    display: flex;
+    justify-content: center;
+
+}
