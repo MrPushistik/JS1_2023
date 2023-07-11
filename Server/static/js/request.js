@@ -204,6 +204,8 @@ const createForm = (id, status, assistance) => {
         let assistanceS = form.querySelector(".pg-select-assistance").value;
         let comment = form.querySelector(".pg-comment").value;
 
+        if (!assistanceS) assistanceS = null;
+
         if (statusS != status){
             commandA = "/guestRequest/volunteer/req/updateStatus/";
             axios.put(serverURL + commandA + id, {status: statusS}, H)
