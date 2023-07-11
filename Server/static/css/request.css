@@ -33,6 +33,11 @@ p{margin: 0}
 .main-area{
    width: 1200px;
    margin: auto;
+   min-height: calc(100vh - 360px);
+   margin-bottom: 20px;
+}
+.table{
+    margin-bottom: 0;
 }
 
 /* кнопки */
