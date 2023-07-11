@@ -231,7 +231,7 @@ const createTableRowFeedback = (elem) => {
     <p class="table-cell feedback-cell">${elem.commentatorSurname + " " + elem.commentatorName}</p>
     <p class="table-cell feedback-cell">${elem.comment}</p>
     <p class="table-cell feedback-cell">${elem.estimation}</p>
-    <p class="table-cell feedback-cell">${elem.status}</p>
+    <p class="table-cell feedback-cell">${matches.values[matches.keys.indexOf(elem.status)]}</p>
     <p class="table-cell feedback-cell">
         <button type="button" class="pg-reduct read-button td-button">Обработать</button>
         <button type="button" class="pg-delete delete-button td-button">Удалить</button>
@@ -282,7 +282,7 @@ const createFormFeedback = (elem) => {
             <p class="req-card-title">Заявка №${elem.id}</p>
             <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
         </div>
-        <button class="pg-close req-card-close">x</button>
+        <button type="button" class="pg-close req-card-close">x</button>
     </div>
 
     <div class="req-card-guest feedback-card-comment">
@@ -438,7 +438,7 @@ const createFeedbackSorts = (data) => {
 
 const getStatusStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='statusStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='statusStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('statusStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -488,7 +488,7 @@ const getStatusStatistics = (dataSt) => {
 
 const getAssistanceStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='assistanceStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='assistanceStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('assistanceStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -538,7 +538,7 @@ const getAssistanceStatistics = (dataSt) => {
 
 const getComplexStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='ComplexStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='ComplexStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('ComplexStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',

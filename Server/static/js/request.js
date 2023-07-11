@@ -1,16 +1,3 @@
-const matches = {
-    keys: [null,"NEW", "AT WORK", "CANCELLED", "COMPLETED", "PSYCHO", "HUMANITARIAN", "ADDRESS", "OTHER","STATUSSTATISTICS","ASSISTANCESTATISTICS","COMPLEXSTATISTICS"],
-    values: ["Не установлен","Новая", "В работе", "Отменена", "Выполнена", "Психологическая", "Гуманитарная", "Адресная", "Иная","По статусу","По типу помощи", "По статусу и типу помощи"],
-    "NEW" : "Новая",
-    "AT WORK": "В работе",
-    "CANCELLED": "Отменена",
-    "COMPLETED": "Выполнена",
-    "PSYCHO": "Психологическая",
-    "HUMANITARIAN": "Гуманитарная",
-    "ADDRESS": "Адресная",
-    "OTHER": "Иная",
-}
-
 //получить таблицу запросов
 const createRequestsTable = (data) => {
  
