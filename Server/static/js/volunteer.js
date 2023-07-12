@@ -35,7 +35,7 @@ for (let key in requestButtons) {
         requestSorts.date.currOption = 0;
         axios.get(serverURL + requestButtons[key].src, H)
         .then(res=>createRequestsTable(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 }
 

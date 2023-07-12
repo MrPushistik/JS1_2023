@@ -11,13 +11,13 @@ form.onsubmit = (e) => {
     .then(res=>{
         setToken(res.data);
         e.target.reset();
-        alert("Вход успешен");
+        createAlert("Вход выполнен успешно");
         switch((JSON.parse(localStorage.getItem("user"))).role){
             case "ADMIN": window.location.href="/admin.html"; break;
             case "VOLUNTEER": window.location.href="/volunteer.html"; break;
         }
     })
-    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
+    .catch(err=>{console.log(err); createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message), e.target.reset()});
 }
 
 const setToken = (data) => {

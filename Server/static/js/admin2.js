@@ -81,7 +81,7 @@ const createTableRowUser = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showUser(res.data))
-        .catch(err=>(console.log(err),alert(err)));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -91,11 +91,11 @@ const createTableRowUser = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         
             axios.get(serverURL + "/user/admin/req", H)
             .then(res=>getUsers(res.data))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }
 
@@ -176,10 +176,10 @@ const createFormUser = () => {
         const phone = form.querySelector("#phone-user").value;
         const email = form.querySelector("#email-user").value;
         command = "/user/registration";
-        console.log(serverURL+ command)
+        
         axios.post(serverURL + command, {login:login,password:password,confirmPassword:confirmPassword,role:role,surname:surname,name:name,patronymic:patronymic,post:post,placeWorkOrStudy:placeWorkOrStudy,phone:phone,email:email}, H)
-        .then(res=>(console.log(res.data),e.target.reset(),alert("Пользователь создан успешно")))
-        .catch(err=>(console.log(err),e.target.reset(),alert(err)));
+        .then(res=>(console.log(res.data),e.target.reset(),createAlert("Пользователь создан успешно")))
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
     }
 
     return form;
@@ -321,7 +321,7 @@ const createTableRowFeedback = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showFeedback(res.data))
-        .catch(err=>(console.log(err),alert(err)));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -331,11 +331,11 @@ const createTableRowFeedback = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         
             axios.get(serverURL + "/feedback/", H)
             .then(res=>getFeedbacks(res.data))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }
 
@@ -407,17 +407,15 @@ const createFormFeedback = (elem) => {
         command = "/feedback/req/";
         axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
         .then(res=>{
-            console.log(res.data),
-            
-            alert("Отзыв изменён успешно");
+            createAlert("Отзыв успешно изменен")
 
             commandB = "/feedback/";
             axios.get(serverURL + commandB + elem.id, H)
             .then(res=>(showFeedback(res.data)))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
         )
-        .catch(err=>(console.log(err),alert(err)));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 
     return form;
@@ -717,7 +715,7 @@ for (let key in adminButtons) {
 
             axios.get(serverURL + adminButtons[key].src, H)
             .then(res=>adminButtons[key].action(res.data))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 }
 
@@ -781,7 +779,7 @@ document.querySelector(".requests").onclick = () => {
             requestSorts.date.currOption = 0;
             axios.get(serverURL + requestButtons[key].src, H)
             .then(res=>createRequestsTable(res.data))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
 
         buttonHolder.appendChild(button);
@@ -831,7 +829,7 @@ document.querySelector(".statistics").onclick = () => {
         button.onclick = () => {
             axios.get(serverURL + statisticsButtons[key].src, H)
             .then(res=>statisticsButtons[key].action(res.data))
-            .catch(err=>(console.log(err),alert(err)));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
 
         buttonHolder.appendChild(button);

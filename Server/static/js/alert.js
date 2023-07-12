@@ -1,4 +1,4 @@
-const createAlert = (title, arrMsg) => {
+const createAlert = (title, msg) => {
 
     const alert = document.createElement("section");
     alert.className = "alert-wrap";
@@ -16,12 +16,13 @@ const createAlert = (title, arrMsg) => {
     alert.querySelector(".alert-title").innerHTML = title;
 
     const holder = alert.querySelector(".alert-message-holder");
-    arrMsg.forEach(element => {
+    if (msg){    
         let p = document.createElement("p");
         p.className = "alert-message";
-        p.innerHTML = element;
+        p.innerHTML = msg;
         holder.appendChild(p);
-    });
+    }
+    else holder.remove();
 
     alert.querySelector(".ok-button").onclick = () => alert.remove();
 

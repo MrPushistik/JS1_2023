@@ -41,8 +41,8 @@ formGuestRequest.onsubmit = (e) => {
 
     command = "/guestRequest/volunteer/req";
     axios.post(serverURL + command, {surname:surname,name:name,patronymic:patronymic,phone:phone,commentGuest:commentGuest})
-    .then(res=>(console.log(res.data),e.target.reset(),createAlert("Заявка успешно создана", [`Сохраните номер вашей заявки - №${res.data.id}`])))
-    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
+    .then(res=>(e.target.reset(),createAlert("Заявка успешно создана", `Сохраните номер вашей заявки - №${res.data.id}`)))
+    .catch(err=>{e.target.reset(),createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
 }
 
 formFeedback.onsubmit = (e) => {
@@ -56,6 +56,6 @@ formFeedback.onsubmit = (e) => {
     
     command = "/feedback/";
     axios.post(serverURL + command, {commentatorName:name,commentatorSurname:surname,comment:comment,estimation:5,status:status,guestRequestId:guestRequestId})
-    .then(res=>(console.log(res.data),e.target.reset(),alert("Отзыв создан успешно")))
-    .catch(err=>(console.log(err),e.target.reset(),alert(err)));
+    .then(res=>(e.target.reset(),createAlert("Отзыв создан успешно")))
+    .catch(err=>{e.target.reset(),createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
 }

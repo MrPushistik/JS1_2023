@@ -3,7 +3,7 @@ const router = new Router();
 const FeedbackController = require("../controllers/feedbackController");
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-//router.post("/", FeedbackController.create);
+router.post("/", FeedbackController.create);
 router.get("/", FeedbackController.getAll);
 router.get("/:id", FeedbackController.get);
 //router.put("/:id",checkRole('VOLUNTEER'), FeedbackController.update);

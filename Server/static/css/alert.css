@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.219);
+    z-index: 99999;
 }
 .my-alert{
     width: 400px;
