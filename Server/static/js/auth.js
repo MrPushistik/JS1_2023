@@ -9,7 +9,15 @@ form.onsubmit = (e) => {
 
     command = "/user/login";
     axios.post(serverURL + command, {login: login, password: password})
-    .then(res=>(setToken(res.data),e.target.reset(),alert("Вход успешен")))
+    .then(res=>{
+        setToken(res.data);
+        e.target.reset();
+        alert("Вход успешен");
+        switch((JSON.parse(localStorage.getItem("user"))).role){
+            case "ADMIN": window.location = "/admin.html"; break;
+            case "VOLUNTEER": window.location = "/volunteer.html"; break;
+        }
+    })
     .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }
 
