@@ -1,5 +1,4 @@
 const form = document.querySelector(".auth");
-const serverURL = 'http://localhost:3001/api';
 
 form.onsubmit = (e) => {
     e.preventDefault();
@@ -14,14 +13,15 @@ form.onsubmit = (e) => {
         e.target.reset();
         alert("Вход успешен");
         switch((JSON.parse(localStorage.getItem("user"))).role){
-            case "ADMIN": window.location = "/admin.html"; break;
-            case "VOLUNTEER": window.location = "/volunteer.html"; break;
+            case "ADMIN": window.location.href="/admin.html"; break;
+            case "VOLUNTEER": window.location.href="/volunteer.html"; break;
         }
     })
     .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }
 
 const setToken = (data) => {
+    document.cookie = "token="+data.token;
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(parseJwt(data.token)));
 }
