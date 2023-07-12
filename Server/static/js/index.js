@@ -41,7 +41,7 @@ formGuestRequest.onsubmit = (e) => {
 
     command = "/guestRequest/volunteer/req";
     axios.post(serverURL + command, {surname:surname,name:name,patronymic:patronymic,phone:phone,commentGuest:commentGuest})
-    .then(res=>(console.log(res.data),e.target.reset(),alert("Заявка создана успешно")))
+    .then(res=>(console.log(res.data),e.target.reset(),createAlert("Заявка успешно создана", [`Сохраните номер вашей заявки - №${res.data.id}`])))
     .catch(err=>(console.log(err),e.target.reset(),alert(err)));
 }
 
