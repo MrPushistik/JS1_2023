@@ -72,12 +72,12 @@ const createTableRowUser = (elem) => {
     <p class="table-cell user-cell">${elem.email}</p>
     <p class="table-cell user-cell">
         <button type="button" class="pg-reduct read-button td-button">Посмотреть</button>
-        <button type="button" class="pg-delete delete-button td-button">Удалить</button>
+        ${elem.id != JSON.parse(localStorage.getItem("user")).userId ? `<button type="button" class="pg-delete delete-button td-button">Удалить</button>` : ""}
     </p>
     `
 
     tableRow.querySelector(".pg-reduct").onclick = () => {
-        command = "/user/admin/req/";
+        let command = "/user/admin/req/";
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showUser(res.data))
@@ -87,7 +87,7 @@ const createTableRowUser = (elem) => {
     let del = tableRow.querySelector(".pg-delete");
     if (del){
         del.onclick = () => {
-            command = "/user/";
+            let command = "/user/";
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
@@ -106,8 +106,9 @@ const createFormUser = () => {
     let form = document.createElement("form");
     form.innerHTML = 
     `
-    <div class="req-comments-header margintop10">
+    <div class="req-comments-header margintop10 admin-reg-header">
         <p class="req-comments-title">Регистрация</p>
+        <button class="pg-close req-card-close">x</button>
     </div>
 
     <div class="admin-user-info margintop10">
@@ -160,6 +161,10 @@ const createFormUser = () => {
         <button class="req-form-submit" type="submit">Зарегистрировать</button>
     </div>
     `
+    form.querySelector(".pg-close").onclick = () => {
+        adminButtons["USER"].elem.click();
+    }
+
     form.onsubmit = (e) => {
 
         e.preventDefault();
@@ -204,50 +209,108 @@ const createUserCard = (elem) => {
             <p class="req-card-title">Пользователь №${elem.id}</p>
             <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
         </div>
+        <button class="pg-close req-card-close">x</button>
     </div>
 
     <div class="req-comments-header margintop10">
         <p class="req-comments-title">Сведения о пользователе</p>
     </div>
 
-    <div class="admin-user-info margintop10">
+    <form class="admin-user-info margintop10 pg-user">
         <div class="req-info user-info">
-            <p class="req-info-title">ФИО:</p>
-            <p class="req-info-value user-info-value">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+            <label class="req-info-title">ФИО:</label>
+            <input type="text" class="pg-surname req-info-value user-info-value" value="${elem.surname}">
+            <input type="text" class="pg-name req-info-value user-info-value" value="${elem.name}">
+            <input type="text" class="pg-patronymic req-info-value user-info-value" value="${elem.patronymic}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Должность:</p>
-            <p class="req-info-value user-info-value">${elem.post}</p>
+            <lable class="req-info-title">Должность:</label>
+            <input type="text" class="pg-post req-info-value user-info-value" value="${elem.post}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Место работы/учёбы:</p>
-            <p class="req-info-value user-info-value">${elem.placeWorkOrStudy}</p>
+            <label class="req-info-title">Место работы/учёбы:</label>
+            <input type="text" class="pg-place req-info-value user-info-value" value="${elem.placeWorkOrStudy}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Телефон:</p>
-            <p class="req-info-value user-info-value">${elem.phone}</p>
+            <label class="req-info-title">Телефон:</label>
+            <input type="text" class="pg-phone req-info-value user-info-value" value="${elem.phone}">
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Почта:</p>
-            <p class="req-info-value user-info-value">${elem.email}</p>
+            <label class="req-info-title">Почта:</label>
+            <input type="text" class="pg-email req-info-value user-info-value" value="${elem.email}">
         </div>
-    </div>
+
+        <button type="submit" class="req-form-submit">Сохранить изменения</button>
+    </form>
 
     <div class="req-comments-header margintop10">
         <p class="req-comments-title">Учетные данные пользователя</p>
     </div>
 
-    <div class="admin-user-info margintop10">
+    <div class="admin-user-info margintop10 pg-cred">
         <div class="req-info user-info">
             <p class="req-info-title">Логин:</p>
             <p class="req-info-value user-info-value">${elem.credential.login}</p>
         </div>
+        <form class="req-info user-info pg-change-password">
+            <label class="req-info-title">Изменить пароль:</label>
+            <input type="password" class="req-info-value user-info-value pg-new-password">
+            <button type="submit" class="req-form-submit user-form-submit">Изменить</button>
+        </form>
         <div class="req-info user-info">
             <p class="req-info-title">Роль:</p>
             <p class="req-info-value user-info-value">${elem.credential.role}</p>
         </div>
     </div>
     `
+
+    card.querySelector(".pg-close").onclick = () => {
+        adminButtons["USER"].elem.click();
+    }
+
+    let form1 = card.querySelector(".pg-user");
+    form1.onsubmit = (e) => {
+        e.preventDefault();
+        const surname = form1.querySelector(".pg-surname").value;
+        const name = form1.querySelector(".pg-name").value;
+        const patronymic  = form1.querySelector(".pg-patronymic").value;
+        const post  = form1.querySelector(".pg-post").value;
+        const place  = form1.querySelector(".pg-place").value;
+        const phone  = form1.querySelector(".pg-phone").value;
+        const email  = form1.querySelector(".pg-email").value;
+
+        let commandA = "/user/";
+        axios.put(serverURL + commandA + elem.id, {surname: surname,name: name,patronymic: patronymic,post:post,placeWorkOrStudy:place,phone: phone,email: email}, H)
+        .then(res=>(createAlert("Сведения о пользователе успешно изменены")))
+        .catch(err=>{
+            createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message);
+
+            let commandB = "/user/admin/req/";
+    
+            axios.get(serverURL + commandB + elem.id, H)
+            .then(res=>showUser(res.data))
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+        });
+    }
+
+    let form2 = card.querySelector(".pg-change-password");
+    form2.onsubmit = (e) => {
+        e.preventDefault();
+
+        const password = form2.querySelector(".pg-new-password").value;
+
+        let commandC = "/credential/password/";
+        axios.put(serverURL + commandC + elem.credentialId, {password: password}, H)
+        .then(res=>{
+            createAlert("Пароль успешно изменен"); 
+            e.target.reset();
+        })
+        .catch(err=>{
+            createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message);
+            e.target.reset(); 
+        });
+    }
+
 
     return card;
 }

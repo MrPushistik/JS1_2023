@@ -4,9 +4,9 @@ const ApiError = require('../error/ApiError');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-const generateJwt = (id, login, role) => {
+const generateJwt = (userId, role) => {
     return jwt.sign(
-        {id,login,role},
+        {userId,role},
         process.env.SECRET_KEY,
         {expiresIn:'24h'}
     )
@@ -37,7 +37,7 @@ class UserController{
             const hashPassword = await bcrypt.hash(password,5)
             const credential = await Credential.create({login,password:hashPassword,role})
             const user = await User.create({surname,name,patronymic,post,placeWorkOrStudy,phone,email,credentialId:credential.id})
-            const token = generateJwt(credential.id,credential.login,credential.role)
+            const token = generateJwt(user.id,credential.role)
             return res.json({token})
         }
         catch(e){
@@ -56,7 +56,9 @@ class UserController{
             if (!comparePassword){
                 return next(ApiError.badRequest("Неверный пароль"));
             }
-            const token = generateJwt(credential.id,credential.login,credential.role)
+
+            const user = await User.findOne({where: {credentialId: credential.id}});
+            const token = generateJwt(user.id,credential.role)
             return res.json({token})
         }
         catch(e){
@@ -65,7 +67,7 @@ class UserController{
     }
 
     async check(req,res,next){
-        const token = generateJwt(req.user.id, req.user.login, req.user.role)
+        const token = generateJwt(req.user.id, req.user.role)
         return res.json({token})
     }
 
@@ -105,10 +107,23 @@ class UserController{
         try{
             const {id} = req.params;
             const user = await User.findOne({where: {id}});
-            const data = await Credential.findOne({where: {id: user.dataValues.credentialId}})
+            const data = await Credential.findOne({where: {id: user.credentialId}})
 
             user.setDataValue("credential", data);
             
+            return res.json(user);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
+    }
+
+    async update(req,res,next){
+        try{
+            const {id} = req.params;
+            const {surname, name, patronymic, post, placeWorkOrStudy, phone, email} = req.body; //-dateCreation
+
+            const user = await User.update({surname,name,patronymic,post,placeWorkOrStudy,phone,email}, {where: {id}})
             return res.json(user);
         }
         catch(e){

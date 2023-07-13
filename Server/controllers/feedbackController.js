@@ -1,12 +1,25 @@
-const {Feedback} = require("../models/models");
+const {Feedback, GuestRequest} = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class FeedbackController{
     async create(req,res,next){
         try{
             const {commentatorName,commentatorSurname,comment,estimation,status,guestRequestId} = req.body;
-            const feedback = await Feedback.create({commentatorName,commentatorSurname,comment,estimation,status,guestRequestId}); // - dataCreation
-            return res.json(feedback);
+
+            const request = await GuestRequest.findOne({where: {id: guestRequestId}});
+
+            if (request){
+                if(request.surname === commentatorSurname && request.name === commentatorName){
+                    const feedback = await Feedback.create({commentatorName,commentatorSurname,comment,estimation,status,guestRequestId}); // - dataCreation
+                    return res.json(feedback);
+                }
+                else {
+                    next(ApiError.badRequest("У заявителя были иные Фамилия и/или Имя"));
+                }
+            }
+            else {
+                next(ApiError.badRequest("Заявка с указанным номером не существует"));
+            }   
         }
         catch(e){
             next(ApiError.badRequest("Неверный формат данных"));

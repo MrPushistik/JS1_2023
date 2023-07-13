@@ -1,5 +1,6 @@
 const {Credential} = require("../models/models");
 const ApiError = require("../error/ApiError");
+const bcrypt = require('bcrypt');
 
 class CredentialController{
     async create(req,res,next){
@@ -11,7 +12,21 @@ class CredentialController{
         catch(e){
             next(ApiError.badRequest("Неверный формат данных"));
         }
+    }
 
+    async updatePassword(req,res,next){
+        try{
+            const {id} = req.params;
+            const {password} = req.body; //-dateCreation
+
+            const hashPassword = await bcrypt.hash(password,5);
+
+            const user = await Credential.update({password: hashPassword}, {where: {id}})
+            return res.json(user);
+        }
+        catch(e){
+            next(ApiError.badRequest("Неверный формат данных"));
+        }
     }
 
     async getAll(req,res,next){

@@ -226,7 +226,7 @@ const createForm = (id, status, assistance) => {
 
         if (comment){
             commandC = "/commentingApplication";
-            axios.post(serverURL + commandC, {content: comment, userId: 1, guestRequestId: id}, H)
+            axios.post(serverURL + commandC, {content: comment, userId: JSON.parse(localStorage.getItem("user")).userId, guestRequestId: id}, H)
             .then(res=>(e.target.reset(),createAlert("Комментарий создан успешно")))
             .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
         }

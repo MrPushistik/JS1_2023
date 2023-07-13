@@ -19,6 +19,7 @@
     align-items: center;
     background-color:#EAF4FF;
     border: 1px solid #87B5E5;
+    padding: 10px;
 }
 .alert-message-holder{
     height: 50px;
