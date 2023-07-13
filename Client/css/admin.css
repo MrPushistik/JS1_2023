@@ -1,18 +1,18 @@
 @font-face {
     font-family: 'Raleway regular';
-    src: url("../../../fonts/Raleway-Regular.ttf");
+    src: url("../fonts/Raleway-Regular.ttf");
 }
 @font-face {
     font-family: 'Raleway medium';
-    src: url("../../../fonts/Raleway-Medium.ttf");
+    src: url("../fonts/Raleway-Medium.ttf");
 }
 @font-face {
     font-family: 'Raleway bold';
-    src: url("../../../fonts/Raleway-Bold.ttf");
+    src: url("../fonts/Raleway-Bold.ttf");
 }
 @font-face {
     font-family: 'Raleway extrabold';
-    src: url("../../../fonts/Raleway-ExtraBold.ttf");
+    src: url("../fonts/Raleway-ExtraBold.ttf");
 }
 
 p{margin: 0}
