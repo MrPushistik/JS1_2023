@@ -1,16 +1,3 @@
-const matches = {
-    keys: [null,"NEW", "AT WORK", "CANCELLED", "COMPLETED", "PSYCHO", "HUMANITARIAN", "ADDRESS", "OTHER","STATUSSTATISTICS","ASSISTANCESTATISTICS","COMPLEXSTATISTICS"],
-    values: ["Не установлен","Новая", "В работе", "Отменена", "Выполнена", "Психологическая", "Гуманитарная", "Адресная", "Иная","По статусу","По типу помощи", "По статусу и типу помощи"],
-    "NEW" : "Новая",
-    "AT WORK": "В работе",
-    "CANCELLED": "Отменена",
-    "COMPLETED": "Выполнена",
-    "PSYCHO": "Психологическая",
-    "HUMANITARIAN": "Гуманитарная",
-    "ADDRESS": "Адресная",
-    "OTHER": "Иная",
-}
-
 //получить таблицу запросов
 const createRequestsTable = (data) => {
  
@@ -22,7 +9,6 @@ const createRequestsTable = (data) => {
     }
     else holder.innerHTML = "";
 
-    const key = data[0].status;
     const sorts = createRequestSorts(data);
 
     const table = document.createElement("div");
@@ -78,7 +64,7 @@ const createTableRow = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showRequest(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -87,12 +73,16 @@ const createTableRow = (elem) => {
             command = "/guestRequest/admin/req/";
         
             axios.delete(serverURL + command + elem.id, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
-        
-            axios.get(serverURL + requestButtons[elem.status].src, H)
-            .then(res=>createRequestsTable(res.data, elem.status))
-            .catch(err=>console.log(err));
+            .then(
+                res=>{
+                    createAlert("Успешно удалено");
+
+                    axios.get(serverURL + requestButtons[elem.status].src, H)
+                    .then(res=>createRequestsTable(res.data, elem.status))
+                    .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+                }
+            )
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }
 
@@ -110,7 +100,7 @@ const showRequest = (data) => {
 const createRequestCard = (elem) => {
 
     let card = document.createElement("div");
-    card.className = "req-card"
+    card.className = "req-card";
     card.innerHTML = 
     `
     <div class="req-card-header">
@@ -133,7 +123,7 @@ const createRequestCard = (elem) => {
     else card.appendChild(createInfo(elem.status, elem.typeAssistance))
 
     card.querySelector(".pg-close").onclick = () => {
-        requestButtons[elem.status].elem.click();
+        document.querySelector(`.${requestButtons[elem.status].targClass}`).click();
     }
 
     if (elem.comments.length > 0) {
@@ -207,7 +197,7 @@ const createForm = (id, status, assistance) => {
     <button type="submit" class="req-form-submit">Сохранить изменения</button>
     `
 
-    if (status) form.querySelector(`.pg-select-status option[value="${status}"]`).selected = true;
+    form.querySelector(`.pg-select-status option[value="${status}"]`).selected = true;
     if (assistance) form.querySelector(`.pg-select-assistance option[value="${assistance}"]`).selected = true;
 
     form.onsubmit = (e) => {
@@ -218,31 +208,33 @@ const createForm = (id, status, assistance) => {
         let assistanceS = form.querySelector(".pg-select-assistance").value;
         let comment = form.querySelector(".pg-comment").value;
 
+        if (!assistanceS) assistanceS = null;
+
         if (statusS != status){
             commandA = "/guestRequest/volunteer/req/updateStatus/";
             axios.put(serverURL + commandA + id, {status: statusS}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(e.target.reset(),createAlert("Статус изменен успешно")))
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
         }
 
         if (assistanceS != assistance){
             commandB = "/guestRequest/volunteer/req/updateAssistance/";
             axios.put(serverURL + commandB + id, {typeAssistance: assistanceS}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(e.target.reset(),createAlert("Тип помощи изменен успешно")))
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
         }
 
         if (comment){
             commandC = "/commentingApplication";
             axios.post(serverURL + commandC, {content: comment, userId: 1, guestRequestId: id}, H)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>(e.target.reset(),createAlert("Комментарий создан успешно")))
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
         }
  
         commandD = "/guestRequest/volunteer/fullRequest/";
         axios.get(serverURL + commandD + id, H)
         .then(res=>showRequest(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 
     return form;
@@ -284,7 +276,7 @@ const requestSorts = {
 
 
 //блок сортировки
-const createRequestSorts = (data, key) => {
+const createRequestSorts = (data) => {
 
     const block = document.createElement("div");
     block.className = "request-sorts";

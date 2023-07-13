@@ -1,0 +1,45 @@
+.alert-wrap{
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.219);
+    z-index: 99999;
+}
+.my-alert{
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color:#EAF4FF;
+    border: 1px solid #87B5E5;
+}
+.alert-message-holder{
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.alert-title-holder{
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.alert-title{
+    color: #0061C7;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-family: "Raleway extrabold";
+    line-height: 130%;
+}
+.alert-message{
+    font-size: 18px;
+    margin: 0;
+}

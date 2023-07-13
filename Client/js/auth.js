@@ -1,5 +1,4 @@
 const form = document.querySelector(".auth");
-const serverURL = 'http://localhost:3001/api';
 
 form.onsubmit = (e) => {
     e.preventDefault();
@@ -9,11 +8,20 @@ form.onsubmit = (e) => {
 
     command = "/user/login";
     axios.post(serverURL + command, {login: login, password: password})
-    .then(res=>setToken(res.data))
-    .catch(err=>console.log(err));
+    .then(res=>{
+        setToken(res.data);
+        e.target.reset();
+        createAlert("Вход выполнен успешно");
+        switch((JSON.parse(localStorage.getItem("user"))).role){
+            case "ADMIN": window.location.href="/admin.html"; break;
+            case "VOLUNTEER": window.location.href="/volunteer.html"; break;
+        }
+    })
+    .catch(err=>{console.log(err); createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message), e.target.reset()});
 }
 
 const setToken = (data) => {
+    document.cookie = "token="+data.token;
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(parseJwt(data.token)));
 }

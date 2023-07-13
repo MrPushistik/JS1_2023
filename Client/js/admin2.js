@@ -81,7 +81,7 @@ const createTableRowUser = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showUser(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -91,11 +91,11 @@ const createTableRowUser = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         
             axios.get(serverURL + "/user/admin/req", H)
             .then(res=>getUsers(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }
 
@@ -106,22 +106,59 @@ const createFormUser = () => {
     let form = document.createElement("form");
     form.innerHTML = 
     `
-    <input type="text" placeholder="логин" id="login-user" required>
-    <input type="password" placeholder="пароль" id="password-user" required>
-    <input type="password" placeholder="повторите пароль" id="confirm-password-user" required>
-    <select id="role-user" required>
-        <option selected value="VOLUNTEER">Волонтёр</option>
-        <option value="ADMIN">Админ</option>
-    <select>
-    <input type="text" placeholder="фамилия" id="surname-user" required>
-    <input type="text" placeholder="имя" id="name-user" required>
-    <input type="text" placeholder="отчество" id="patronymic-user" required>
-    <input type="text" placeholder="должность" id="post-user" required>
-    <input type="text" placeholder="место работы/место учёбы" id="place-work-or-study-user" required>
-    <input type="text" placeholder="телефон" id="phone-user" required>
-    <input type="text" placeholder="почта" id="email-user" required>
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Регистрация</p>
+    </div>
 
-    <button type="submit">Сохранить изменения</button>
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <label class="req-info-title">Логин:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="логин" id="login-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Пароль:</label>
+            <input class="req-info-value user-info-value" type="password" placeholder="пароль" id="password-user" required>
+            <input class="req-info-value user-info-value" type="password" placeholder="повторите пароль" id="confirm-password-user" required>
+        </div>
+        
+        <div class="req-info user-info">
+            <label class="req-info-title">Роль:</label>
+            <select id="role-user" required>
+                <option selected value="VOLUNTEER">Волонтёр</option>
+                <option value="ADMIN">Админ</option>
+            <select>
+        </div>
+
+        <div class="req-info user-info">
+            <p class="req-info-title">ФИО:</p>
+            <input class="req-info-value user-info-value" type="text" placeholder="фамилия" id="surname-user" required>
+            <input class="req-info-value user-info-value" type="text" placeholder="имя" id="name-user" required>
+            <input class="req-info-value user-info-value" type="text" placeholder="отчество" id="patronymic-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Должность:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="должность" id="post-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Место работы/учёбы:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="место работы/учёбы" id="place-work-or-study-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Телефон:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="телефон" id="phone-user" required>
+        </div>
+
+        <div class="req-info user-info">
+            <label class="req-info-title">Почта:</label>
+            <input class="req-info-value user-info-value" type="text" placeholder="почта" id="email-user" required>
+        </div>
+
+        <button class="req-form-submit" type="submit">Зарегистрировать</button>
+    </div>
     `
     form.onsubmit = (e) => {
 
@@ -139,10 +176,10 @@ const createFormUser = () => {
         const phone = form.querySelector("#phone-user").value;
         const email = form.querySelector("#email-user").value;
         command = "/user/registration";
-        console.log(serverURL+ command)
+        
         axios.post(serverURL + command, {login:login,password:password,confirmPassword:confirmPassword,role:role,surname:surname,name:name,patronymic:patronymic,post:post,placeWorkOrStudy:placeWorkOrStudy,phone:phone,email:email}, H)
-        .then(res=>console.log(res.data))
-        .catch(err=>console.log(err));
+        .then(res=>(console.log(res.data),e.target.reset(),createAlert("Пользователь создан успешно")))
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message); e.target.reset()});
     }
 
     return form;
@@ -159,19 +196,56 @@ const showUser = (data) => {
 const createUserCard = (elem) => {
 
     let card = document.createElement("div");
+    card.className = "req-card";
     card.innerHTML = 
     `
-    <div>
-        <p>Номер: ${elem.id}</p>
-        <p>Дата Создания: ${elem.createdAt}</p>
+    <div class="req-card-header">
+        <div class="req-card-header-data">
+            <p class="req-card-title">Пользователь №${elem.id}</p>
+            <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
+        </div>
     </div>
 
-    <div>
-        <p>ФИО: ${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
-        <p>Должность: ${elem.post}</p>
-        <p>Место работы/Место учёбы: ${elem.placeWorkOrStudy}</p>
-        <p>Телефон: ${elem.phone}</p>
-        <p>Почта: ${elem.email}</p>
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Сведения о пользователе</p>
+    </div>
+
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <p class="req-info-title">ФИО:</p>
+            <p class="req-info-value user-info-value">${elem.surname + " " + elem.name + " " + elem.patronymic}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Должность:</p>
+            <p class="req-info-value user-info-value">${elem.post}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Место работы/учёбы:</p>
+            <p class="req-info-value user-info-value">${elem.placeWorkOrStudy}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Телефон:</p>
+            <p class="req-info-value user-info-value">${elem.phone}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Почта:</p>
+            <p class="req-info-value user-info-value">${elem.email}</p>
+        </div>
+    </div>
+
+    <div class="req-comments-header margintop10">
+        <p class="req-comments-title">Учетные данные пользователя</p>
+    </div>
+
+    <div class="admin-user-info margintop10">
+        <div class="req-info user-info">
+            <p class="req-info-title">Логин:</p>
+            <p class="req-info-value user-info-value">${elem.credential.login}</p>
+        </div>
+        <div class="req-info user-info">
+            <p class="req-info-title">Роль:</p>
+            <p class="req-info-value user-info-value">${elem.credential.role}</p>
+        </div>
     </div>
     `
 
@@ -231,7 +305,7 @@ const createTableRowFeedback = (elem) => {
     <p class="table-cell feedback-cell">${elem.commentatorSurname + " " + elem.commentatorName}</p>
     <p class="table-cell feedback-cell">${elem.comment}</p>
     <p class="table-cell feedback-cell">${elem.estimation}</p>
-    <p class="table-cell feedback-cell">${elem.status}</p>
+    <p class="table-cell feedback-cell">${matches.values[matches.keys.indexOf(elem.status)]}</p>
     <p class="table-cell feedback-cell">
         <button type="button" class="pg-reduct read-button td-button">Обработать</button>
         <button type="button" class="pg-delete delete-button td-button">Удалить</button>
@@ -243,7 +317,7 @@ const createTableRowFeedback = (elem) => {
     
         axios.get(serverURL + command + elem.id, H)
         .then(res=>showFeedback(res.data))
-        .catch(err=>console.log(err));
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
     
     let del = tableRow.querySelector(".pg-delete");
@@ -253,11 +327,11 @@ const createTableRowFeedback = (elem) => {
         
             axios.delete(serverURL + command + elem.id, H)
             .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         
             axios.get(serverURL + "/feedback/", H)
             .then(res=>getFeedbacks(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }
 
@@ -282,7 +356,7 @@ const createFormFeedback = (elem) => {
             <p class="req-card-title">Заявка №${elem.id}</p>
             <p class="req-card-date">${new Date(elem.createdAt).toLocaleString()}</p>
         </div>
-        <button class="pg-close req-card-close">x</button>
+        <button type="button" class="pg-close req-card-close">x</button>
     </div>
 
     <div class="req-card-guest feedback-card-comment">
@@ -291,7 +365,7 @@ const createFormFeedback = (elem) => {
 
             <label class="req-guest-phone">Оценка</label>
             <select class="pg-select-mark">
-                <option selected value="5">5</option>
+                <option value="5">5</option>
                 <option value="4">4</option>
                 <option value="3">3</option>
                 <option value="2">2</option>
@@ -300,7 +374,7 @@ const createFormFeedback = (elem) => {
 
             <label class="req-guest-phone">Статус</label>
             <select class="pg-select-status">
-                <option selected value="MODERATION">Не опубликован</option>
+                <option value="MODERATION">Не опубликован</option>
                 <option value="PUBLISHED">Опубликован</option>
                 <option value="REJECTED">Отклонен</option>
             <select>
@@ -311,6 +385,9 @@ const createFormFeedback = (elem) => {
     </div>
     
     `;
+
+    form.querySelector(`.pg-select-mark option[value="${elem.estimation}"]`).selected = true;
+    form.querySelector(`.pg-select-status option[value="${elem.status}"]`).selected = true;
 
     form.querySelector(".pg-close").onclick = () => {
         document.querySelector(".reg_feedbacks").click();
@@ -324,10 +401,17 @@ const createFormFeedback = (elem) => {
         let mark = form.querySelector(".pg-select-mark").value;
 
         command = "/feedback/req/";
-        console.log(serverURL+ command)
         axios.put(serverURL + command + elem.id, {commentatorName:elem.commentatorName,commentatorSurname:elem.commentatorSurname,comment:elem.comment,estimation:mark,status:status,guestRequestId:elem.guestRequestId}, H)
-        .then(res=>console.log(res.data))
-        .catch(err=>console.log(err));
+        .then(res=>{
+            createAlert("Отзыв успешно изменен")
+
+            commandB = "/feedback/";
+            axios.get(serverURL + commandB + elem.id, H)
+            .then(res=>(showFeedback(res.data)))
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+        }
+        )
+        .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 
     return form;
@@ -384,7 +468,7 @@ const createUserSorts = (data) => {
 // регистрация
 const createUserReg = () => {
     const block = document.createElement("div");
-    block.className = "request-sorts user-reg";
+    block.className = "request-sorts";
     block.innerHTML =
     `
     <p class="request-sorts-title">Регистрация</p>
@@ -438,7 +522,7 @@ const createFeedbackSorts = (data) => {
 
 const getStatusStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='statusStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='statusStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('statusStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -488,15 +572,15 @@ const getStatusStatistics = (dataSt) => {
 
 const getAssistanceStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='assistanceStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='assistanceStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('assistanceStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["ADSRESS","PSYCHO","HUMANITARIAN","OTHER","ALL"],
+            labels: ["ADDRESS","PSYCHO","HUMANITARIAN","OTHER","ALL"],
             datasets: [{
                 label: 'Count',
-                data: [dataSt["ADSRESS"],dataSt["PSYCHO"],dataSt["HUMANITARIAN"],dataSt["OTHER"],dataSt["ALL"]],
+                data: [dataSt["ADDRESS"],dataSt["PSYCHO"],dataSt["HUMANITARIAN"],dataSt["OTHER"],dataSt["ALL"]],
                 backgroundColor: [
                     'rgba(216, 27, 96, 0.6)',
                     'rgba(3, 169, 244, 0.6)',
@@ -538,15 +622,15 @@ const getAssistanceStatistics = (dataSt) => {
 
 const getComplexStatistics = (dataSt) => {
     const holder = document.querySelector(".pg-data-holder");
-    holder.innerHTML = "<canvas id='ComplexStatistics' width='200' height='100'></canvas>";
+    holder.innerHTML = "<canvas id='ComplexStatistics' width='300' height='100'></canvas>";
     var ctx = document.getElementById('ComplexStatistics').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["ADSRESS","PSYCHO","HUMANITARIAN","OTHER"],
+            labels: ["ADDRESS","PSYCHO","HUMANITARIAN","OTHER"],
             datasets: [{
                 label: 'NEW',
-                data: [dataSt["ADSRESS"]["NEW"],dataSt["PSYCHO"]["NEW"],dataSt["HUMANITARIAN"]["NEW"],dataSt["OTHER"]["NEW"],],
+                data: [dataSt["ADDRESS"]["NEW"],dataSt["PSYCHO"]["NEW"],dataSt["HUMANITARIAN"]["NEW"],dataSt["OTHER"]["NEW"],],
                 backgroundColor: 
                     'rgba(216, 27, 96, 0.6)'
                 ,
@@ -557,7 +641,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'AT WORK',
-                data: [dataSt["ADSRESS"]["AT WORK"],dataSt["PSYCHO"]["AT WORK"],dataSt["HUMANITARIAN"]["AT WORK"],dataSt["OTHER"]["AT WORK"],],
+                data: [dataSt["ADDRESS"]["AT WORK"],dataSt["PSYCHO"]["AT WORK"],dataSt["HUMANITARIAN"]["AT WORK"],dataSt["OTHER"]["AT WORK"],],
                 backgroundColor: 
                     'rgba(3, 169, 244, 0.6)'
                 ,
@@ -568,7 +652,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'CANCELLED',
-                data: [dataSt["ADSRESS"]["CANCELLED"],dataSt["PSYCHO"]["CANCELLED"],dataSt["HUMANITARIAN"]["CANCELLED"],dataSt["OTHER"]["CANCELLED"],],
+                data: [dataSt["ADDRESS"]["CANCELLED"],dataSt["PSYCHO"]["CANCELLED"],dataSt["HUMANITARIAN"]["CANCELLED"],dataSt["OTHER"]["CANCELLED"],],
                 backgroundColor: 
                     'rgba(255, 152, 0, 0.6)'
                 ,
@@ -579,7 +663,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'COMPLETED',
-                data: [dataSt["ADSRESS"]["COMPLETED"],dataSt["PSYCHO"]["COMPLETED"],dataSt["HUMANITARIAN"]["COMPLETED"],dataSt["OTHER"]["COMPLETED"],],
+                data: [dataSt["ADDRESS"]["COMPLETED"],dataSt["PSYCHO"]["COMPLETED"],dataSt["HUMANITARIAN"]["COMPLETED"],dataSt["OTHER"]["COMPLETED"],],
                 backgroundColor: 
                     'rgba(29, 233, 182, 0.6)'
                 ,
@@ -590,7 +674,7 @@ const getComplexStatistics = (dataSt) => {
             },
             {
                 label: 'ALL',
-                data: [dataSt["ADSRESS"]["ALL"],dataSt["PSYCHO"]["ALL"],dataSt["HUMANITARIAN"]["ALL"],dataSt["OTHER"]["ALL"],],
+                data: [dataSt["ADDRESS"]["ALL"],dataSt["PSYCHO"]["ALL"],dataSt["HUMANITARIAN"]["ALL"],dataSt["OTHER"]["ALL"],],
                 backgroundColor: 
                     'rgba(156, 39, 176, 0.6)'
                 ,
@@ -627,7 +711,7 @@ for (let key in adminButtons) {
 
             axios.get(serverURL + adminButtons[key].src, H)
             .then(res=>adminButtons[key].action(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
     }
 }
 
@@ -639,28 +723,32 @@ const createButtonHolder = (className) => {
 
 const requestButtons = {
     "NEW": {
-        class: "new_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "new_requests",
         src: "/guestRequest/volunteer/forNewApplication",
         showType: false,
         buttonName: "Обработать",
         haveForm: true
     },
     "AT WORK": {
-        class: "work_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "work_requests",
         src: "/guestRequest/volunteer/forWorkApplication",
         showType: true,
         buttonName: "Редактировать",
         haveForm: true
     },
     "CANCELLED": {
-        class: "cancelled_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "cancelled_requests",
         src: "/guestRequest/volunteer/forCancelledApplication",
         showType: true,
         buttonName: "Просмотреть",
         haveForm: false
     },
     "COMPLETED": {
-        class: "completed_requests request-nav-button request-nav-button-dis",
+        classes: "request-nav-button request-nav-button-dis",
+        targClass: "completed_requests",
         src: "/guestRequest/volunteer/forCompletedApplication",
         showType: true,
         buttonName: "Просмотреть",
@@ -680,14 +768,14 @@ document.querySelector(".requests").onclick = () => {
 
         let button = document.createElement("button");
         button.type = "button";
-        button.className = requestButtons[key].class
+        button.className = requestButtons[key].targClass + " " + requestButtons[key].classes
         button.innerHTML = matches.values[matches.keys.indexOf(key)];
 
         button.onclick = () => {
             requestSorts.date.currOption = 0;
             axios.get(serverURL + requestButtons[key].src, H)
             .then(res=>createRequestsTable(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
 
         buttonHolder.appendChild(button);
@@ -737,7 +825,7 @@ document.querySelector(".statistics").onclick = () => {
         button.onclick = () => {
             axios.get(serverURL + statisticsButtons[key].src, H)
             .then(res=>statisticsButtons[key].action(res.data))
-            .catch(err=>console.log(err));
+            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
 
         buttonHolder.appendChild(button);
