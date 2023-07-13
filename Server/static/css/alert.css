@@ -12,12 +12,12 @@
 }
 .my-alert{
     width: 400px;
-    height: 180px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background-color: white;
+    background-color:#EAF4FF;
     border: 1px solid #87B5E5;
 }
 .alert-message-holder{

@@ -168,7 +168,7 @@ body{
 .parallax-conteiner-title {
    font-family: 'Raleway extrabold';
    padding-top: 40px;
-   color:rgba(0, 97, 199, 1);
+   color:rgb(255, 255, 255);
 }
 .parallax-conteiner-text{
     display: flex;
@@ -231,20 +231,20 @@ body{
 .title_application{
     color: #000;
     text-align: center;
-    font-size: 26px;
+    font-size: 23px;
     font-family: "Raleway bold";
     font-style: normal;
     font-weight: 700;
-    line-height: 151%;
+    line-height: 130%;
 }
 .title_application_2{
     color:#007CFF;
     text-align: center;
-    font-size: 26px;
+    font-size: 23px;
     font-family: "Raleway bold";
     font-style: normal;
     font-weight: 700;
-    line-height: 151%;
+    line-height: 130%;
 }
 #application_form{
     padding: 10px;
@@ -262,7 +262,7 @@ body{
 #button-applecation{
     display: flex;
     width: 300px;
-    padding: 15px 25px;
+    padding: 13px 23px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -621,8 +621,8 @@ body{
     justify-content: center;
 }
 .photo_news{
-    width: 320px;
-    height: 320px;
+    width: 200px;
+    height: 200px;
 }
 @media(max-width:1300px) {
     .photo_news{

@@ -73,11 +73,15 @@ const createTableRow = (elem) => {
             command = "/guestRequest/admin/req/";
         
             axios.delete(serverURL + command + elem.id, H)
-            .then(res=>createAlert("Успешно удалено"))
-            .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
-        
-            axios.get(serverURL + requestButtons[elem.status].src, H)
-            .then(res=>createRequestsTable(res.data, elem.status))
+            .then(
+                res=>{
+                    createAlert("Успешно удалено");
+
+                    axios.get(serverURL + requestButtons[elem.status].src, H)
+                    .then(res=>createRequestsTable(res.data, elem.status))
+                    .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
+                }
+            )
             .catch(err=>{createAlert(err.response.statusText + ", " + err.response.status, err.response.data.message)});
         }
     }

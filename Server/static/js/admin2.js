@@ -243,10 +243,6 @@ const createUserCard = (elem) => {
             <p class="req-info-value user-info-value">${elem.credential.login}</p>
         </div>
         <div class="req-info user-info">
-            <p class="req-info-title">Пароль:</p>
-            <p class="req-info-value user-info-value">${elem.credential.password}</p>
-        </div>
-        <div class="req-info user-info">
             <p class="req-info-title">Роль:</p>
             <p class="req-info-value user-info-value">${elem.credential.role}</p>
         </div>
